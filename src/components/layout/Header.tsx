@@ -1,0 +1,41 @@
+'use client';
+
+import { ThemeToggle } from './ThemeToggle';
+import { RefreshCw } from 'lucide-react';
+import { useState } from 'react';
+
+export function Header({ title }: { title?: string }) {
+  const [loading, setLoading] = useState(false);
+
+  async function handleCollectData() {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/collect-data', { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+    } catch (err) {
+      console.error('שגיאה באיסוף נתונים:', err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <header className="h-14 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 flex items-center justify-between px-6 sticky top-0 z-10">
+      <h2 className="text-base font-semibold text-gray-800 dark:text-gray-200">
+        {title ?? 'לוח מחוונים'}
+      </h2>
+      <div className="flex items-center gap-3">
+        <button
+          onClick={handleCollectData}
+          disabled={loading}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-300 transition-colors disabled:opacity-50"
+        >
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          עדכן נתונים
+        </button>
+        <ThemeToggle />
+      </div>
+    </header>
+  );
+}
