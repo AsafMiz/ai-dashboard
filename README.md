@@ -13,17 +13,17 @@ Financial dashboard with a TradingView aesthetic — RTL Hebrew interface, dynam
 
 ### 1. Supabase Setup
 
-- [ ] Create a Supabase project at [supabase.com](https://supabase.com)
-- [ ] Run `supabase/schema.sql` in the SQL Editor to create tables, RLS policies, and seed data
-- [ ] Enable Realtime on the `market_data` table (the SQL does this, but verify under Database → Replication)
-- [ ] Copy the project URL and anon key from Settings → API
+- [x] Create a Supabase project at [supabase.com](https://supabase.com)
+- [x] Run `supabase/schema.sql` in the SQL Editor to create tables, RLS policies, and seed data
+- [x] Enable Realtime on the `market_data` table (the SQL does this, but verify under Database → Replication)
+- [x] Copy the project URL and anon key from Settings → API
 
 ### 2. Environment Variables
 
-- [ ] Copy `.env.example` to `.env.local` for local development
-- [ ] Set `NEXT_PUBLIC_SUPABASE_URL` to your Supabase project URL
-- [ ] Set `NEXT_PUBLIC_SUPABASE_ANON_KEY` to your Supabase anon/public key
-- [ ] Set `SUPABASE_SERVICE_ROLE_KEY` to your Supabase service role key (used by `/api/collect-data`)
+- [x] Copy `.env.example` to `.env.local` for local development
+- [x] Set `NEXT_PUBLIC_SUPABASE_URL` to your Supabase project URL
+- [x] Set `NEXT_PUBLIC_SUPABASE_ANON_KEY` to your Supabase anon/public key
+- [x] Set `SUPABASE_SERVICE_ROLE_KEY` to your Supabase service role key (used by `/api/collect-data`)
 - [ ] Add all three environment variables to Vercel (Settings → Environment Variables)
 
 ### 3. Authentication (Optional)
