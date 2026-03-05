@@ -24,19 +24,19 @@ Financial dashboard with a TradingView aesthetic — RTL Hebrew interface, dynam
 - [x] Set `NEXT_PUBLIC_SUPABASE_URL` to your Supabase project URL
 - [x] Set `NEXT_PUBLIC_SUPABASE_ANON_KEY` to your Supabase anon/public key
 - [x] Set `SUPABASE_SERVICE_ROLE_KEY` to your Supabase service role key (used by `/api/collect-data`)
-- [ ] Add all three environment variables to Vercel (Settings → Environment Variables)
+- [x] Add all three environment variables to Vercel (Settings → Environment Variables)
 
-### 3. Authentication (Optional)
+### 3. Authentication (Optional) — Skipped
 
 - [ ] Configure Supabase Auth providers if you want user-scoped reports
 - [ ] Update RLS policies to enforce `auth.uid()` checks (currently reports are publicly readable)
 
 ### 4. Vercel Deployment
 
-- [ ] Connect the GitHub repo to Vercel
-- [ ] Verify the framework is detected as Next.js
-- [ ] Ensure environment variables are set for Production, Preview, and Development
-- [ ] Deploy and verify the build succeeds
+- [x] Connect the GitHub repo to Vercel
+- [x] Verify the framework is detected as Next.js
+- [x] Ensure environment variables are set for Production, Preview, and Development
+- [x] Deploy and verify the build succeeds
 
 ### 5. Data & Content
 
