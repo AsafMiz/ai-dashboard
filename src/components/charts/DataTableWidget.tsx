@@ -30,38 +30,40 @@ export function DataTableWidget({ data, config }: DataTableWidgetProps) {
   const columns = config.columns ?? ['date', 'open', 'high', 'low', 'close', 'volume'];
 
   return (
-    <div className="overflow-auto max-h-[350px]">
-      <table className="w-full text-sm">
-        <thead className="sticky top-0">
-          <tr className="bg-gray-50 dark:bg-gray-900">
-            {columns.map((col) => (
-              <th
-                key={col}
-                className="px-4 py-2.5 text-right font-medium text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-800"
-              >
-                {columnLabels[col] ?? col}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, i) => (
-            <tr
-              key={row.id ?? i}
-              className="border-b border-gray-100 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
-            >
+    <div className="-mx-3 sm:-mx-4 overflow-x-auto">
+      <div className="min-w-[560px] max-h-[350px] overflow-y-auto">
+        <table className="w-full text-sm">
+          <thead className="sticky top-0">
+            <tr className="bg-gray-50 dark:bg-gray-900">
               {columns.map((col) => (
-                <td
+                <th
                   key={col}
-                  className="px-4 py-2 text-gray-700 dark:text-gray-300 tabular-nums"
+                  className="px-3 sm:px-4 py-2.5 text-right font-medium text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-800 whitespace-nowrap"
                 >
-                  {formatValue(col, row[col as keyof MarketData])}
-                </td>
+                  {columnLabels[col] ?? col}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((row, i) => (
+              <tr
+                key={row.id ?? i}
+                className="border-b border-gray-100 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
+              >
+                {columns.map((col) => (
+                  <td
+                    key={col}
+                    className="px-3 sm:px-4 py-2 text-gray-700 dark:text-gray-300 tabular-nums whitespace-nowrap"
+                  >
+                    {formatValue(col, row[col as keyof MarketData])}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

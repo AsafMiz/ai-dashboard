@@ -36,7 +36,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
     <div className="flex-1 min-h-screen">
       <Header title={typedReport.title} />
       {typedReport.description && (
-        <div className="px-6 pt-4">
+        <div className="px-4 sm:px-6 pt-4">
           <p className="text-sm text-gray-500 dark:text-gray-400">
             {typedReport.description}
           </p>
