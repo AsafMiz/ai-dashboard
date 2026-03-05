@@ -1,90 +1,103 @@
-import { supabase } from '@/lib/supabase';
-import { Report } from '@/lib/types';
-import { Header } from '@/components/layout/Header';
-import Link from 'next/link';
-import { BarChart3, Calendar, ArrowLeft } from 'lucide-react';
+'use client';
 
-export const revalidate = 0;
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { TrendingUp, ArrowLeft, Sparkles, Loader2 } from 'lucide-react';
+import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
-export default async function HomePage() {
-  const { data: reports } = await supabase
-    .from('reports')
-    .select('*')
-    .order('created_at', { ascending: false });
+export default function HomePage() {
+  const [key, setKey] = useState('');
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const typedReports = (reports ?? []) as Report[];
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const trimmed = key.trim();
+    if (trimmed) {
+      router.push(`/dashboard/${encodeURIComponent(trimmed)}`);
+    }
+  }
+
+  async function handleCreateExample() {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/create-dashboard', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: 'example' }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        alert(data.error || 'שגיאה ביצירת דשבורד לדוגמה');
+        return;
+      }
+      router.push('/dashboard/example');
+    } catch {
+      alert('שגיאה ביצירת דשבורד לדוגמה');
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <div className="flex-1 min-h-screen">
-      <Header title="לוח מחוונים ראשי" />
-      <div className="p-4 sm:p-6">
-        <div className="mb-6 sm:mb-8">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
-            ברוכים הבאים
-          </h2>
-          <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
-            בחרו דוח לצפייה או לחצו על &quot;עדכן נתונים&quot; לטעינת נתוני דוגמה
-          </p>
-        </div>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+      <div className="absolute top-4 left-4">
+        <ThemeToggle />
+      </div>
 
-        {/* Stats Summary */}
-        <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
-          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-3 sm:p-5">
-            <p className="text-[10px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 mb-0.5 sm:mb-1">סה״כ דוחות</p>
-            <p className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white">{typedReports.length}</p>
-          </div>
-          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-3 sm:p-5">
-            <p className="text-[10px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 mb-0.5 sm:mb-1">נכסים במעקב</p>
-            <p className="text-lg sm:text-2xl font-bold text-blue-600">1</p>
-          </div>
-          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-3 sm:p-5">
-            <p className="text-[10px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 mb-0.5 sm:mb-1">עדכון אחרון</p>
-            <p className="text-lg sm:text-2xl font-bold text-emerald-600">היום</p>
-          </div>
-        </div>
+      <div className="flex items-center gap-2 mb-8">
+        <TrendingUp className="w-8 h-8 text-blue-600" />
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+          פיננסי<span className="text-blue-600">דש</span>
+        </h1>
+      </div>
 
-        {/* Reports List */}
-        <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 sm:mb-4">
-          דוחות זמינים
-        </h3>
-        {typedReports.length === 0 ? (
-          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6 sm:p-8 text-center">
-            <BarChart3 className="w-10 h-10 sm:w-12 sm:h-12 text-gray-300 dark:text-gray-700 mx-auto mb-3" />
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              אין דוחות זמינים. הגדירו את חיבור Supabase כדי להתחיל.
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-            {typedReports.map((report) => (
-              <Link
-                key={report.id}
-                href={`/report/${report.id}`}
-                className="group bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4 sm:p-5 hover:border-blue-300 dark:hover:border-blue-800 hover:shadow-md transition-all active:scale-[0.98]"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-blue-600 transition-colors truncate">
-                      {report.title}
-                    </h4>
-                    {report.description && (
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 sm:mb-3 line-clamp-2">
-                        {report.description}
-                      </p>
-                    )}
-                    <div className="flex items-center gap-1 text-xs text-gray-400">
-                      <Calendar className="w-3.5 h-3.5" />
-                      <span>
-                        {new Date(report.created_at).toLocaleDateString('he-IL')}
-                      </span>
-                    </div>
-                  </div>
-                  <ArrowLeft className="w-5 h-5 text-gray-300 dark:text-gray-700 group-hover:text-blue-500 transition-colors mt-1 mr-2 shrink-0" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
+      <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
+        <div>
+          <label
+            htmlFor="dashboard-key"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          >
+            הזינו מפתח דשבורד
+          </label>
+          <input
+            id="dashboard-key"
+            type="text"
+            value={key}
+            onChange={(e) => setKey(e.target.value)}
+            placeholder="לדוגמה: example"
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+            dir="ltr"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={!key.trim()}
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl text-sm font-medium transition-colors"
+        >
+          <span>כניסה ללוח מחוונים</span>
+          <ArrowLeft className="w-4 h-4" />
+        </button>
+      </form>
+
+      <div className="w-full max-w-md mt-8">
+        <div className="relative flex items-center mb-4">
+          <div className="flex-grow border-t border-gray-200 dark:border-gray-800" />
+          <span className="px-3 text-xs text-gray-400 dark:text-gray-600">או</span>
+          <div className="flex-grow border-t border-gray-200 dark:border-gray-800" />
+        </div>
+        <button
+          onClick={handleCreateExample}
+          disabled={loading}
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed text-white dark:text-gray-900 rounded-xl text-sm font-medium transition-colors"
+        >
+          {loading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Sparkles className="w-4 h-4" />
+          )}
+          <span>{loading ? 'יוצר דשבורד לדוגמה...' : 'צור דשבורד לדוגמה'}</span>
+        </button>
       </div>
     </div>
   );

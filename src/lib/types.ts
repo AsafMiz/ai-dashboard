@@ -1,8 +1,19 @@
+export interface Dashboard {
+  key: string;
+  title: string;
+  subtitle: string | null;
+  icon: string;
+  created_at: string;
+}
+
 export interface Report {
   id: string;
   title: string;
   description: string | null;
+  type: string | null;
   user_id: string | null;
+  dashboard_key: string | null;
+  report_key: string | null;
   created_at: string;
   updated_at: string;
 }

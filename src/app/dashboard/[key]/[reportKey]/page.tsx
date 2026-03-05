@@ -5,35 +5,37 @@ import { DashboardGrid } from '@/components/DashboardGrid';
 import { notFound } from 'next/navigation';
 
 interface ReportPageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ key: string; reportKey: string }>;
 }
 
-export const revalidate = 0; // Always fetch fresh data
+export const revalidate = 0;
 
 export default async function ReportPage({ params }: ReportPageProps) {
-  const { id } = await params;
+  const { key, reportKey } = await params;
 
   const { data: report, error: reportError } = await supabase
     .from('reports')
     .select('*')
-    .eq('id', id)
+    .eq('dashboard_key', key)
+    .eq('report_key', reportKey)
     .single();
 
   if (reportError || !report) {
     notFound();
   }
 
+  const typedReport = report as Report;
+
   const { data: widgets } = await supabase
     .from('widgets')
     .select('*')
-    .eq('report_id', id)
+    .eq('report_id', typedReport.id)
     .order('order', { ascending: true });
 
-  const typedReport = report as Report;
   const typedWidgets = (widgets ?? []) as Widget[];
 
   return (
-    <div className="flex-1 min-h-screen">
+    <div className="min-h-screen">
       <Header title={typedReport.title} />
       {typedReport.description && (
         <div className="px-4 sm:px-6 pt-4">

@@ -1,13 +1,11 @@
 'use client';
 
 import { ThemeToggle } from './ThemeToggle';
-import { useSidebar } from './SidebarContext';
-import { RefreshCw, Menu } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 import { useState } from 'react';
 
 export function Header({ title }: { title?: string }) {
   const [loading, setLoading] = useState(false);
-  const { setOpen } = useSidebar();
 
   async function handleCollectData() {
     setLoading(true);
@@ -24,18 +22,9 @@ export function Header({ title }: { title?: string }) {
 
   return (
     <header className="h-14 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-10">
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => setOpen(true)}
-          className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 md:hidden"
-          aria-label="פתח תפריט"
-        >
-          <Menu className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-        </button>
-        <h2 className="text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-200 truncate">
-          {title ?? 'לוח מחוונים'}
-        </h2>
-      </div>
+      <h2 className="text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-200 truncate">
+        {title ?? 'לוח מחוונים'}
+      </h2>
       <div className="flex items-center gap-2 sm:gap-3">
         <button
           onClick={handleCollectData}
