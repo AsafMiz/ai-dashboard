@@ -48,7 +48,7 @@ export default function HomePage() {
       <div className="flex items-center gap-2 mb-8">
         <TrendingUp className="w-8 h-8 text-blue-600" />
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-          פיננסי<span className="text-blue-600">דש</span>
+          COMMUNi <span className="text-blue-600">Dashboard</span>
         </h1>
       </div>
 

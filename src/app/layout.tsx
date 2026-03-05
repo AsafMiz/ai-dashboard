@@ -3,7 +3,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
 
 export const metadata: Metadata = {
-  title: 'פיננסידש - לוח מחוונים פיננסי',
+  title: 'COMMUNi Dashboard',
   description: 'לוח מחוונים דינמי לניתוח שוק ההון',
 };
 
