@@ -1,0 +1,13 @@
+{
+  "dashboard_key": "example",
+  "report_key": "google-analysis",
+  "title": "GOOGL - ניתוח גוגל",
+  "description": "ניתוח ביצועי מניית אלפבית (גוגל)",
+  "type": "מניה",
+  "widgets": [
+    { "type": "candlestick", "title": "גרף נרות - GOOGL", "order": 0, "config": { "symbol": "GOOGL" } },
+    { "type": "area", "title": "מגמת מחיר - GOOGL", "order": 1, "config": { "symbol": "GOOGL", "color": "#059669", "dataKey": "close" } },
+    { "type": "bar", "title": "נפח מסחר - GOOGL", "order": 2, "config": { "symbol": "GOOGL", "color": "#059669", "dataKey": "volume" } },
+    { "type": "table", "title": "נתוני מסחר - GOOGL", "order": 3, "config": { "symbol": "GOOGL", "columns": ["date", "open", "high", "low", "close", "volume"] } }
+  ]
+}

@@ -21,16 +21,40 @@ export default function HomePage() {
   async function handleCreateExample() {
     setLoading(true);
     try {
-      const res = await fetch('/api/create-dashboard', {
+      // 1. Load dashboard JSON
+      const dashRes = await fetch('/data/example/dashboard.json');
+      const dashData = await dashRes.json();
+      const { reports: reportKeys, ...dashboardPayload } = dashData;
+
+      // 2. Create dashboard + seed market data
+      const createDashRes = await fetch('/api/create-dashboard', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ key: 'example' }),
+        body: JSON.stringify(dashboardPayload),
       });
-      if (!res.ok) {
-        const data = await res.json();
-        alert(data.error || 'שגיאה ביצירת דשבורד לדוגמה');
+      if (!createDashRes.ok) {
+        const err = await createDashRes.json();
+        alert(err.error || 'שגיאה ביצירת דשבורד');
         return;
       }
+
+      // 3. Load and create each report
+      for (const reportKey of reportKeys) {
+        const reportRes = await fetch(`/data/example/reports/${reportKey}.json`);
+        const reportData = await reportRes.json();
+
+        const createReportRes = await fetch('/api/create-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(reportData),
+        });
+        if (!createReportRes.ok) {
+          const err = await createReportRes.json();
+          alert(err.error || `שגיאה ביצירת דוח: ${reportKey}`);
+          return;
+        }
+      }
+
       router.push('/dashboard/example');
     } catch {
       alert('שגיאה ביצירת דשבורד לדוגמה');

@@ -1,0 +1,13 @@
+{
+  "dashboard_key": "example",
+  "report_key": "nvidia-deep-dive",
+  "title": "NVDA - ניתוח מעמיק",
+  "description": "ניתוח מקיף של מניית אנבידיה - מחיר, נפח מסחר וגרף נרות",
+  "type": "מניה",
+  "widgets": [
+    { "type": "candlestick", "title": "גרף נרות - NVDA", "order": 0, "config": { "symbol": "NVDA" } },
+    { "type": "area", "title": "מגמת מחיר סגירה - NVDA", "order": 1, "config": { "symbol": "NVDA", "color": "#76b900", "dataKey": "close" } },
+    { "type": "bar", "title": "נפח מסחר יומי - NVDA", "order": 2, "config": { "symbol": "NVDA", "color": "#76b900", "dataKey": "volume" } },
+    { "type": "table", "title": "נתוני מסחר - NVDA", "order": 3, "config": { "symbol": "NVDA", "columns": ["date", "open", "high", "low", "close", "volume"] } }
+  ]
+}

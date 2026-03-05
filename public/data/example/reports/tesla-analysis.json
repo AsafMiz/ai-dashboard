@@ -1,0 +1,13 @@
+{
+  "dashboard_key": "example",
+  "report_key": "tesla-analysis",
+  "title": "TSLA - ניתוח טסלה",
+  "description": "מעקב אחר ביצועי מניית טסלה כולל תנודתיות גבוהה",
+  "type": "מניה",
+  "widgets": [
+    { "type": "candlestick", "title": "גרף נרות - TSLA", "order": 0, "config": { "symbol": "TSLA" } },
+    { "type": "area", "title": "מגמת מחיר - TSLA", "order": 1, "config": { "symbol": "TSLA", "color": "#e11d48", "dataKey": "close" } },
+    { "type": "bar", "title": "נפח מסחר - TSLA", "order": 2, "config": { "symbol": "TSLA", "color": "#e11d48", "dataKey": "volume" } },
+    { "type": "table", "title": "נתוני מסחר - TSLA", "order": 3, "config": { "symbol": "TSLA", "columns": ["date", "open", "high", "low", "close", "volume"] } }
+  ]
+}
