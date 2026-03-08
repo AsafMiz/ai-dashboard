@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { LayoutDashboard, ArrowLeft, Sparkles, Loader2 } from 'lucide-react';
+import { ArrowLeft, Sparkles, Loader2 } from 'lucide-react';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
 export default function HomePage() {
@@ -69,8 +69,9 @@ export default function HomePage() {
         <ThemeToggle />
       </div>
 
-      <div className="flex items-center gap-2 mb-8">
-        <LayoutDashboard className="w-8 h-8 text-blue-600" />
+      <div className="flex flex-col items-center gap-4 mb-8">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/communi-logo.webp" alt="COMMUNi" className="w-20 h-20 object-cover rounded-xl border-2 border-gray-200 dark:border-gray-700" />
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
           COMMUNi <span className="text-blue-600">Dashboard</span>
         </h1>

@@ -5,6 +5,10 @@ import { ThemeProvider } from '@/components/layout/ThemeProvider';
 export const metadata: Metadata = {
   title: 'COMMUNi Dashboard',
   description: 'לוח מחוונים דינמי לניתוח שוק ההון',
+  icons: {
+    icon: '/communi-logo.webp',
+    apple: '/communi-logo.webp',
+  },
 };
 
 export const viewport: Viewport = {

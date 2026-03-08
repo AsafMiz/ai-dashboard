@@ -445,7 +445,9 @@ export default function ApiDocsPage() {
     <div className="min-h-screen">
       <header className="h-14 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-10">
         <div className="flex items-center gap-3">
-          <Link href="/" className="text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-600 transition-colors">
+          <Link href="/" className="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-600 transition-colors">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/communi-logo.webp" alt="COMMUNi" className="w-6 h-6 object-cover rounded-md border border-gray-200 dark:border-gray-700" />
             COMMUNi Dashboard
           </Link>
           <span className="text-gray-300 dark:text-gray-700">/</span>
