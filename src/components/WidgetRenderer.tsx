@@ -14,6 +14,7 @@ import { StackedBarWidget } from './charts/StackedBarWidget';
 import { RecommendationsWidget } from './charts/RecommendationsWidget';
 import { HighlightWidget } from './charts/HighlightWidget';
 import { FeedWidget } from './charts/FeedWidget';
+import { TitleWidget } from './charts/TitleWidget';
 import { Loader2 } from 'lucide-react';
 
 interface WidgetRendererProps {
@@ -108,6 +109,8 @@ export function WidgetRenderer({ widget }: WidgetRendererProps) {
       return <HighlightWidget data={data} config={config} />;
     case 'feed':
       return <FeedWidget data={data} config={config} />;
+    case 'title':
+      return <TitleWidget data={data} config={config} />;
     default:
       return <div className="text-gray-400 text-sm">סוג ווידג׳ט לא מוכר: {widget.type}</div>;
   }

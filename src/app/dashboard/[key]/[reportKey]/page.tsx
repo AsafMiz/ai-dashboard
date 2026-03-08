@@ -36,14 +36,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
 
   return (
     <div className="min-h-screen">
-      <Header title={typedReport.title} />
-      {typedReport.description && (
-        <div className="px-4 sm:px-6 pt-4">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            {typedReport.description}
-          </p>
-        </div>
-      )}
+      <Header title={typedReport.title} subtitle={typedReport.description} />
       <DashboardGrid widgets={typedWidgets} />
     </div>
   );

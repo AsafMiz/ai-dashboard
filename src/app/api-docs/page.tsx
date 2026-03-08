@@ -14,6 +14,7 @@ import { StackedBarWidget } from '@/components/charts/StackedBarWidget';
 import { RecommendationsWidget } from '@/components/charts/RecommendationsWidget';
 import { HighlightWidget } from '@/components/charts/HighlightWidget';
 import { FeedWidget } from '@/components/charts/FeedWidget';
+import { TitleWidget } from '@/components/charts/TitleWidget';
 import { DataRow } from '@/lib/types';
 import Link from 'next/link';
 
@@ -76,6 +77,10 @@ const highlightData: DataRow[] = [
   { name: 'אוזניות אלחוטיות', percent: 28 },
   { name: 'כרטיס מתנה', percent: 18 },
   { name: 'שובר בילוי', percent: 12 },
+];
+
+const titleData: DataRow[] = [
+  { title: 'דשבורד לכידות ניהולית', subtitle: 'דוח לכידות תקופתי', dateRange: 'ינואר 2026 – מרץ 2026', badge: 'TOP 25% בארגון' },
 ];
 
 const feedData: DataRow[] = [
@@ -173,7 +178,7 @@ const endpoints: Endpoint[] = [
         name: 'widgets',
         type: 'array',
         required: false,
-        description: 'Widget definitions. Each: { type, title, order, config }. Types: area, bar, candlestick, table, radar, scorecard, donut, stacked-bar, recommendations, highlight, feed',
+        description: 'Widget definitions. Each: { type, title, order, config }. Types: area, bar, candlestick, table, radar, scorecard, donut, stacked-bar, recommendations, highlight, feed, title',
       },
     ],
     responses: [
@@ -549,6 +554,12 @@ export default function ApiDocsPage() {
             config={{ datasetKey: 'featured-posts', titleKey: 'title', badgeKey: 'badge', authorKey: 'author', excerptKey: 'excerpt', metricsKeys: ['comments', 'likes', 'views'], color: '#10b981' }}
             chart={<FeedWidget data={feedData} config={{ titleKey: 'title', badgeKey: 'badge', authorKey: 'author', excerptKey: 'excerpt', metricsKeys: ['comments', 'likes', 'views'], color: '#10b981' }} />}
           />
+          <WidgetPreview
+            type="title"
+            description="Hero title banner with subtitle, date range, and badge."
+            config={{ datasetKey: 'report-header', titleKey: 'title', subtitleKey: 'subtitle', dateRangeKey: 'dateRange', badgeKey: 'badge', color: '#10b981' }}
+            chart={<TitleWidget data={titleData} config={{ titleKey: 'title', subtitleKey: 'subtitle', dateRangeKey: 'dateRange', badgeKey: 'badge', color: '#10b981' }} />}
+          />
         </div>
 
         {/* ── Sample Dataset ── */}
@@ -633,7 +644,9 @@ export default function ApiDocsPage() {
                 <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">badgeKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">feed</td><td className="py-1.5 px-2">Field for badge/tag text</td></tr>
                 <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">authorKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">feed</td><td className="py-1.5 px-2">Field for author name</td></tr>
                 <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">excerptKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">feed</td><td className="py-1.5 px-2">Field for description/excerpt text</td></tr>
-                <tr><td className="py-1.5 px-2 font-mono">metricsKeys</td><td className="py-1.5 px-2">string[]</td><td className="py-1.5 px-2">feed</td><td className="py-1.5 px-2">Fields for engagement stats (e.g. comments, likes, views)</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">metricsKeys</td><td className="py-1.5 px-2">string[]</td><td className="py-1.5 px-2">feed</td><td className="py-1.5 px-2">Fields for engagement stats (e.g. comments, likes, views)</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">subtitleKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">title</td><td className="py-1.5 px-2">Field for subtitle text</td></tr>
+                <tr><td className="py-1.5 px-2 font-mono">dateRangeKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">title</td><td className="py-1.5 px-2">Field for date range text</td></tr>
               </tbody>
             </table>
           </div>

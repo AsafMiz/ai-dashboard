@@ -5,6 +5,7 @@
   "description": "מפת ממדים, מדד כללי, פעילות והמלצות לפעולה",
   "type": "ניתוח",
   "widgets": [
+    { "type": "title", "title": "כותרת דוח", "order": -1, "config": { "datasetKey": "report-header", "titleKey": "title", "subtitleKey": "subtitle", "dateRangeKey": "dateRange", "badgeKey": "badge", "color": "#10b981" } },
     { "type": "radar", "title": "מפת ממדי לכידות", "order": 0, "config": { "datasetKey": "cohesion-dimensions", "labelKey": "dimension", "valueKey": "score", "color": "#10b981", "maxValue": 100 } },
     { "type": "scorecard", "title": "מדד לכידות כללי", "order": 1, "config": { "datasetKey": "cohesion-score", "valueKey": "score", "maxValue": 100, "trendKey": "trend", "trendLabel": "מהרבעון הקודם", "subtitle": "מדד לכידות כללי", "color": "#10b981" } },
     { "type": "donut", "title": "תמונת מצב פעילות", "order": 2, "config": { "datasetKey": "activity-status", "valueKey": "value", "labelKey": "label", "colors": ["#10b981", "#e5e7eb"], "centerLabel": "משתמשים פעילים", "totalLabel": "חברים" } },

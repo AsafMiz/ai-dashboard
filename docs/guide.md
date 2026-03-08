@@ -72,7 +72,7 @@ Widgets belong to a report. Each widget defines a chart or table visualization.
 |---|---|---|
 | `id` | `uuid` (PK) | Auto-generated UUID |
 | `report_id` | `uuid` (FK) | References `reports.id` |
-| `type` | `text` | Widget type: `area`, `bar`, `candlestick`, `table`, `radar`, `scorecard`, `donut`, `stacked-bar`, `recommendations`, `highlight`, `feed` (extensible) |
+| `type` | `text` | Widget type: `area`, `bar`, `candlestick`, `table`, `radar`, `scorecard`, `donut`, `stacked-bar`, `recommendations`, `highlight`, `feed`, `title` (extensible) |
 | `title` | `text` | Widget display name |
 | `order` | `int` | Display order within report |
 | `config` | `jsonb` | Widget-specific configuration |
@@ -111,6 +111,8 @@ Widgets belong to a report. Each widget defines a chart or table visualization.
 | `authorKey` | `string` | feed | Field for author name |
 | `excerptKey` | `string` | feed | Field for description/excerpt text |
 | `metricsKeys` | `string[]` | feed | Fields for engagement stats (e.g. comments, likes, views) |
+| `subtitleKey` | `string` | title | Field for subtitle text |
+| `dateRangeKey` | `string` | title | Field for date range text |
 
 ### Entity Relationship
 
@@ -365,7 +367,7 @@ Navigate to `http://localhost:3000/dashboard/test` or type `test` in the key inp
 
 ## Example Datasets
 
-The example dashboard includes 13 datasets demonstrating diverse data types:
+The example dashboard includes 14 datasets demonstrating diverse data types:
 
 | Dataset Key | Description | Fields |
 |---|---|---|
@@ -382,6 +384,7 @@ The example dashboard includes 13 datasets demonstrating diverse data types:
 | `action-recommendations` | Action recommendations | title, percent, icon, items |
 | `top-products` | Top selling products | name, percent, trend |
 | `featured-posts` | Featured posts feed | title, badge, author, excerpt, comments, likes, views |
+| `report-header` | Report header/title | title, subtitle, dateRange, badge |
 
 ## Example Dashboard Reports
 
@@ -395,7 +398,7 @@ The example dashboard creates 7 reports:
 | `budget-analysis` | Budget Analysis | 3 bar charts + 1 table |
 | `quarterly-performance` | Quarterly Performance | 1 candlestick + 1 area + 1 table |
 | `regional-comparison` | Regional Comparison | 4 bar charts + 2 area charts |
-| `team-cohesion` | Team Cohesion | 1 radar + 1 scorecard + 1 donut + 1 stacked-bar + 1 recommendations + 1 highlight + 1 feed |
+| `team-cohesion` | Team Cohesion | 1 title + 1 radar + 1 scorecard + 1 donut + 1 stacked-bar + 1 recommendations + 1 highlight + 1 feed |
 
 ## Adding New Widget Types
 
