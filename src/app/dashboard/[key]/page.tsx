@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase';
 import { Dashboard, Report } from '@/lib/types';
 import { Header } from '@/components/layout/Header';
+import { LogoImage } from '@/components/layout/LogoImage';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Calendar, ArrowLeft, FileText } from 'lucide-react';
@@ -45,11 +46,15 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
 
   return (
     <div className="min-h-screen">
-      <Header title={typedDashboard.title} />
+      <Header title={typedDashboard.title} logoUrl={typedDashboard.logo_url} />
 
       <div className="p-4 sm:p-6">
         <div className="mb-6 sm:mb-8 flex items-start gap-4">
-          <DashboardIcon name={typedDashboard.icon} />
+          {typedDashboard.logo_url ? (
+            <LogoImage src={typedDashboard.logo_url} className="w-10 h-10 object-cover rounded-xl border-2 border-gray-200 dark:border-gray-700 shrink-0" />
+          ) : (
+            <DashboardIcon name={typedDashboard.icon} />
+          )}
           <div>
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-1">
               {typedDashboard.title}

@@ -124,6 +124,7 @@ const endpoints: Endpoint[] = [
       { name: 'title', type: 'string', required: true, description: 'Display name' },
       { name: 'subtitle', type: 'string', required: false, description: 'Optional subtitle' },
       { name: 'icon', type: 'string', required: false, description: 'Lucide icon name (defaults to LayoutDashboard)' },
+      { name: 'logo_url', type: 'string', required: false, description: 'Logo image URL (falls back to COMMUNi logo if missing or broken)' },
       {
         name: 'datasets',
         type: 'array',
@@ -142,6 +143,7 @@ const endpoints: Endpoint[] = [
         title: 'My Dashboard',
         subtitle: 'A test dashboard',
         icon: 'BarChart3',
+        logo_url: 'https://example.com/logo.png',
         datasets: [
           {
             key: 'monthly-sales',
@@ -174,6 +176,7 @@ const endpoints: Endpoint[] = [
       { name: 'title', type: 'string', required: true, description: 'Report display name' },
       { name: 'description', type: 'string', required: false, description: 'Optional description' },
       { name: 'type', type: 'string', required: false, description: 'Display label badge (e.g. סקירה, ניתוח)' },
+      { name: 'logo_url', type: 'string', required: false, description: 'Logo image URL (falls back to COMMUNi logo if missing or broken)' },
       {
         name: 'widgets',
         type: 'array',
@@ -197,6 +200,7 @@ const endpoints: Endpoint[] = [
         title: 'Sales Overview',
         description: 'Monthly revenue and order trends',
         type: 'סקירה',
+        logo_url: 'https://example.com/logo.png',
         widgets: [
           { type: 'area', title: 'Revenue Trend', order: 0, config: { datasetKey: 'monthly-sales', xKey: 'month', yKey: 'revenue', color: '#2563eb', valueFormatter: 'compact' } },
           { type: 'bar', title: 'Orders per Month', order: 1, config: { datasetKey: 'monthly-sales', xKey: 'month', yKey: 'orders', color: '#10b981' } },

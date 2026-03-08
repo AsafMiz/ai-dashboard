@@ -3,6 +3,7 @@
   "report_key": "regional-comparison",
   "title": "השוואה אזורית",
   "description": "השוואת הכנסות בין אזור צפון לדרום",
+  "logo_url": "/communi-logo.webp",
   "type": "השוואה",
   "widgets": [
     { "type": "bar", "title": "הכנסות — צפון", "order": 0, "config": { "datasetKey": "sales-north", "xKey": "month", "yKey": "revenue", "color": "#2563eb", "valueFormatter": "compact" } },

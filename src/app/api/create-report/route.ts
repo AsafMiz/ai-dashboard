@@ -8,7 +8,7 @@ const supabaseServiceKey =
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { dashboard_key, report_key, title, description, type, widgets } = body;
+    const { dashboard_key, report_key, title, description, type, logo_url, widgets } = body;
 
     if (!dashboard_key || typeof dashboard_key !== 'string') {
       return NextResponse.json(
@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
         title,
         description: description ?? null,
         type: type ?? null,
+        logo_url: logo_url ?? null,
       })
       .select('id')
       .single();

@@ -8,7 +8,7 @@ const supabaseServiceKey =
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { key, title, subtitle, icon, datasets } = body;
+    const { key, title, subtitle, icon, logo_url, datasets } = body;
 
     if (!key || typeof key !== 'string') {
       return NextResponse.json(
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     // 2. Create the dashboard
     const { error: dashError } = await supabase
       .from('dashboards')
-      .insert({ key, title, subtitle: subtitle ?? null, icon: icon ?? 'LayoutDashboard' });
+      .insert({ key, title, subtitle: subtitle ?? null, icon: icon ?? 'LayoutDashboard', logo_url: logo_url ?? null });
 
     if (dashError) {
       return NextResponse.json({ error: dashError.message }, { status: 500 });

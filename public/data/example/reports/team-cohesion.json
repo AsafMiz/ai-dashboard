@@ -3,6 +3,7 @@
   "report_key": "team-cohesion",
   "title": "לכידות צוות",
   "description": "מפת ממדים, מדד כללי, פעילות והמלצות לפעולה",
+  "logo_url": "/communi-logo.webp",
   "type": "ניתוח",
   "widgets": [
     { "type": "title", "title": "כותרת דוח", "order": -1, "config": { "datasetKey": "report-header", "titleKey": "title", "subtitleKey": "subtitle", "dateRangeKey": "dateRange", "badgeKey": "badge", "color": "#10b981" } },

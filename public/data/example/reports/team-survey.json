@@ -3,6 +3,7 @@
   "report_key": "team-survey",
   "title": "סקר צוות",
   "description": "תוצאות סקר שביעות רצון ומעורבות לפי מחלקה",
+  "logo_url": "/communi-logo.webp",
   "type": "סקירה",
   "widgets": [
     { "type": "bar", "title": "שביעות רצון לפי מחלקה", "order": 0, "config": { "datasetKey": "team-satisfaction", "xKey": "department", "yKey": "satisfaction", "color": "#2563eb", "valueFormatter": "percent" } },

@@ -36,7 +36,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
 
   return (
     <div className="min-h-screen">
-      <Header title={typedReport.title} subtitle={typedReport.description} />
+      <Header title={typedReport.title} subtitle={typedReport.description} logoUrl={typedReport.logo_url} />
       <DashboardGrid widgets={typedWidgets} />
     </div>
   );

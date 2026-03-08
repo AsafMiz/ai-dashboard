@@ -3,6 +3,7 @@ export interface Dashboard {
   title: string;
   subtitle: string | null;
   icon: string;
+  logo_url: string | null;
   created_at: string;
 }
 
@@ -11,6 +12,7 @@ export interface Report {
   title: string;
   description: string | null;
   type: string | null;
+  logo_url: string | null;
   user_id: string | null;
   dashboard_key: string | null;
   report_key: string | null;

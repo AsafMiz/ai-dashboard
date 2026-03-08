@@ -3,6 +3,7 @@
   "report_key": "sales-overview",
   "title": "סקירת מכירות",
   "description": "מגמות הכנסות והזמנות לפי אזור",
+  "logo_url": "/communi-logo.webp",
   "type": "סקירה",
   "widgets": [
     { "type": "area", "title": "הכנסות — אזור צפון", "order": 0, "config": { "datasetKey": "sales-north", "xKey": "month", "yKey": "revenue", "color": "#2563eb", "valueFormatter": "compact" } },

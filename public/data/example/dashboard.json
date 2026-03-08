@@ -3,6 +3,7 @@
   "title": "סקירת פעילות החברה",
   "subtitle": "מכירות, פרויקטים, צוות ותקציב — 2024",
   "icon": "LayoutDashboard",
+  "logo_url": "/communi-logo.webp",
   "reports": [
     "sales-overview",
     "project-metrics",

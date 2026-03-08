@@ -3,6 +3,7 @@
   "report_key": "budget-analysis",
   "title": "ניתוח תקציב",
   "description": "השוואת תקציב מתוכנן מול ביצוע בפועל",
+  "logo_url": "/communi-logo.webp",
   "type": "ניתוח",
   "widgets": [
     { "type": "bar", "title": "תקציב מתוכנן", "order": 0, "config": { "datasetKey": "budget-2024", "xKey": "category", "yKey": "planned", "color": "#2563eb", "valueFormatter": "compact" } },

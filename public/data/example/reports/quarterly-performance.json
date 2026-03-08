@@ -3,6 +3,7 @@
   "report_key": "quarterly-performance",
   "title": "ביצועים רבעוניים",
   "description": "גרף נרות ומגמת מחיר סגירה — נתוני מניה לדוגמה",
+  "logo_url": "/communi-logo.webp",
   "type": "ניתוח",
   "widgets": [
     { "type": "candlestick", "title": "גרף נרות — מחיר מניה", "order": 0, "config": { "datasetKey": "stock-price", "xKey": "date", "openKey": "open", "highKey": "high", "lowKey": "low", "closeKey": "close" } },

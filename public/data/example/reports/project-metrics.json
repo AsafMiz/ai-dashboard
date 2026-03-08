@@ -3,6 +3,7 @@
   "report_key": "project-metrics",
   "title": "מדדי פרויקט",
   "description": "מהירות ספרינט, השלמת משימות ומעקב באגים",
+  "logo_url": "/communi-logo.webp",
   "type": "ניתוח",
   "widgets": [
     { "type": "area", "title": "מהירות ספרינט", "order": 0, "config": { "datasetKey": "project-sprints", "xKey": "sprint", "yKey": "velocity", "color": "#2563eb" } },
