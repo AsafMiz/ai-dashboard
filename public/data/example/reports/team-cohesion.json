@@ -1,0 +1,16 @@
+{
+  "dashboard_key": "example",
+  "report_key": "team-cohesion",
+  "title": "לכידות צוות",
+  "description": "מפת ממדים, מדד כללי, פעילות והמלצות לפעולה",
+  "type": "ניתוח",
+  "widgets": [
+    { "type": "radar", "title": "מפת ממדי לכידות", "order": 0, "config": { "datasetKey": "cohesion-dimensions", "labelKey": "dimension", "valueKey": "score", "color": "#10b981", "maxValue": 100 } },
+    { "type": "scorecard", "title": "מדד לכידות כללי", "order": 1, "config": { "datasetKey": "cohesion-score", "valueKey": "score", "maxValue": 100, "trendKey": "trend", "trendLabel": "מהרבעון הקודם", "subtitle": "מדד לכידות כללי", "color": "#10b981" } },
+    { "type": "donut", "title": "תמונת מצב פעילות", "order": 2, "config": { "datasetKey": "activity-status", "valueKey": "value", "labelKey": "label", "colors": ["#10b981", "#e5e7eb"], "centerLabel": "משתמשים פעילים", "totalLabel": "חברים" } },
+    { "type": "stacked-bar", "title": "יחס מוקירים מול מקבלים", "order": 3, "config": { "datasetKey": "givers-receivers", "xKey": "month", "yKeys": ["givers", "receivers"], "colors": ["#10b981", "#d1d5db"], "labels": { "givers": "מוקירים", "receivers": "מקבלים" } } },
+    { "type": "recommendations", "title": "המלצות לפעולה", "order": 4, "config": { "datasetKey": "action-recommendations", "titleKey": "title", "percentKey": "percent", "itemsKey": "items", "iconKey": "icon", "color": "#10b981" } },
+    { "type": "highlight", "title": "הפריט הנמכר ביותר החודש", "order": 5, "config": { "datasetKey": "top-products", "nameKey": "name", "valueKey": "percent", "trendKey": "trend", "trendLabel": "מול הרבעון הקודם", "subtitle": "הפריט הכי נמכר", "color": "#10b981" } },
+    { "type": "feed", "title": "פיד פוסטים בולטים", "order": 6, "config": { "datasetKey": "featured-posts", "titleKey": "title", "badgeKey": "badge", "authorKey": "author", "excerptKey": "excerpt", "metricsKeys": ["comments", "likes", "views"], "color": "#10b981" } }
+  ]
+}

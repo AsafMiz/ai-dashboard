@@ -7,6 +7,13 @@ import { AreaChartWidget } from './charts/AreaChartWidget';
 import { BarChartWidget } from './charts/BarChartWidget';
 import { CandlestickWidget } from './charts/CandlestickWidget';
 import { DataTableWidget } from './charts/DataTableWidget';
+import { RadarChartWidget } from './charts/RadarChartWidget';
+import { ScorecardWidget } from './charts/ScorecardWidget';
+import { DonutChartWidget } from './charts/DonutChartWidget';
+import { StackedBarWidget } from './charts/StackedBarWidget';
+import { RecommendationsWidget } from './charts/RecommendationsWidget';
+import { HighlightWidget } from './charts/HighlightWidget';
+import { FeedWidget } from './charts/FeedWidget';
 import { Loader2 } from 'lucide-react';
 
 interface WidgetRendererProps {
@@ -87,6 +94,20 @@ export function WidgetRenderer({ widget }: WidgetRendererProps) {
       return <CandlestickWidget data={data} config={config} />;
     case 'table':
       return <DataTableWidget data={data} config={config} />;
+    case 'radar':
+      return <RadarChartWidget data={data} config={config} />;
+    case 'scorecard':
+      return <ScorecardWidget data={data} config={config} />;
+    case 'donut':
+      return <DonutChartWidget data={data} config={config} />;
+    case 'stacked-bar':
+      return <StackedBarWidget data={data} config={config} />;
+    case 'recommendations':
+      return <RecommendationsWidget data={data} config={config} />;
+    case 'highlight':
+      return <HighlightWidget data={data} config={config} />;
+    case 'feed':
+      return <FeedWidget data={data} config={config} />;
     default:
       return <div className="text-gray-400 text-sm">סוג ווידג׳ט לא מוכר: {widget.type}</div>;
   }

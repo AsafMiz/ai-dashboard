@@ -18,7 +18,7 @@ export interface Report {
   updated_at: string;
 }
 
-export type WidgetType = 'area' | 'bar' | 'candlestick' | 'table';
+export type WidgetType = 'area' | 'bar' | 'candlestick' | 'table' | 'radar' | 'scorecard' | 'donut' | 'stacked-bar' | 'recommendations' | 'highlight' | 'feed';
 
 export interface Widget {
   id: string;
@@ -44,6 +44,32 @@ export interface WidgetConfig {
   highKey?: string;
   lowKey?: string;
   closeKey?: string;
+  /* radar */
+  labelKey?: string;
+  valueKey?: string;
+  maxValue?: number;
+  /* scorecard */
+  trendKey?: string;
+  trendLabel?: string;
+  subtitle?: string;
+  /* donut */
+  centerLabel?: string;
+  totalLabel?: string;
+  /* stacked-bar */
+  labels?: Record<string, string>;
+  /* recommendations */
+  titleKey?: string;
+  percentKey?: string;
+  itemsKey?: string;
+  iconKey?: string;
+  /* highlight */
+  nameKey?: string;
+  imageKey?: string;
+  /* feed */
+  badgeKey?: string;
+  authorKey?: string;
+  excerptKey?: string;
+  metricsKeys?: string[];
   [key: string]: unknown;
 }
 

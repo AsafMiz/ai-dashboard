@@ -72,7 +72,7 @@ Widgets belong to a report. Each widget defines a chart or table visualization.
 |---|---|---|
 | `id` | `uuid` (PK) | Auto-generated UUID |
 | `report_id` | `uuid` (FK) | References `reports.id` |
-| `type` | `text` | Widget type: `area`, `bar`, `candlestick`, `table` (extensible) |
+| `type` | `text` | Widget type: `area`, `bar`, `candlestick`, `table`, `radar`, `scorecard`, `donut`, `stacked-bar`, `recommendations`, `highlight`, `feed` (extensible) |
 | `title` | `text` | Widget display name |
 | `order` | `int` | Display order within report |
 | `config` | `jsonb` | Widget-specific configuration |
@@ -90,6 +90,27 @@ Widgets belong to a report. Each widget defines a chart or table visualization.
 | `columns` | `string[]` | table | Which fields to show as columns |
 | `columnLabels` | `object` | table | Custom header labels: `{field: label}` |
 | `openKey`, `highKey`, `lowKey`, `closeKey` | `string` | candlestick | OHLC field names (defaults: open/high/low/close) |
+| `labelKey` | `string` | radar, donut | Field for axis labels / segment names |
+| `valueKey` | `string` | radar, scorecard, donut | Field for the main value |
+| `maxValue` | `number` | radar, scorecard | Scale max (radar) or denominator (scorecard, e.g. 100) |
+| `trendKey` | `string` | scorecard | Field holding the % change value |
+| `trendLabel` | `string` | scorecard | Text after the trend (e.g. "מהרבעון הקודם") |
+| `subtitle` | `string` | scorecard | Small text above the number |
+| `centerLabel` | `string` | donut | Text inside the ring (e.g. "משתמשים פעילים") |
+| `totalLabel` | `string` | donut | Unit label (e.g. "חברים") |
+| `yKeys` | `string[]` | stacked-bar | Array of fields to stack as series |
+| `colors` | `string[]` | donut, stacked-bar | Array of colors per segment/series |
+| `labels` | `object` | stacked-bar | Legend labels: `{field: display}` |
+| `titleKey` | `string` | recommendations | Field for section title |
+| `percentKey` | `string` | recommendations | Field for percentage value |
+| `itemsKey` | `string` | recommendations | Field containing array of bullet-point strings |
+| `iconKey` | `string` | recommendations | Field for Lucide icon name |
+| `nameKey` | `string` | highlight | Field for item name |
+| `imageKey` | `string` | highlight | Field for image URL (optional) |
+| `badgeKey` | `string` | feed | Field for badge/tag text |
+| `authorKey` | `string` | feed | Field for author name |
+| `excerptKey` | `string` | feed | Field for description/excerpt text |
+| `metricsKeys` | `string[]` | feed | Fields for engagement stats (e.g. comments, likes, views) |
 
 ### Entity Relationship
 
@@ -344,7 +365,7 @@ Navigate to `http://localhost:3000/dashboard/test` or type `test` in the key inp
 
 ## Example Datasets
 
-The example dashboard includes 6 datasets demonstrating diverse data types:
+The example dashboard includes 13 datasets demonstrating diverse data types:
 
 | Dataset Key | Description | Fields |
 |---|---|---|
@@ -354,10 +375,17 @@ The example dashboard includes 6 datasets demonstrating diverse data types:
 | `team-satisfaction` | Employee survey | department, satisfaction, engagement, headcount |
 | `budget-2024` | Budget vs actual | category, planned, actual, variance |
 | `stock-price` | Stock price OHLC | date, open, high, low, close |
+| `cohesion-dimensions` | Team cohesion dimensions | dimension, score |
+| `cohesion-score` | Overall cohesion score | score, trend |
+| `activity-status` | Active vs inactive users | label, value |
+| `givers-receivers` | Givers vs receivers ratio | month, givers, receivers |
+| `action-recommendations` | Action recommendations | title, percent, icon, items |
+| `top-products` | Top selling products | name, percent, trend |
+| `featured-posts` | Featured posts feed | title, badge, author, excerpt, comments, likes, views |
 
 ## Example Dashboard Reports
 
-The example dashboard creates 6 reports:
+The example dashboard creates 7 reports:
 
 | Report Key | Title | Widgets |
 |---|---|---|
@@ -367,10 +395,11 @@ The example dashboard creates 6 reports:
 | `budget-analysis` | Budget Analysis | 3 bar charts + 1 table |
 | `quarterly-performance` | Quarterly Performance | 1 candlestick + 1 area + 1 table |
 | `regional-comparison` | Regional Comparison | 4 bar charts + 2 area charts |
+| `team-cohesion` | Team Cohesion | 1 radar + 1 scorecard + 1 donut + 1 stacked-bar + 1 recommendations + 1 highlight + 1 feed |
 
 ## Adding New Widget Types
 
-The system is designed for easy extensibility. To add a new widget type (e.g. `radar`, `pie`, `stacked-bar`):
+The system is designed for easy extensibility. To add a new widget type:
 
 1. Create `src/components/charts/NewWidget.tsx` accepting `DataRow[]` and `WidgetConfig`
 2. Add a `case` to the switch in `src/components/WidgetRenderer.tsx`

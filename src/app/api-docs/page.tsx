@@ -7,6 +7,13 @@ import { AreaChartWidget } from '@/components/charts/AreaChartWidget';
 import { BarChartWidget } from '@/components/charts/BarChartWidget';
 import { CandlestickWidget } from '@/components/charts/CandlestickWidget';
 import { DataTableWidget } from '@/components/charts/DataTableWidget';
+import { RadarChartWidget } from '@/components/charts/RadarChartWidget';
+import { ScorecardWidget } from '@/components/charts/ScorecardWidget';
+import { DonutChartWidget } from '@/components/charts/DonutChartWidget';
+import { StackedBarWidget } from '@/components/charts/StackedBarWidget';
+import { RecommendationsWidget } from '@/components/charts/RecommendationsWidget';
+import { HighlightWidget } from '@/components/charts/HighlightWidget';
+import { FeedWidget } from '@/components/charts/FeedWidget';
 import { DataRow } from '@/lib/types';
 import Link from 'next/link';
 
@@ -35,6 +42,46 @@ const ohlcData: DataRow[] = [
   { date: '2024-01-11', open: 189.72, high: 192.38, low: 189.42, close: 191.56 },
   { date: '2024-01-12', open: 191.56, high: 193.45, low: 190.67, close: 192.88 },
   { date: '2024-01-16', open: 192.88, high: 194.76, low: 191.55, close: 193.89 },
+];
+
+const radarData: DataRow[] = [
+  { dimension: 'צפיפות', score: 72 },
+  { dimension: 'פיזור', score: 45 },
+  { dimension: 'עקביות', score: 68 },
+  { dimension: 'אירועים אישיים', score: 55 },
+  { dimension: 'מעורבות', score: 80 },
+];
+
+const scorecardData: DataRow[] = [{ score: 76, trend: 4.2 }];
+
+const donutData: DataRow[] = [
+  { label: 'פעילים', value: 328 },
+  { label: 'לא פעילים', value: 72 },
+];
+
+const stackedBarData: DataRow[] = [
+  { month: "ינו׳", givers: 85, receivers: 120 },
+  { month: "פבר׳", givers: 95, receivers: 130 },
+  { month: 'מרץ', givers: 110, receivers: 140 },
+  { month: "אפר׳", givers: 125, receivers: 150 },
+];
+
+const recommendationsData: DataRow[] = [
+  { title: 'פיזור', percent: 38, icon: 'Shuffle', items: ['טיפול בפער ההוקרה במחלקות הנדסה ותפעול', 'הטמעת תוכנית הוקרה בין-מחלקתית לאיזון הפיזור', 'קביעת מינימום 3 הוקרות למנהל בשבוע בכל הצוותים'] },
+  { title: 'אירועים אישיים', percent: 45, icon: 'Calendar', items: ['אוטומציה של התראות ימי הולדת ויום שנה לעבודה למנהלים', 'הכנסת תגמולי אבני דרך מותאמים אישית ב-1, 3, 5 ו-10 שנים', 'יצירת לוח שיתוף הישגים אישיים (opt-in)'] },
+];
+
+const highlightData: DataRow[] = [
+  { name: 'שואב אבק רובוטי', percent: 42, trend: 8 },
+  { name: 'אוזניות אלחוטיות', percent: 28 },
+  { name: 'כרטיס מתנה', percent: 18 },
+  { name: 'שובר בילוי', percent: 12 },
+];
+
+const feedData: DataRow[] = [
+  { title: 'סיכום גיבוש רבעוני Q4', badge: 'אירוע', author: 'שרה מ.', excerpt: 'השתתפות מרשימה של 94% מכלל המחלקות ברבעון האחרון...', comments: 23, likes: 89, views: 342 },
+  { title: 'מסגרת הוקרה חדשה', badge: 'הכרה', author: 'יעקב כ.', excerpt: 'מציגים את מערכת ההוקרה העמיתית המעודכנת שנועדה להגביר נראות...', comments: 18, likes: 64, views: 278 },
+  { title: 'יוזמה בין-מחלקתית', badge: 'דוח', author: 'מריה ל.', excerpt: 'תוצאות תוכנית הפיילוט מראות עלייה של 35% בשיתוף הפעולה...', comments: 14, likes: 52, views: 215 },
 ];
 
 interface Param {
@@ -126,7 +173,7 @@ const endpoints: Endpoint[] = [
         name: 'widgets',
         type: 'array',
         required: false,
-        description: 'Widget definitions. Each: { type, title, order, config }. Types: area, bar, candlestick, table (extensible)',
+        description: 'Widget definitions. Each: { type, title, order, config }. Types: area, bar, candlestick, table, radar, scorecard, donut, stacked-bar, recommendations, highlight, feed',
       },
     ],
     responses: [
@@ -460,6 +507,48 @@ export default function ApiDocsPage() {
             config={{ datasetKey: 'monthly-sales', columns: ['month', 'revenue', 'orders'], columnLabels: { month: 'Month', revenue: 'Revenue', orders: 'Orders' } }}
             chart={<DataTableWidget data={salesData} config={{ columns: ['month', 'revenue', 'orders'], columnLabels: { month: 'Month', revenue: 'Revenue ($)', orders: 'Orders' } }} />}
           />
+          <WidgetPreview
+            type="radar"
+            description="Spider/radar chart — ideal for multi-dimensional comparisons."
+            config={{ datasetKey: 'cohesion-dimensions', labelKey: 'dimension', valueKey: 'score', color: '#10b981', maxValue: 100 }}
+            chart={<RadarChartWidget data={radarData} config={{ labelKey: 'dimension', valueKey: 'score', color: '#10b981', maxValue: 100 }} />}
+          />
+          <WidgetPreview
+            type="scorecard"
+            description="KPI big number with optional trend indicator."
+            config={{ datasetKey: 'cohesion-score', valueKey: 'score', maxValue: 100, trendKey: 'trend', trendLabel: 'מהרבעון הקודם', subtitle: 'מדד לכידות כללי', color: '#10b981' }}
+            chart={<ScorecardWidget data={scorecardData} config={{ valueKey: 'score', maxValue: 100, trendKey: 'trend', trendLabel: 'מהרבעון הקודם', subtitle: 'מדד לכידות כללי', color: '#10b981' }} />}
+          />
+          <WidgetPreview
+            type="donut"
+            description="Donut/ring chart — great for proportions and status."
+            config={{ datasetKey: 'activity-status', valueKey: 'value', labelKey: 'label', colors: ['#10b981', '#e5e7eb'], centerLabel: 'משתמשים פעילים', totalLabel: 'חברים' }}
+            chart={<DonutChartWidget data={donutData} config={{ valueKey: 'value', labelKey: 'label', colors: ['#10b981', '#e5e7eb'], centerLabel: 'משתמשים פעילים', totalLabel: 'חברים' }} />}
+          />
+          <WidgetPreview
+            type="stacked-bar"
+            description="Stacked bar chart — for comparing multiple series per category."
+            config={{ datasetKey: 'givers-receivers', xKey: 'month', yKeys: ['givers', 'receivers'], colors: ['#10b981', '#d1d5db'], labels: { givers: 'מוקירים', receivers: 'מקבלים' } }}
+            chart={<StackedBarWidget data={stackedBarData} config={{ xKey: 'month', yKeys: ['givers', 'receivers'], colors: ['#10b981', '#d1d5db'], labels: { givers: 'מוקירים', receivers: 'מקבלים' } }} />}
+          />
+          <WidgetPreview
+            type="recommendations"
+            description="Expandable action items with icons and bullet lists."
+            config={{ datasetKey: 'action-recommendations', titleKey: 'title', percentKey: 'percent', itemsKey: 'items', iconKey: 'icon', color: '#10b981' }}
+            chart={<RecommendationsWidget data={recommendationsData} config={{ titleKey: 'title', percentKey: 'percent', itemsKey: 'items', iconKey: 'icon', color: '#10b981' }} />}
+          />
+          <WidgetPreview
+            type="highlight"
+            description="Featured item card with trend and horizontal bar breakdown."
+            config={{ datasetKey: 'top-products', nameKey: 'name', valueKey: 'percent', trendKey: 'trend', trendLabel: 'מול הרבעון הקודם', subtitle: 'הפריט הכי נמכר', color: '#10b981' }}
+            chart={<HighlightWidget data={highlightData} config={{ nameKey: 'name', valueKey: 'percent', trendKey: 'trend', trendLabel: 'מול הרבעון הקודם', subtitle: 'הפריט הכי נמכר', color: '#10b981' }} />}
+          />
+          <WidgetPreview
+            type="feed"
+            description="Content feed with badges, authors, and engagement metrics."
+            config={{ datasetKey: 'featured-posts', titleKey: 'title', badgeKey: 'badge', authorKey: 'author', excerptKey: 'excerpt', metricsKeys: ['comments', 'likes', 'views'], color: '#10b981' }}
+            chart={<FeedWidget data={feedData} config={{ titleKey: 'title', badgeKey: 'badge', authorKey: 'author', excerptKey: 'excerpt', metricsKeys: ['comments', 'likes', 'views'], color: '#10b981' }} />}
+          />
         </div>
 
         {/* ── Sample Dataset ── */}
@@ -527,7 +616,24 @@ export default function ApiDocsPage() {
                 <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">valueFormatter</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">all</td><td className="py-1.5 px-2">&quot;currency&quot; | &quot;percent&quot; | &quot;compact&quot; | &quot;number&quot;</td></tr>
                 <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">columns</td><td className="py-1.5 px-2">string[]</td><td className="py-1.5 px-2">table</td><td className="py-1.5 px-2">Which fields to show as columns</td></tr>
                 <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">columnLabels</td><td className="py-1.5 px-2">object</td><td className="py-1.5 px-2">table</td><td className="py-1.5 px-2">Custom header labels: {'{'}field: label{'}'}</td></tr>
-                <tr><td className="py-1.5 px-2 font-mono">openKey, highKey, lowKey, closeKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">candlestick</td><td className="py-1.5 px-2">OHLC field names (defaults: open/high/low/close)</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">openKey, highKey, lowKey, closeKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">candlestick</td><td className="py-1.5 px-2">OHLC field names (defaults: open/high/low/close)</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">labelKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">radar, donut</td><td className="py-1.5 px-2">Field for labels (axis labels / segment names)</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">valueKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">radar, scorecard, donut</td><td className="py-1.5 px-2">Field for the main value</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">maxValue</td><td className="py-1.5 px-2">number</td><td className="py-1.5 px-2">radar, scorecard</td><td className="py-1.5 px-2">Scale max (radar) or denominator (scorecard)</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">trendKey, trendLabel</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">scorecard</td><td className="py-1.5 px-2">Field for % change and label text</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">subtitle</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">scorecard</td><td className="py-1.5 px-2">Small text above the number</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">centerLabel, totalLabel</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">donut</td><td className="py-1.5 px-2">Text inside ring / unit label</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">yKeys</td><td className="py-1.5 px-2">string[]</td><td className="py-1.5 px-2">stacked-bar</td><td className="py-1.5 px-2">Fields to stack as series</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">colors</td><td className="py-1.5 px-2">string[]</td><td className="py-1.5 px-2">donut, stacked-bar</td><td className="py-1.5 px-2">Array of colors per segment/series</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">labels</td><td className="py-1.5 px-2">object</td><td className="py-1.5 px-2">stacked-bar</td><td className="py-1.5 px-2">Legend labels: {'{'}field: display{'}'}</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">titleKey, percentKey, itemsKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">recommendations</td><td className="py-1.5 px-2">Fields for section title, %, and bullet array</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">iconKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">recommendations</td><td className="py-1.5 px-2">Field for Lucide icon name per section</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">nameKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">highlight</td><td className="py-1.5 px-2">Field for item name</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">imageKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">highlight</td><td className="py-1.5 px-2">Field for image URL (optional)</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">badgeKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">feed</td><td className="py-1.5 px-2">Field for badge/tag text</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">authorKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">feed</td><td className="py-1.5 px-2">Field for author name</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">excerptKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">feed</td><td className="py-1.5 px-2">Field for description/excerpt text</td></tr>
+                <tr><td className="py-1.5 px-2 font-mono">metricsKeys</td><td className="py-1.5 px-2">string[]</td><td className="py-1.5 px-2">feed</td><td className="py-1.5 px-2">Fields for engagement stats (e.g. comments, likes, views)</td></tr>
               </tbody>
             </table>
           </div>

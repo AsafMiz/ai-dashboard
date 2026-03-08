@@ -9,7 +9,8 @@
     "team-survey",
     "budget-analysis",
     "quarterly-performance",
-    "regional-comparison"
+    "regional-comparison",
+    "team-cohesion"
   ],
   "datasets": [
     {
@@ -139,6 +140,140 @@
         { "date": "2024-01-11", "open": 189.72, "high": 192.38, "low": 189.42, "close": 191.56 },
         { "date": "2024-01-12", "open": 191.56, "high": 193.45, "low": 190.67, "close": 192.88 },
         { "date": "2024-01-16", "open": 192.88, "high": 194.76, "low": 191.55, "close": 193.89 }
+      ]
+    },
+    {
+      "key": "cohesion-dimensions",
+      "label": "ממדי לכידות צוות",
+      "columns": [
+        { "key": "dimension", "label": "ממד", "type": "string" },
+        { "key": "score", "label": "ציון", "type": "number" }
+      ],
+      "rows": [
+        { "dimension": "צפיפות", "score": 72 },
+        { "dimension": "פיזור", "score": 45 },
+        { "dimension": "עקביות", "score": 68 },
+        { "dimension": "אירועים אישיים", "score": 55 },
+        { "dimension": "מעורבות", "score": 80 }
+      ]
+    },
+    {
+      "key": "cohesion-score",
+      "label": "מדד לכידות כללי",
+      "columns": [
+        { "key": "score", "label": "ציון", "type": "number" },
+        { "key": "trend", "label": "שינוי", "type": "number" }
+      ],
+      "rows": [
+        { "score": 76, "trend": 4.2 }
+      ]
+    },
+    {
+      "key": "activity-status",
+      "label": "תמונת מצב פעילות",
+      "columns": [
+        { "key": "label", "label": "קטגוריה", "type": "string" },
+        { "key": "value", "label": "כמות", "type": "number" }
+      ],
+      "rows": [
+        { "label": "פעילים", "value": 328 },
+        { "label": "לא פעילים", "value": 72 }
+      ]
+    },
+    {
+      "key": "givers-receivers",
+      "label": "יחס מוקירים מול מקבלים",
+      "columns": [
+        { "key": "month", "label": "חודש", "type": "string" },
+        { "key": "givers", "label": "מוקירים", "type": "number" },
+        { "key": "receivers", "label": "מקבלים", "type": "number" }
+      ],
+      "rows": [
+        { "month": "ינו׳", "givers": 85, "receivers": 120 },
+        { "month": "פבר׳", "givers": 95, "receivers": 130 },
+        { "month": "מרץ", "givers": 110, "receivers": 140 },
+        { "month": "אפר׳", "givers": 125, "receivers": 150 }
+      ]
+    },
+    {
+      "key": "action-recommendations",
+      "label": "המלצות לפעולה",
+      "columns": [
+        { "key": "title", "label": "כותרת", "type": "string" },
+        { "key": "percent", "label": "אחוז", "type": "number" },
+        { "key": "icon", "label": "אייקון", "type": "string" },
+        { "key": "items", "label": "פריטים", "type": "string" }
+      ],
+      "rows": [
+        {
+          "title": "פיזור",
+          "percent": 38,
+          "icon": "Shuffle",
+          "items": ["טיפול בפער ההוקרה במחלקות הנדסה ותפעול", "הטמעת תוכנית הוקרה בין-מחלקתית לאיזון הפיזור", "קביעת מינימום 3 הוקרות למנהל בשבוע בכל הצוותים"]
+        },
+        {
+          "title": "אירועים אישיים",
+          "percent": 45,
+          "icon": "Calendar",
+          "items": ["אוטומציה של התראות ימי הולדת ויום שנה לעבודה למנהלים", "הכנסת תגמולי אבני דרך מותאמים אישית ב-1, 3, 5 ו-10 שנים", "יצירת לוח שיתוף הישגים אישיים (opt-in)"]
+        }
+      ]
+    },
+    {
+      "key": "top-products",
+      "label": "הפריט הנמכר ביותר החודש",
+      "columns": [
+        { "key": "name", "label": "שם", "type": "string" },
+        { "key": "percent", "label": "אחוז", "type": "number" },
+        { "key": "trend", "label": "שינוי", "type": "number" }
+      ],
+      "rows": [
+        { "name": "שואב אבק רובוטי", "percent": 42, "trend": 8 },
+        { "name": "אוזניות אלחוטיות", "percent": 28 },
+        { "name": "כרטיס מתנה", "percent": 18 },
+        { "name": "שובר בילוי", "percent": 12 }
+      ]
+    },
+    {
+      "key": "featured-posts",
+      "label": "פיד פוסטים בולטים",
+      "columns": [
+        { "key": "title", "label": "כותרת", "type": "string" },
+        { "key": "badge", "label": "תגית", "type": "string" },
+        { "key": "author", "label": "מחבר", "type": "string" },
+        { "key": "excerpt", "label": "תקציר", "type": "string" },
+        { "key": "comments", "label": "תגובות", "type": "number" },
+        { "key": "likes", "label": "לייקים", "type": "number" },
+        { "key": "views", "label": "צפיות", "type": "number" }
+      ],
+      "rows": [
+        {
+          "title": "סיכום גיבוש רבעוני Q4",
+          "badge": "אירוע",
+          "author": "שרה מ.",
+          "excerpt": "השתתפות מרשימה של 94% מכלל המחלקות ברבעון האחרון. תוצאות מעולות שמצביעות על מגמת שיפור...",
+          "comments": 23,
+          "likes": 89,
+          "views": 342
+        },
+        {
+          "title": "מסגרת הוקרה חדשה",
+          "badge": "הכרה",
+          "author": "יעקב כ.",
+          "excerpt": "מציגים את מערכת ההוקרה העמיתית המעודכנת שנועדה להגביר נראות והכרה בין צוותים...",
+          "comments": 18,
+          "likes": 64,
+          "views": 278
+        },
+        {
+          "title": "יוזמה בין-מחלקתית",
+          "badge": "דוח",
+          "author": "מריה ל.",
+          "excerpt": "תוצאות תוכנית הפיילוט מראות עלייה של 35% בשיתוף הפעולה הבין-צוותי לאורך הרבעון...",
+          "comments": 14,
+          "likes": 52,
+          "views": 215
+        }
       ]
     }
   ]

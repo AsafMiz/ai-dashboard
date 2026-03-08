@@ -16,7 +16,7 @@ export function DashboardGrid({ widgets }: DashboardGridProps) {
         <div
           key={widget.id}
           className={`bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden shadow-sm ${
-            widget.type === 'table' || widget.type === 'candlestick'
+            widget.type === 'table' || widget.type === 'candlestick' || widget.type === 'recommendations' || widget.type === 'feed'
               ? 'lg:col-span-2'
               : ''
           }`}
