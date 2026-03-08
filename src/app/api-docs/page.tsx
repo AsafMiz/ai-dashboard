@@ -3,7 +3,26 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, Send, Loader2, Copy, Check, BookOpen } from 'lucide-react';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
+import { AreaChartWidget } from '@/components/charts/AreaChartWidget';
+import { BarChartWidget } from '@/components/charts/BarChartWidget';
+import { CandlestickWidget } from '@/components/charts/CandlestickWidget';
+import { DataTableWidget } from '@/components/charts/DataTableWidget';
+import { MarketData } from '@/lib/types';
 import Link from 'next/link';
+
+/* ───── sample data for widget previews ───── */
+const sampleData: MarketData[] = [
+  { id: '1', symbol: 'AAPL', date: '2024-01-02', open: 185.50, high: 188.44, low: 183.89, close: 187.68, volume: 58414460, created_at: '' },
+  { id: '2', symbol: 'AAPL', date: '2024-01-03', open: 187.68, high: 189.25, low: 185.83, close: 186.12, volume: 49802750, created_at: '' },
+  { id: '3', symbol: 'AAPL', date: '2024-01-04', open: 186.12, high: 187.05, low: 183.42, close: 184.25, volume: 43820600, created_at: '' },
+  { id: '4', symbol: 'AAPL', date: '2024-01-05', open: 184.25, high: 186.40, low: 183.16, close: 185.56, volume: 47471800, created_at: '' },
+  { id: '5', symbol: 'AAPL', date: '2024-01-08', open: 185.56, high: 188.88, low: 185.04, close: 188.63, volume: 52348900, created_at: '' },
+  { id: '6', symbol: 'AAPL', date: '2024-01-09', open: 188.63, high: 190.95, low: 187.44, close: 190.54, volume: 46230100, created_at: '' },
+  { id: '7', symbol: 'AAPL', date: '2024-01-10', open: 190.54, high: 191.91, low: 188.82, close: 189.72, volume: 40730500, created_at: '' },
+  { id: '8', symbol: 'AAPL', date: '2024-01-11', open: 189.72, high: 192.38, low: 189.42, close: 191.56, volume: 53652700, created_at: '' },
+  { id: '9', symbol: 'AAPL', date: '2024-01-12', open: 191.56, high: 193.45, low: 190.67, close: 192.88, volume: 48320400, created_at: '' },
+  { id: '10', symbol: 'AAPL', date: '2024-01-16', open: 192.88, high: 194.76, low: 191.55, close: 193.89, volume: 55168300, created_at: '' },
+];
 
 interface Param {
   name: string;
@@ -292,6 +311,58 @@ function EndpointCard({ endpoint }: { endpoint: Endpoint }) {
   );
 }
 
+function WidgetPreview({
+  type,
+  description,
+  config,
+  chart,
+}: {
+  type: string;
+  description: string;
+  config: Record<string, unknown>;
+  chart: React.ReactNode;
+}) {
+  const [showConfig, setShowConfig] = useState(false);
+
+  const widgetJson = JSON.stringify({ type, title: `Example ${type} widget`, order: 0, config }, null, 2);
+
+  return (
+    <div className="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+      {/* header */}
+      <div className="px-4 sm:px-5 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center gap-3">
+        <code className="px-2 py-0.5 rounded text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400">
+          {type}
+        </code>
+        <span className="text-xs text-gray-500 dark:text-gray-400 flex-1">{description}</span>
+        <button
+          onClick={() => setShowConfig(!showConfig)}
+          className="text-[11px] text-blue-600 dark:text-blue-400 hover:underline font-medium shrink-0"
+        >
+          {showConfig ? 'Hide config' : 'Show config'}
+        </button>
+      </div>
+
+      {/* live chart */}
+      <div className="bg-white dark:bg-gray-950 p-3 sm:p-4">
+        {chart}
+      </div>
+
+      {/* config json */}
+      {showConfig && (
+        <div className="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950">
+          <div className="flex items-center justify-between px-4 py-2 border-b border-gray-100 dark:border-gray-800/50">
+            <span className="text-[11px] font-medium text-gray-500 dark:text-gray-400">Widget definition (JSON)</span>
+            <CopyButton text={widgetJson} />
+          </div>
+          <pre className="p-4 text-xs text-gray-700 dark:text-gray-300 overflow-x-auto" dir="ltr">
+            {widgetJson}
+          </pre>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ApiDocsPage() {
   return (
     <div className="min-h-screen">
@@ -329,20 +400,60 @@ export default function ApiDocsPage() {
           ))}
         </div>
 
-        <div className="mt-8 p-4 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900">
-          <h3 className="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-2">Widget Types</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2" dir="ltr">
-            {[
-              { type: 'area', config: '{ symbol, color, dataKey }' },
-              { type: 'bar', config: '{ symbol, color, dataKey }' },
-              { type: 'candlestick', config: '{ symbol }' },
-              { type: 'table', config: '{ symbol, columns[] }' },
-            ].map((w) => (
-              <div key={w.type} className="p-2 rounded-lg bg-white dark:bg-gray-900 border border-blue-100 dark:border-blue-900">
-                <code className="text-xs font-bold text-blue-600 dark:text-blue-400">{w.type}</code>
-                <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5 font-mono">{w.config}</p>
-              </div>
-            ))}
+        {/* ── Widget Gallery ── */}
+        <div className="mt-10 mb-2">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-1" dir="ltr">
+            Widget Gallery
+          </h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+            Live previews of each widget type with example configuration and data format.
+          </p>
+        </div>
+
+        <div className="space-y-6">
+          <WidgetPreview
+            type="area"
+            description="Smooth area chart — ideal for price trends over time."
+            config={{ symbol: 'AAPL', color: '#2563eb', dataKey: 'close' }}
+            chart={<AreaChartWidget data={sampleData} config={{ color: '#2563eb', dataKey: 'close' }} />}
+          />
+          <WidgetPreview
+            type="bar"
+            description="Vertical bar chart — commonly used for trading volume."
+            config={{ symbol: 'AAPL', color: '#10b981', dataKey: 'volume' }}
+            chart={<BarChartWidget data={sampleData} config={{ color: '#10b981', dataKey: 'volume' }} />}
+          />
+          <WidgetPreview
+            type="candlestick"
+            description="OHLC candlestick chart powered by TradingView's lightweight-charts."
+            config={{ symbol: 'AAPL' }}
+            chart={<CandlestickWidget data={sampleData} />}
+          />
+          <WidgetPreview
+            type="table"
+            description="Scrollable data table with Hebrew column headers and formatted values."
+            config={{ symbol: 'AAPL', columns: ['date', 'open', 'high', 'low', 'close', 'volume'] }}
+            chart={<DataTableWidget data={sampleData} config={{ columns: ['date', 'open', 'high', 'low', 'close', 'volume'] }} />}
+          />
+        </div>
+
+        {/* ── Sample Dataset ── */}
+        <div className="mt-10 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+          <div className="px-4 sm:px-5 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white" dir="ltr">Sample market_data record</h3>
+            <CopyButton text={JSON.stringify(sampleData[0], null, 2)} />
+          </div>
+          <pre className="p-4 text-xs text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-950 overflow-x-auto" dir="ltr">
+{JSON.stringify(
+  { symbol: 'AAPL', date: '2024-01-02', open: 185.50, high: 188.44, low: 183.89, close: 187.68, volume: 58414460 },
+  null,
+  2
+)}
+          </pre>
+          <div className="px-4 sm:px-5 py-2.5 bg-gray-50 dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800/50">
+            <p className="text-[11px] text-gray-500 dark:text-gray-400" dir="ltr">
+              <strong>Fields:</strong> symbol (string) · date (YYYY-MM-DD) · open / high / low / close (number) · volume (integer)
+            </p>
           </div>
         </div>
       </div>
