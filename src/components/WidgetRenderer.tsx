@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Widget, MarketData } from '@/lib/types';
+import { Widget, DataRow, WidgetConfig } from '@/lib/types';
 import { AreaChartWidget } from './charts/AreaChartWidget';
 import { BarChartWidget } from './charts/BarChartWidget';
 import { CandlestickWidget } from './charts/CandlestickWidget';
@@ -14,37 +14,42 @@ interface WidgetRendererProps {
 }
 
 export function WidgetRenderer({ widget }: WidgetRendererProps) {
-  const [data, setData] = useState<MarketData[]>([]);
+  const [data, setData] = useState<DataRow[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const symbol = (widget.config.symbol as string) ?? 'AAPL';
+  const config = widget.config as WidgetConfig;
+  const datasetKey = config.datasetKey ?? '';
 
   useEffect(() => {
-    async function fetchData() {
-      const { data: marketData, error } = await supabase
-        .from('market_data')
-        .select('*')
-        .eq('symbol', symbol)
-        .order('date', { ascending: true });
+    if (!datasetKey) {
+      setLoading(false);
+      return;
+    }
 
-      if (!error && marketData) {
-        setData(marketData as MarketData[]);
+    async function fetchData() {
+      const { data: dataset, error } = await supabase
+        .from('datasets')
+        .select('rows')
+        .eq('key', datasetKey)
+        .single();
+
+      if (!error && dataset) {
+        setData((dataset.rows as DataRow[]) ?? []);
       }
       setLoading(false);
     }
 
     fetchData();
 
-    // Subscribe to real-time updates
     const channel = supabase
-      .channel(`market_data_${widget.id}`)
+      .channel(`datasets_${widget.id}`)
       .on(
         'postgres_changes',
         {
           event: '*',
           schema: 'public',
-          table: 'market_data',
-          filter: `symbol=eq.${symbol}`,
+          table: 'datasets',
+          filter: `key=eq.${datasetKey}`,
         },
         () => {
           fetchData();
@@ -55,7 +60,7 @@ export function WidgetRenderer({ widget }: WidgetRendererProps) {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [symbol, widget.id]);
+  }, [datasetKey, widget.id]);
 
   if (loading) {
     return (
@@ -68,20 +73,20 @@ export function WidgetRenderer({ widget }: WidgetRendererProps) {
   if (data.length === 0) {
     return (
       <div className="flex items-center justify-center h-[300px] text-gray-400 text-sm">
-        אין נתונים זמינים. לחץ על &quot;עדכן נתונים&quot; לטעינת נתוני דוגמה.
+        אין נתונים זמינים.
       </div>
     );
   }
 
   switch (widget.type) {
     case 'area':
-      return <AreaChartWidget data={data} config={widget.config as { color?: string; dataKey?: string }} />;
+      return <AreaChartWidget data={data} config={config} />;
     case 'bar':
-      return <BarChartWidget data={data} config={widget.config as { color?: string; dataKey?: string }} />;
+      return <BarChartWidget data={data} config={config} />;
     case 'candlestick':
-      return <CandlestickWidget data={data} />;
+      return <CandlestickWidget data={data} config={config} />;
     case 'table':
-      return <DataTableWidget data={data} config={widget.config as { columns?: string[] }} />;
+      return <DataTableWidget data={data} config={config} />;
     default:
       return <div className="text-gray-400 text-sm">סוג ווידג׳ט לא מוכר: {widget.type}</div>;
   }

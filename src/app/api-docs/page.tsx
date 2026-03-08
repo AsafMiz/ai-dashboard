@@ -7,21 +7,34 @@ import { AreaChartWidget } from '@/components/charts/AreaChartWidget';
 import { BarChartWidget } from '@/components/charts/BarChartWidget';
 import { CandlestickWidget } from '@/components/charts/CandlestickWidget';
 import { DataTableWidget } from '@/components/charts/DataTableWidget';
-import { MarketData } from '@/lib/types';
+import { DataRow } from '@/lib/types';
 import Link from 'next/link';
 
 /* ───── sample data for widget previews ───── */
-const sampleData: MarketData[] = [
-  { id: '1', symbol: 'AAPL', date: '2024-01-02', open: 185.50, high: 188.44, low: 183.89, close: 187.68, volume: 58414460, created_at: '' },
-  { id: '2', symbol: 'AAPL', date: '2024-01-03', open: 187.68, high: 189.25, low: 185.83, close: 186.12, volume: 49802750, created_at: '' },
-  { id: '3', symbol: 'AAPL', date: '2024-01-04', open: 186.12, high: 187.05, low: 183.42, close: 184.25, volume: 43820600, created_at: '' },
-  { id: '4', symbol: 'AAPL', date: '2024-01-05', open: 184.25, high: 186.40, low: 183.16, close: 185.56, volume: 47471800, created_at: '' },
-  { id: '5', symbol: 'AAPL', date: '2024-01-08', open: 185.56, high: 188.88, low: 185.04, close: 188.63, volume: 52348900, created_at: '' },
-  { id: '6', symbol: 'AAPL', date: '2024-01-09', open: 188.63, high: 190.95, low: 187.44, close: 190.54, volume: 46230100, created_at: '' },
-  { id: '7', symbol: 'AAPL', date: '2024-01-10', open: 190.54, high: 191.91, low: 188.82, close: 189.72, volume: 40730500, created_at: '' },
-  { id: '8', symbol: 'AAPL', date: '2024-01-11', open: 189.72, high: 192.38, low: 189.42, close: 191.56, volume: 53652700, created_at: '' },
-  { id: '9', symbol: 'AAPL', date: '2024-01-12', open: 191.56, high: 193.45, low: 190.67, close: 192.88, volume: 48320400, created_at: '' },
-  { id: '10', symbol: 'AAPL', date: '2024-01-16', open: 192.88, high: 194.76, low: 191.55, close: 193.89, volume: 55168300, created_at: '' },
+const salesData: DataRow[] = [
+  { month: 'Jan', revenue: 145000, orders: 320 },
+  { month: 'Feb', revenue: 152000, orders: 385 },
+  { month: 'Mar', revenue: 168000, orders: 410 },
+  { month: 'Apr', revenue: 155000, orders: 372 },
+  { month: 'May', revenue: 178000, orders: 445 },
+  { month: 'Jun', revenue: 192000, orders: 480 },
+  { month: 'Jul', revenue: 185000, orders: 462 },
+  { month: 'Aug', revenue: 198000, orders: 495 },
+  { month: 'Sep', revenue: 210000, orders: 528 },
+  { month: 'Oct', revenue: 225000, orders: 560 },
+];
+
+const ohlcData: DataRow[] = [
+  { date: '2024-01-02', open: 185.50, high: 188.44, low: 183.89, close: 187.68 },
+  { date: '2024-01-03', open: 187.68, high: 189.25, low: 185.83, close: 186.12 },
+  { date: '2024-01-04', open: 186.12, high: 187.05, low: 183.42, close: 184.25 },
+  { date: '2024-01-05', open: 184.25, high: 186.40, low: 183.16, close: 185.56 },
+  { date: '2024-01-08', open: 185.56, high: 188.88, low: 185.04, close: 188.63 },
+  { date: '2024-01-09', open: 188.63, high: 190.95, low: 187.44, close: 190.54 },
+  { date: '2024-01-10', open: 190.54, high: 191.91, low: 188.82, close: 189.72 },
+  { date: '2024-01-11', open: 189.72, high: 192.38, low: 189.42, close: 191.56 },
+  { date: '2024-01-12', open: 191.56, high: 193.45, low: 190.67, close: 192.88 },
+  { date: '2024-01-16', open: 192.88, high: 194.76, low: 191.55, close: 193.89 },
 ];
 
 interface Param {
@@ -53,17 +66,17 @@ const endpoints: Endpoint[] = [
     path: '/api/create-dashboard',
     summary: 'Create or recreate a dashboard',
     description:
-      'Deletes any existing dashboard with the same key (including its reports and widgets), optionally seeds market data, and creates a new dashboard entry.',
+      'Deletes any existing dashboard with the same key (including its reports, widgets, and datasets), then creates a new dashboard and optionally seeds datasets.',
     params: [
       { name: 'key', type: 'string', required: true, description: 'Unique dashboard identifier' },
       { name: 'title', type: 'string', required: true, description: 'Display name' },
       { name: 'subtitle', type: 'string', required: false, description: 'Optional subtitle' },
       { name: 'icon', type: 'string', required: false, description: 'Lucide icon name (defaults to LayoutDashboard)' },
       {
-        name: 'market_data',
+        name: 'datasets',
         type: 'array',
         required: false,
-        description: 'OHLCV records to upsert. Each object: { symbol, date, open, high, low, close, volume }',
+        description: 'Datasets to seed. Each: { key, label, columns: [{key, label, type}], rows: [{...}] }',
       },
     ],
     responses: [
@@ -76,9 +89,21 @@ const endpoints: Endpoint[] = [
         key: 'my-dashboard',
         title: 'My Dashboard',
         subtitle: 'A test dashboard',
-        icon: 'TrendingUp',
-        market_data: [
-          { symbol: 'AAPL', date: '2024-01-02', open: 185.5, high: 188.44, low: 183.89, close: 187.68, volume: 58414460 },
+        icon: 'BarChart3',
+        datasets: [
+          {
+            key: 'monthly-sales',
+            label: 'Monthly Sales',
+            columns: [
+              { key: 'month', label: 'Month', type: 'string' },
+              { key: 'revenue', label: 'Revenue', type: 'number' },
+              { key: 'orders', label: 'Orders', type: 'number' },
+            ],
+            rows: [
+              { month: 'Jan', revenue: 145000, orders: 320 },
+              { month: 'Feb', revenue: 152000, orders: 385 },
+            ],
+          },
         ],
       },
       null,
@@ -101,7 +126,7 @@ const endpoints: Endpoint[] = [
         name: 'widgets',
         type: 'array',
         required: false,
-        description: 'Widget definitions. Each: { type, title, order, config }. Types: area, bar, candlestick, table',
+        description: 'Widget definitions. Each: { type, title, order, config }. Types: area, bar, candlestick, table (extensible)',
       },
     ],
     responses: [
@@ -117,12 +142,12 @@ const endpoints: Endpoint[] = [
       {
         dashboard_key: 'my-dashboard',
         report_key: 'overview',
-        title: 'Market Overview',
-        description: 'Price trends and volume',
+        title: 'Sales Overview',
+        description: 'Monthly revenue and order trends',
         type: 'סקירה',
         widgets: [
-          { type: 'area', title: 'Price - AAPL', order: 0, config: { symbol: 'AAPL', color: '#2563eb', dataKey: 'close' } },
-          { type: 'bar', title: 'Volume - AAPL', order: 1, config: { symbol: 'AAPL', color: '#10b981', dataKey: 'volume' } },
+          { type: 'area', title: 'Revenue Trend', order: 0, config: { datasetKey: 'monthly-sales', xKey: 'month', yKey: 'revenue', color: '#2563eb', valueFormatter: 'compact' } },
+          { type: 'bar', title: 'Orders per Month', order: 1, config: { datasetKey: 'monthly-sales', xKey: 'month', yKey: 'orders', color: '#10b981' } },
         ],
       },
       null,
@@ -386,7 +411,7 @@ export default function ApiDocsPage() {
             API Reference
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            COMMUNi Dashboard REST API — create dashboards and reports programmatically.
+            COMMUNi Dashboard REST API — create dashboards, datasets, and reports programmatically.
           </p>
           <div className="mt-3 flex items-center gap-2 text-xs text-gray-400 dark:text-gray-600" dir="ltr">
             <span className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono">Base URL</span>
@@ -413,47 +438,98 @@ export default function ApiDocsPage() {
         <div className="space-y-6">
           <WidgetPreview
             type="area"
-            description="Smooth area chart — ideal for price trends over time."
-            config={{ symbol: 'AAPL', color: '#2563eb', dataKey: 'close' }}
-            chart={<AreaChartWidget data={sampleData} config={{ color: '#2563eb', dataKey: 'close' }} />}
+            description="Smooth area chart — ideal for trends over time."
+            config={{ datasetKey: 'monthly-sales', xKey: 'month', yKey: 'revenue', color: '#2563eb', valueFormatter: 'compact' }}
+            chart={<AreaChartWidget data={salesData} config={{ xKey: 'month', yKey: 'revenue', color: '#2563eb', valueFormatter: 'compact' }} />}
           />
           <WidgetPreview
             type="bar"
-            description="Vertical bar chart — commonly used for trading volume."
-            config={{ symbol: 'AAPL', color: '#10b981', dataKey: 'volume' }}
-            chart={<BarChartWidget data={sampleData} config={{ color: '#10b981', dataKey: 'volume' }} />}
+            description="Vertical bar chart — commonly used for comparisons and counts."
+            config={{ datasetKey: 'monthly-sales', xKey: 'month', yKey: 'orders', color: '#10b981' }}
+            chart={<BarChartWidget data={salesData} config={{ xKey: 'month', yKey: 'orders', color: '#10b981' }} />}
           />
           <WidgetPreview
             type="candlestick"
-            description="OHLC candlestick chart powered by TradingView's lightweight-charts."
-            config={{ symbol: 'AAPL' }}
-            chart={<CandlestickWidget data={sampleData} />}
+            description="OHLC candlestick chart — for data with open, high, low, close values."
+            config={{ datasetKey: 'stock-price', xKey: 'date', openKey: 'open', highKey: 'high', lowKey: 'low', closeKey: 'close' }}
+            chart={<CandlestickWidget data={ohlcData} config={{ xKey: 'date', openKey: 'open', highKey: 'high', lowKey: 'low', closeKey: 'close' }} />}
           />
           <WidgetPreview
             type="table"
-            description="Scrollable data table with Hebrew column headers and formatted values."
-            config={{ symbol: 'AAPL', columns: ['date', 'open', 'high', 'low', 'close', 'volume'] }}
-            chart={<DataTableWidget data={sampleData} config={{ columns: ['date', 'open', 'high', 'low', 'close', 'volume'] }} />}
+            description="Scrollable data table with configurable columns and labels."
+            config={{ datasetKey: 'monthly-sales', columns: ['month', 'revenue', 'orders'], columnLabels: { month: 'Month', revenue: 'Revenue', orders: 'Orders' } }}
+            chart={<DataTableWidget data={salesData} config={{ columns: ['month', 'revenue', 'orders'], columnLabels: { month: 'Month', revenue: 'Revenue ($)', orders: 'Orders' } }} />}
           />
         </div>
 
         {/* ── Sample Dataset ── */}
         <div className="mt-10 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
           <div className="px-4 sm:px-5 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white" dir="ltr">Sample market_data record</h3>
-            <CopyButton text={JSON.stringify(sampleData[0], null, 2)} />
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white" dir="ltr">Sample dataset object</h3>
+            <CopyButton text={JSON.stringify({
+              key: 'monthly-sales',
+              label: 'Monthly Sales',
+              columns: [
+                { key: 'month', label: 'Month', type: 'string' },
+                { key: 'revenue', label: 'Revenue', type: 'number' },
+                { key: 'orders', label: 'Orders', type: 'number' },
+              ],
+              rows: [
+                { month: 'Jan', revenue: 145000, orders: 320 },
+                { month: 'Feb', revenue: 152000, orders: 385 },
+              ],
+            }, null, 2)} />
           </div>
           <pre className="p-4 text-xs text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-950 overflow-x-auto" dir="ltr">
 {JSON.stringify(
-  { symbol: 'AAPL', date: '2024-01-02', open: 185.50, high: 188.44, low: 183.89, close: 187.68, volume: 58414460 },
+  {
+    key: 'monthly-sales',
+    label: 'Monthly Sales',
+    columns: [
+      { key: 'month', label: 'Month', type: 'string' },
+      { key: 'revenue', label: 'Revenue', type: 'number' },
+      { key: 'orders', label: 'Orders', type: 'number' },
+    ],
+    rows: [
+      { month: 'Jan', revenue: 145000, orders: 320 },
+      { month: 'Feb', revenue: 152000, orders: 385 },
+    ],
+  },
   null,
   2
 )}
           </pre>
           <div className="px-4 sm:px-5 py-2.5 bg-gray-50 dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800/50">
             <p className="text-[11px] text-gray-500 dark:text-gray-400" dir="ltr">
-              <strong>Fields:</strong> symbol (string) · date (YYYY-MM-DD) · open / high / low / close (number) · volume (integer)
+              <strong>Dataset fields:</strong> key (string, PK) · label (string) · columns (array of {'{'}key, label, type{'}'}) · rows (array of objects)
             </p>
+          </div>
+        </div>
+
+        {/* ── Widget Config Reference ── */}
+        <div className="mt-6 p-4 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900">
+          <h3 className="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-3">Widget Config Reference</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs" dir="ltr">
+              <thead>
+                <tr className="border-b border-blue-200 dark:border-blue-900">
+                  <th className="text-left py-1.5 px-2 text-blue-700 dark:text-blue-400 font-medium">Field</th>
+                  <th className="text-left py-1.5 px-2 text-blue-700 dark:text-blue-400 font-medium">Type</th>
+                  <th className="text-left py-1.5 px-2 text-blue-700 dark:text-blue-400 font-medium">Used by</th>
+                  <th className="text-left py-1.5 px-2 text-blue-700 dark:text-blue-400 font-medium">Description</th>
+                </tr>
+              </thead>
+              <tbody className="text-gray-700 dark:text-gray-300">
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">datasetKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">all</td><td className="py-1.5 px-2">References a dataset by key</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">xKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">area, bar, candlestick</td><td className="py-1.5 px-2">Field for x-axis / time axis</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">yKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">area, bar</td><td className="py-1.5 px-2">Field for y-axis value</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">color</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">area, bar</td><td className="py-1.5 px-2">Chart color (hex)</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">valueFormatter</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">all</td><td className="py-1.5 px-2">&quot;currency&quot; | &quot;percent&quot; | &quot;compact&quot; | &quot;number&quot;</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">columns</td><td className="py-1.5 px-2">string[]</td><td className="py-1.5 px-2">table</td><td className="py-1.5 px-2">Which fields to show as columns</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">columnLabels</td><td className="py-1.5 px-2">object</td><td className="py-1.5 px-2">table</td><td className="py-1.5 px-2">Custom header labels: {'{'}field: label{'}'}</td></tr>
+                <tr><td className="py-1.5 px-2 font-mono">openKey, highKey, lowKey, closeKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">candlestick</td><td className="py-1.5 px-2">OHLC field names (defaults: open/high/low/close)</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

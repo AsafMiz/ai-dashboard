@@ -1,0 +1,13 @@
+{
+  "dashboard_key": "example",
+  "report_key": "team-survey",
+  "title": "סקר צוות",
+  "description": "תוצאות סקר שביעות רצון ומעורבות לפי מחלקה",
+  "type": "סקירה",
+  "widgets": [
+    { "type": "bar", "title": "שביעות רצון לפי מחלקה", "order": 0, "config": { "datasetKey": "team-satisfaction", "xKey": "department", "yKey": "satisfaction", "color": "#2563eb", "valueFormatter": "percent" } },
+    { "type": "bar", "title": "מעורבות לפי מחלקה", "order": 1, "config": { "datasetKey": "team-satisfaction", "xKey": "department", "yKey": "engagement", "color": "#7c3aed", "valueFormatter": "percent" } },
+    { "type": "bar", "title": "מספר עובדים לפי מחלקה", "order": 2, "config": { "datasetKey": "team-satisfaction", "xKey": "department", "yKey": "headcount", "color": "#10b981" } },
+    { "type": "table", "title": "טבלת סקר מלאה", "order": 3, "config": { "datasetKey": "team-satisfaction", "columns": ["department", "satisfaction", "engagement", "headcount"], "columnLabels": { "department": "מחלקה", "satisfaction": "שביעות רצון (%)", "engagement": "מעורבות (%)", "headcount": "עובדים" } } }
+  ]
+}

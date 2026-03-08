@@ -23,21 +23,45 @@ export type WidgetType = 'area' | 'bar' | 'candlestick' | 'table';
 export interface Widget {
   id: string;
   report_id: string;
-  type: WidgetType;
+  type: WidgetType | string;
   title: string;
   order: number;
-  config: Record<string, unknown>;
+  config: WidgetConfig;
   created_at: string;
 }
 
-export interface MarketData {
-  id: string;
-  symbol: string;
-  date: string;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
+export interface WidgetConfig {
+  datasetKey?: string;
+  color?: string;
+  colors?: string[];
+  xKey?: string;
+  yKey?: string;
+  yKeys?: string[];
+  columns?: string[];
+  columnLabels?: Record<string, string>;
+  valueFormatter?: 'currency' | 'percent' | 'number' | 'compact';
+  openKey?: string;
+  highKey?: string;
+  lowKey?: string;
+  closeKey?: string;
+  [key: string]: unknown;
+}
+
+/* ── Generic data types ── */
+
+export type DataRow = Record<string, unknown>;
+
+export interface DatasetColumn {
+  key: string;
+  label?: string;
+  type?: 'string' | 'number' | 'date' | 'boolean';
+}
+
+export interface Dataset {
+  key: string;
+  label: string | null;
+  columns: DatasetColumn[];
+  rows: DataRow[];
+  dashboard_key: string | null;
   created_at: string;
 }

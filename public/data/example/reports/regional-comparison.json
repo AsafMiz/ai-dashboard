@@ -1,0 +1,15 @@
+{
+  "dashboard_key": "example",
+  "report_key": "regional-comparison",
+  "title": "השוואה אזורית",
+  "description": "השוואת הכנסות בין אזור צפון לדרום",
+  "type": "השוואה",
+  "widgets": [
+    { "type": "bar", "title": "הכנסות — צפון", "order": 0, "config": { "datasetKey": "sales-north", "xKey": "month", "yKey": "revenue", "color": "#2563eb", "valueFormatter": "compact" } },
+    { "type": "bar", "title": "הכנסות — דרום", "order": 1, "config": { "datasetKey": "sales-south", "xKey": "month", "yKey": "revenue", "color": "#e11d48", "valueFormatter": "compact" } },
+    { "type": "area", "title": "מגמת הזמנות — צפון", "order": 2, "config": { "datasetKey": "sales-north", "xKey": "month", "yKey": "orders", "color": "#2563eb" } },
+    { "type": "area", "title": "מגמת הזמנות — דרום", "order": 3, "config": { "datasetKey": "sales-south", "xKey": "month", "yKey": "orders", "color": "#e11d48" } },
+    { "type": "bar", "title": "החזרות — צפון", "order": 4, "config": { "datasetKey": "sales-north", "xKey": "month", "yKey": "returns", "color": "#f59e0b" } },
+    { "type": "bar", "title": "החזרות — דרום", "order": 5, "config": { "datasetKey": "sales-south", "xKey": "month", "yKey": "returns", "color": "#ef4444" } }
+  ]
+}

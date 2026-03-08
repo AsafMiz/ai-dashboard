@@ -1,0 +1,12 @@
+{
+  "dashboard_key": "example",
+  "report_key": "quarterly-performance",
+  "title": "ביצועים רבעוניים",
+  "description": "גרף נרות ומגמת מחיר סגירה — נתוני מניה לדוגמה",
+  "type": "ניתוח",
+  "widgets": [
+    { "type": "candlestick", "title": "גרף נרות — מחיר מניה", "order": 0, "config": { "datasetKey": "stock-price", "xKey": "date", "openKey": "open", "highKey": "high", "lowKey": "low", "closeKey": "close" } },
+    { "type": "area", "title": "מגמת מחיר סגירה", "order": 1, "config": { "datasetKey": "stock-price", "xKey": "date", "yKey": "close", "color": "#2563eb" } },
+    { "type": "table", "title": "נתונים מפורטים", "order": 2, "config": { "datasetKey": "stock-price", "columns": ["date", "open", "high", "low", "close"], "columnLabels": { "date": "תאריך", "open": "פתיחה", "high": "גבוה", "low": "נמוך", "close": "סגירה" } } }
+  ]
+}

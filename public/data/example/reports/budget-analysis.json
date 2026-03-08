@@ -1,0 +1,13 @@
+{
+  "dashboard_key": "example",
+  "report_key": "budget-analysis",
+  "title": "ניתוח תקציב",
+  "description": "השוואת תקציב מתוכנן מול ביצוע בפועל",
+  "type": "ניתוח",
+  "widgets": [
+    { "type": "bar", "title": "תקציב מתוכנן", "order": 0, "config": { "datasetKey": "budget-2024", "xKey": "category", "yKey": "planned", "color": "#2563eb", "valueFormatter": "compact" } },
+    { "type": "bar", "title": "ביצוע בפועל", "order": 1, "config": { "datasetKey": "budget-2024", "xKey": "category", "yKey": "actual", "color": "#10b981", "valueFormatter": "compact" } },
+    { "type": "bar", "title": "אחוז סטייה", "order": 2, "config": { "datasetKey": "budget-2024", "xKey": "category", "yKey": "variance", "color": "#f59e0b", "valueFormatter": "percent" } },
+    { "type": "table", "title": "פירוט תקציב מלא", "order": 3, "config": { "datasetKey": "budget-2024", "columns": ["category", "planned", "actual", "variance"], "columnLabels": { "category": "קטגוריה", "planned": "מתוכנן", "actual": "בפועל", "variance": "סטייה (%)" } } }
+  ]
+}

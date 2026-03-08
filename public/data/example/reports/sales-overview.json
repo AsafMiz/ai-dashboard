@@ -1,0 +1,15 @@
+{
+  "dashboard_key": "example",
+  "report_key": "sales-overview",
+  "title": "סקירת מכירות",
+  "description": "מגמות הכנסות והזמנות לפי אזור",
+  "type": "סקירה",
+  "widgets": [
+    { "type": "area", "title": "הכנסות — אזור צפון", "order": 0, "config": { "datasetKey": "sales-north", "xKey": "month", "yKey": "revenue", "color": "#2563eb", "valueFormatter": "compact" } },
+    { "type": "area", "title": "הכנסות — אזור דרום", "order": 1, "config": { "datasetKey": "sales-south", "xKey": "month", "yKey": "revenue", "color": "#7c3aed", "valueFormatter": "compact" } },
+    { "type": "bar", "title": "הזמנות — אזור צפון", "order": 2, "config": { "datasetKey": "sales-north", "xKey": "month", "yKey": "orders", "color": "#10b981" } },
+    { "type": "bar", "title": "הזמנות — אזור דרום", "order": 3, "config": { "datasetKey": "sales-south", "xKey": "month", "yKey": "orders", "color": "#f59e0b" } },
+    { "type": "table", "title": "נתוני מכירות — צפון", "order": 4, "config": { "datasetKey": "sales-north", "columns": ["month", "revenue", "orders", "returns"], "columnLabels": { "month": "חודש", "revenue": "הכנסות", "orders": "הזמנות", "returns": "החזרות" } } },
+    { "type": "table", "title": "נתוני מכירות — דרום", "order": 5, "config": { "datasetKey": "sales-south", "columns": ["month", "revenue", "orders", "returns"], "columnLabels": { "month": "חודש", "revenue": "הכנסות", "orders": "הזמנות", "returns": "החזרות" } } }
+  ]
+}

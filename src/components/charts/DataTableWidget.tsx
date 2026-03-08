@@ -1,33 +1,31 @@
 'use client';
 
-import { MarketData } from '@/lib/types';
+import { DataRow, WidgetConfig } from '@/lib/types';
 
 interface DataTableWidgetProps {
-  data: MarketData[];
-  config: {
-    columns?: string[];
-  };
+  data: DataRow[];
+  config: WidgetConfig;
 }
 
-const columnLabels: Record<string, string> = {
-  date: 'תאריך',
-  open: 'פתיחה',
-  high: 'גבוה',
-  low: 'נמוך',
-  close: 'סגירה',
-  volume: 'נפח',
-  symbol: 'סימול',
-};
-
-function formatValue(key: string, value: unknown): string {
-  if (key === 'volume') return Number(value).toLocaleString('he-IL');
-  if (['open', 'high', 'low', 'close'].includes(key))
-    return `₪${Number(value).toFixed(2)}`;
+function formatCell(value: unknown, formatter?: string): string {
+  if (value == null) return '';
+  const num = Number(value);
+  if (!isNaN(num) && typeof value !== 'boolean' && value !== '') {
+    if (formatter === 'currency') return `$${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    if (formatter === 'percent') return `${num.toFixed(1)}%`;
+    if (formatter === 'compact') {
+      if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
+      if (num >= 1_000) return `${(num / 1_000).toFixed(0)}K`;
+    }
+    if (Number.isInteger(num)) return num.toLocaleString();
+    return num.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  }
   return String(value);
 }
 
 export function DataTableWidget({ data, config }: DataTableWidgetProps) {
-  const columns = config.columns ?? ['date', 'open', 'high', 'low', 'close', 'volume'];
+  const columns = config.columns ?? Object.keys(data[0] ?? {});
+  const labels = config.columnLabels ?? {};
 
   return (
     <div className="-mx-3 sm:-mx-4 overflow-x-auto">
@@ -40,7 +38,7 @@ export function DataTableWidget({ data, config }: DataTableWidgetProps) {
                   key={col}
                   className="px-3 sm:px-4 py-2.5 text-right font-medium text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-800 whitespace-nowrap"
                 >
-                  {columnLabels[col] ?? col}
+                  {labels[col] ?? col}
                 </th>
               ))}
             </tr>
@@ -48,7 +46,7 @@ export function DataTableWidget({ data, config }: DataTableWidgetProps) {
           <tbody>
             {data.map((row, i) => (
               <tr
-                key={row.id ?? i}
+                key={i}
                 className="border-b border-gray-100 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
               >
                 {columns.map((col) => (
@@ -56,7 +54,7 @@ export function DataTableWidget({ data, config }: DataTableWidgetProps) {
                     key={col}
                     className="px-3 sm:px-4 py-2 text-gray-700 dark:text-gray-300 tabular-nums whitespace-nowrap"
                   >
-                    {formatValue(col, row[col as keyof MarketData])}
+                    {formatCell(row[col], config.valueFormatter)}
                   </td>
                 ))}
               </tr>

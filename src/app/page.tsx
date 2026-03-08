@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { TrendingUp, ArrowLeft, Sparkles, Loader2 } from 'lucide-react';
+import { LayoutDashboard, ArrowLeft, Sparkles, Loader2 } from 'lucide-react';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
 export default function HomePage() {
@@ -26,7 +26,7 @@ export default function HomePage() {
       const dashData = await dashRes.json();
       const { reports: reportKeys, ...dashboardPayload } = dashData;
 
-      // 2. Create dashboard + seed market data
+      // 2. Create dashboard + seed datasets
       const createDashRes = await fetch('/api/create-dashboard', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -70,7 +70,7 @@ export default function HomePage() {
       </div>
 
       <div className="flex items-center gap-2 mb-8">
-        <TrendingUp className="w-8 h-8 text-blue-600" />
+        <LayoutDashboard className="w-8 h-8 text-blue-600" />
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
           COMMUNi <span className="text-blue-600">Dashboard</span>
         </h1>

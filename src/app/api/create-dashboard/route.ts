@@ -8,7 +8,7 @@ const supabaseServiceKey =
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { key, title, subtitle, icon, market_data } = body;
+    const { key, title, subtitle, icon, datasets } = body;
 
     if (!key || typeof key !== 'string') {
       return NextResponse.json(
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // 1. Delete old data for this key: widgets → reports → dashboard
+    // 1. Delete old data for this key: widgets → reports → datasets → dashboard
     const { data: oldReports } = await supabase
       .from('reports')
       .select('id')
@@ -38,26 +38,36 @@ export async function POST(request: NextRequest) {
       await supabase.from('reports').delete().eq('dashboard_key', key);
     }
 
+    await supabase.from('datasets').delete().eq('dashboard_key', key);
     await supabase.from('dashboards').delete().eq('key', key);
 
-    // 2. Seed market data if provided
-    if (Array.isArray(market_data) && market_data.length > 0) {
-      const { error: marketError } = await supabase
-        .from('market_data')
-        .upsert(market_data, { onConflict: 'symbol,date' });
-
-      if (marketError) {
-        return NextResponse.json({ error: marketError.message }, { status: 500 });
-      }
-    }
-
-    // 3. Create the dashboard
+    // 2. Create the dashboard
     const { error: dashError } = await supabase
       .from('dashboards')
       .insert({ key, title, subtitle: subtitle ?? null, icon: icon ?? 'LayoutDashboard' });
 
     if (dashError) {
       return NextResponse.json({ error: dashError.message }, { status: 500 });
+    }
+
+    // 3. Seed datasets if provided
+    if (Array.isArray(datasets) && datasets.length > 0) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const datasetRows = datasets.map((ds: any) => ({
+        key: ds.key,
+        label: ds.label ?? null,
+        columns: ds.columns ?? [],
+        rows: ds.rows ?? [],
+        dashboard_key: key,
+      }));
+
+      const { error: dsError } = await supabase
+        .from('datasets')
+        .upsert(datasetRows, { onConflict: 'key' });
+
+      if (dsError) {
+        return NextResponse.json({ error: dsError.message }, { status: 500 });
+      }
     }
 
     return NextResponse.json({ message: 'Dashboard created successfully', key });

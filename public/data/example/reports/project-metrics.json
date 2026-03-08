@@ -1,0 +1,13 @@
+{
+  "dashboard_key": "example",
+  "report_key": "project-metrics",
+  "title": "מדדי פרויקט",
+  "description": "מהירות ספרינט, השלמת משימות ומעקב באגים",
+  "type": "ניתוח",
+  "widgets": [
+    { "type": "area", "title": "מהירות ספרינט", "order": 0, "config": { "datasetKey": "project-sprints", "xKey": "sprint", "yKey": "velocity", "color": "#2563eb" } },
+    { "type": "bar", "title": "משימות שהושלמו", "order": 1, "config": { "datasetKey": "project-sprints", "xKey": "sprint", "yKey": "completed", "color": "#10b981" } },
+    { "type": "bar", "title": "באגים לפי ספרינט", "order": 2, "config": { "datasetKey": "project-sprints", "xKey": "sprint", "yKey": "bugs", "color": "#ef4444" } },
+    { "type": "table", "title": "טבלת ספרינטים", "order": 3, "config": { "datasetKey": "project-sprints", "columns": ["sprint", "completed", "bugs", "velocity"], "columnLabels": { "sprint": "ספרינט", "completed": "הושלמו", "bugs": "באגים", "velocity": "מהירות" } } }
+  ]
+}

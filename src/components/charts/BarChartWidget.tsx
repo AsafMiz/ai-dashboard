@@ -9,29 +9,35 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import { MarketData } from '@/lib/types';
+import { DataRow, WidgetConfig } from '@/lib/types';
 
 interface BarChartWidgetProps {
-  data: MarketData[];
-  config: {
-    color?: string;
-    dataKey?: string;
-  };
+  data: DataRow[];
+  config: WidgetConfig;
 }
 
-function formatVolume(value: number): string {
+function formatCompact(value: number): string {
   if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`;
   if (value >= 1_000) return `${(value / 1_000).toFixed(0)}K`;
   return value.toString();
 }
 
+function formatValue(value: number, formatter?: string): string {
+  if (formatter === 'currency') return `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  if (formatter === 'percent') return `${value.toFixed(1)}%`;
+  if (formatter === 'compact') return formatCompact(value);
+  return value.toLocaleString();
+}
+
 export function BarChartWidget({ data, config }: BarChartWidgetProps) {
   const color = config.color ?? '#10b981';
-  const dataKey = (config.dataKey ?? 'volume') as keyof MarketData;
+  const xKey = config.xKey ?? Object.keys(data[0] ?? {})[0] ?? 'label';
+  const yKey = config.yKey ?? Object.keys(data[0] ?? {})[1] ?? 'value';
+  const useCompact = config.valueFormatter === 'compact';
 
   const chartData = data.map((d) => ({
-    date: d.date,
-    value: Number(d[dataKey]),
+    label: String(d[xKey] ?? ''),
+    value: Number(d[yKey] ?? 0),
   }));
 
   return (
@@ -39,7 +45,7 @@ export function BarChartWidget({ data, config }: BarChartWidgetProps) {
       <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-800" />
         <XAxis
-          dataKey="date"
+          dataKey="label"
           tick={{ fontSize: 11, fill: '#9ca3af' }}
           tickLine={false}
           axisLine={false}
@@ -48,7 +54,7 @@ export function BarChartWidget({ data, config }: BarChartWidgetProps) {
           tick={{ fontSize: 11, fill: '#9ca3af' }}
           tickLine={false}
           axisLine={false}
-          tickFormatter={formatVolume}
+          tickFormatter={useCompact ? formatCompact : undefined}
           orientation="left"
         />
         <Tooltip
@@ -59,9 +65,8 @@ export function BarChartWidget({ data, config }: BarChartWidgetProps) {
             color: '#f9fafb',
             fontSize: 12,
           }}
-          labelFormatter={(label) => `תאריך: ${label}`}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          formatter={(value: any) => [formatVolume(Number(value)), 'נפח']}
+          formatter={(value: any) => [formatValue(Number(value), config.valueFormatter), yKey]}
         />
         <Bar dataKey="value" fill={color} radius={[4, 4, 0, 0]} />
       </BarChart>

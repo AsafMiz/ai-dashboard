@@ -3,16 +3,23 @@
 import { useEffect, useRef } from 'react';
 import { createChart, ColorType, CandlestickSeries } from 'lightweight-charts';
 import type { CandlestickData, Time } from 'lightweight-charts';
-import { MarketData } from '@/lib/types';
+import { DataRow, WidgetConfig } from '@/lib/types';
 import { useTheme } from 'next-themes';
 
 interface CandlestickWidgetProps {
-  data: MarketData[];
+  data: DataRow[];
+  config: WidgetConfig;
 }
 
-export function CandlestickWidget({ data }: CandlestickWidgetProps) {
+export function CandlestickWidget({ data, config }: CandlestickWidgetProps) {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
+
+  const timeKey = config.xKey ?? 'date';
+  const openKey = config.openKey ?? 'open';
+  const highKey = config.highKey ?? 'high';
+  const lowKey = config.lowKey ?? 'low';
+  const closeKey = config.closeKey ?? 'close';
 
   useEffect(() => {
     if (!chartContainerRef.current || data.length === 0) return;
@@ -55,11 +62,11 @@ export function CandlestickWidget({ data }: CandlestickWidgetProps) {
     });
 
     const candleData: CandlestickData<Time>[] = data.map((d) => ({
-      time: d.date as Time,
-      open: d.open,
-      high: d.high,
-      low: d.low,
-      close: d.close,
+      time: String(d[timeKey]) as Time,
+      open: Number(d[openKey]),
+      high: Number(d[highKey]),
+      low: Number(d[lowKey]),
+      close: Number(d[closeKey]),
     }));
 
     candlestickSeries.setData(candleData);
@@ -77,7 +84,7 @@ export function CandlestickWidget({ data }: CandlestickWidgetProps) {
       window.removeEventListener('resize', handleResize);
       chart.remove();
     };
-  }, [data, theme]);
+  }, [data, theme, timeKey, openKey, highKey, lowKey, closeKey]);
 
   return <div ref={chartContainerRef} className="w-full" />;
 }
