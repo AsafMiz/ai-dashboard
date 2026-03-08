@@ -24,6 +24,7 @@ export function CandlestickWidget({ data }: CandlestickWidgetProps) {
         background: { type: ColorType.Solid, color: 'transparent' },
         textColor: isDark ? '#9ca3af' : '#6b7280',
         fontFamily: 'inherit',
+        attributionLogo: false,
       },
       grid: {
         vertLines: { color: isDark ? '#1f2937' : '#f3f4f6' },
