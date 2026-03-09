@@ -31,7 +31,7 @@ export function TitleWidget({ data, config }: TitleWidgetProps) {
       {logoKey && (
         <LogoImage
           src={logoUrl}
-          className="w-16 h-auto object-cover rounded-xl border-2 border-gray-200 dark:border-gray-700 shrink-0 self-stretch"
+          className="w-16 h-16 object-cover rounded-xl border-2 border-gray-200 dark:border-gray-700 shrink-0 self-center"
         />
       )}
       <div className="flex flex-col justify-center gap-3 min-w-0">
