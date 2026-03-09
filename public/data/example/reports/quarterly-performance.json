@@ -6,8 +6,261 @@
   "logo_url": "/communi-logo.webp",
   "type": "ניתוח",
   "widgets": [
-    { "type": "candlestick", "title": "גרף נרות — מחיר מניה", "order": 0, "config": { "datasetKey": "stock-price", "xKey": "date", "openKey": "open", "highKey": "high", "lowKey": "low", "closeKey": "close" } },
-    { "type": "area", "title": "מגמת מחיר סגירה", "order": 1, "config": { "datasetKey": "stock-price", "xKey": "date", "yKey": "close", "color": "#2563eb" } },
-    { "type": "table", "title": "נתונים מפורטים", "order": 2, "config": { "datasetKey": "stock-price", "columns": ["date", "open", "high", "low", "close"], "columnLabels": { "date": "תאריך", "open": "פתיחה", "high": "גבוה", "low": "נמוך", "close": "סגירה" } } }
+    {
+      "type": "candlestick",
+      "title": "גרף נרות — מחיר מניה",
+      "config": {
+        "xKey": "date",
+        "openKey": "open",
+        "highKey": "high",
+        "lowKey": "low",
+        "closeKey": "close"
+      },
+      "data": [
+        {
+          "date": "2024-01-02",
+          "open": 185.5,
+          "high": 188.44,
+          "low": 183.89,
+          "close": 187.68
+        },
+        {
+          "date": "2024-01-03",
+          "open": 187.68,
+          "high": 189.25,
+          "low": 185.83,
+          "close": 186.12
+        },
+        {
+          "date": "2024-01-04",
+          "open": 186.12,
+          "high": 187.05,
+          "low": 183.42,
+          "close": 184.25
+        },
+        {
+          "date": "2024-01-05",
+          "open": 184.25,
+          "high": 186.4,
+          "low": 183.16,
+          "close": 185.56
+        },
+        {
+          "date": "2024-01-08",
+          "open": 185.56,
+          "high": 188.88,
+          "low": 185.04,
+          "close": 188.63
+        },
+        {
+          "date": "2024-01-09",
+          "open": 188.63,
+          "high": 190.95,
+          "low": 187.44,
+          "close": 190.54
+        },
+        {
+          "date": "2024-01-10",
+          "open": 190.54,
+          "high": 191.91,
+          "low": 188.82,
+          "close": 189.72
+        },
+        {
+          "date": "2024-01-11",
+          "open": 189.72,
+          "high": 192.38,
+          "low": 189.42,
+          "close": 191.56
+        },
+        {
+          "date": "2024-01-12",
+          "open": 191.56,
+          "high": 193.45,
+          "low": 190.67,
+          "close": 192.88
+        },
+        {
+          "date": "2024-01-16",
+          "open": 192.88,
+          "high": 194.76,
+          "low": 191.55,
+          "close": 193.89
+        }
+      ]
+    },
+    {
+      "type": "area",
+      "title": "מגמת מחיר סגירה",
+      "config": {
+        "xKey": "date",
+        "yKey": "close",
+        "color": "#2563eb"
+      },
+      "data": [
+        {
+          "date": "2024-01-02",
+          "open": 185.5,
+          "high": 188.44,
+          "low": 183.89,
+          "close": 187.68
+        },
+        {
+          "date": "2024-01-03",
+          "open": 187.68,
+          "high": 189.25,
+          "low": 185.83,
+          "close": 186.12
+        },
+        {
+          "date": "2024-01-04",
+          "open": 186.12,
+          "high": 187.05,
+          "low": 183.42,
+          "close": 184.25
+        },
+        {
+          "date": "2024-01-05",
+          "open": 184.25,
+          "high": 186.4,
+          "low": 183.16,
+          "close": 185.56
+        },
+        {
+          "date": "2024-01-08",
+          "open": 185.56,
+          "high": 188.88,
+          "low": 185.04,
+          "close": 188.63
+        },
+        {
+          "date": "2024-01-09",
+          "open": 188.63,
+          "high": 190.95,
+          "low": 187.44,
+          "close": 190.54
+        },
+        {
+          "date": "2024-01-10",
+          "open": 190.54,
+          "high": 191.91,
+          "low": 188.82,
+          "close": 189.72
+        },
+        {
+          "date": "2024-01-11",
+          "open": 189.72,
+          "high": 192.38,
+          "low": 189.42,
+          "close": 191.56
+        },
+        {
+          "date": "2024-01-12",
+          "open": 191.56,
+          "high": 193.45,
+          "low": 190.67,
+          "close": 192.88
+        },
+        {
+          "date": "2024-01-16",
+          "open": 192.88,
+          "high": 194.76,
+          "low": 191.55,
+          "close": 193.89
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "נתונים מפורטים",
+      "config": {
+        "columns": [
+          "date",
+          "open",
+          "high",
+          "low",
+          "close"
+        ],
+        "columnLabels": {
+          "date": "תאריך",
+          "open": "פתיחה",
+          "high": "גבוה",
+          "low": "נמוך",
+          "close": "סגירה"
+        }
+      },
+      "data": [
+        {
+          "date": "2024-01-02",
+          "open": 185.5,
+          "high": 188.44,
+          "low": 183.89,
+          "close": 187.68
+        },
+        {
+          "date": "2024-01-03",
+          "open": 187.68,
+          "high": 189.25,
+          "low": 185.83,
+          "close": 186.12
+        },
+        {
+          "date": "2024-01-04",
+          "open": 186.12,
+          "high": 187.05,
+          "low": 183.42,
+          "close": 184.25
+        },
+        {
+          "date": "2024-01-05",
+          "open": 184.25,
+          "high": 186.4,
+          "low": 183.16,
+          "close": 185.56
+        },
+        {
+          "date": "2024-01-08",
+          "open": 185.56,
+          "high": 188.88,
+          "low": 185.04,
+          "close": 188.63
+        },
+        {
+          "date": "2024-01-09",
+          "open": 188.63,
+          "high": 190.95,
+          "low": 187.44,
+          "close": 190.54
+        },
+        {
+          "date": "2024-01-10",
+          "open": 190.54,
+          "high": 191.91,
+          "low": 188.82,
+          "close": 189.72
+        },
+        {
+          "date": "2024-01-11",
+          "open": 189.72,
+          "high": 192.38,
+          "low": 189.42,
+          "close": 191.56
+        },
+        {
+          "date": "2024-01-12",
+          "open": 191.56,
+          "high": 193.45,
+          "low": 190.67,
+          "close": 192.88
+        },
+        {
+          "date": "2024-01-16",
+          "open": 192.88,
+          "high": 194.76,
+          "low": 191.55,
+          "close": 193.89
+        }
+      ]
+    }
   ]
 }

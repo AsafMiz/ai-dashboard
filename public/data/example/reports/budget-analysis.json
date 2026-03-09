@@ -6,9 +6,253 @@
   "logo_url": "/communi-logo.webp",
   "type": "ניתוח",
   "widgets": [
-    { "type": "bar", "title": "תקציב מתוכנן", "order": 0, "config": { "datasetKey": "budget-2024", "xKey": "category", "yKey": "planned", "color": "#2563eb", "valueFormatter": "compact" } },
-    { "type": "bar", "title": "ביצוע בפועל", "order": 1, "config": { "datasetKey": "budget-2024", "xKey": "category", "yKey": "actual", "color": "#10b981", "valueFormatter": "compact" } },
-    { "type": "bar", "title": "אחוז סטייה", "order": 2, "config": { "datasetKey": "budget-2024", "xKey": "category", "yKey": "variance", "color": "#f59e0b", "valueFormatter": "percent" } },
-    { "type": "table", "title": "פירוט תקציב מלא", "order": 3, "config": { "datasetKey": "budget-2024", "columns": ["category", "planned", "actual", "variance"], "columnLabels": { "category": "קטגוריה", "planned": "מתוכנן", "actual": "בפועל", "variance": "סטייה (%)" } } }
+    {
+      "type": "bar",
+      "title": "תקציב מתוכנן",
+      "config": {
+        "xKey": "category",
+        "yKey": "planned",
+        "color": "#2563eb",
+        "valueFormatter": "compact"
+      },
+      "data": [
+        {
+          "category": "שכר",
+          "planned": 2400000,
+          "actual": 2350000,
+          "variance": -2.1
+        },
+        {
+          "category": "שיווק",
+          "planned": 500000,
+          "actual": 580000,
+          "variance": 16
+        },
+        {
+          "category": "תשתיות",
+          "planned": 300000,
+          "actual": 285000,
+          "variance": -5
+        },
+        {
+          "category": "מו\"פ",
+          "planned": 800000,
+          "actual": 820000,
+          "variance": 2.5
+        },
+        {
+          "category": "נסיעות",
+          "planned": 150000,
+          "actual": 135000,
+          "variance": -10
+        },
+        {
+          "category": "הדרכה",
+          "planned": 100000,
+          "actual": 110000,
+          "variance": 10
+        },
+        {
+          "category": "ציוד",
+          "planned": 200000,
+          "actual": 195000,
+          "variance": -2.5
+        },
+        {
+          "category": "שירותים חיצוניים",
+          "planned": 350000,
+          "actual": 400000,
+          "variance": 14.3
+        }
+      ]
+    },
+    {
+      "type": "bar",
+      "title": "ביצוע בפועל",
+      "config": {
+        "xKey": "category",
+        "yKey": "actual",
+        "color": "#10b981",
+        "valueFormatter": "compact"
+      },
+      "data": [
+        {
+          "category": "שכר",
+          "planned": 2400000,
+          "actual": 2350000,
+          "variance": -2.1
+        },
+        {
+          "category": "שיווק",
+          "planned": 500000,
+          "actual": 580000,
+          "variance": 16
+        },
+        {
+          "category": "תשתיות",
+          "planned": 300000,
+          "actual": 285000,
+          "variance": -5
+        },
+        {
+          "category": "מו\"פ",
+          "planned": 800000,
+          "actual": 820000,
+          "variance": 2.5
+        },
+        {
+          "category": "נסיעות",
+          "planned": 150000,
+          "actual": 135000,
+          "variance": -10
+        },
+        {
+          "category": "הדרכה",
+          "planned": 100000,
+          "actual": 110000,
+          "variance": 10
+        },
+        {
+          "category": "ציוד",
+          "planned": 200000,
+          "actual": 195000,
+          "variance": -2.5
+        },
+        {
+          "category": "שירותים חיצוניים",
+          "planned": 350000,
+          "actual": 400000,
+          "variance": 14.3
+        }
+      ]
+    },
+    {
+      "type": "bar",
+      "title": "אחוז סטייה",
+      "config": {
+        "xKey": "category",
+        "yKey": "variance",
+        "color": "#f59e0b",
+        "valueFormatter": "percent"
+      },
+      "data": [
+        {
+          "category": "שכר",
+          "planned": 2400000,
+          "actual": 2350000,
+          "variance": -2.1
+        },
+        {
+          "category": "שיווק",
+          "planned": 500000,
+          "actual": 580000,
+          "variance": 16
+        },
+        {
+          "category": "תשתיות",
+          "planned": 300000,
+          "actual": 285000,
+          "variance": -5
+        },
+        {
+          "category": "מו\"פ",
+          "planned": 800000,
+          "actual": 820000,
+          "variance": 2.5
+        },
+        {
+          "category": "נסיעות",
+          "planned": 150000,
+          "actual": 135000,
+          "variance": -10
+        },
+        {
+          "category": "הדרכה",
+          "planned": 100000,
+          "actual": 110000,
+          "variance": 10
+        },
+        {
+          "category": "ציוד",
+          "planned": 200000,
+          "actual": 195000,
+          "variance": -2.5
+        },
+        {
+          "category": "שירותים חיצוניים",
+          "planned": 350000,
+          "actual": 400000,
+          "variance": 14.3
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "פירוט תקציב מלא",
+      "config": {
+        "columns": [
+          "category",
+          "planned",
+          "actual",
+          "variance"
+        ],
+        "columnLabels": {
+          "category": "קטגוריה",
+          "planned": "מתוכנן",
+          "actual": "בפועל",
+          "variance": "סטייה (%)"
+        }
+      },
+      "data": [
+        {
+          "category": "שכר",
+          "planned": 2400000,
+          "actual": 2350000,
+          "variance": -2.1
+        },
+        {
+          "category": "שיווק",
+          "planned": 500000,
+          "actual": 580000,
+          "variance": 16
+        },
+        {
+          "category": "תשתיות",
+          "planned": 300000,
+          "actual": 285000,
+          "variance": -5
+        },
+        {
+          "category": "מו\"פ",
+          "planned": 800000,
+          "actual": 820000,
+          "variance": 2.5
+        },
+        {
+          "category": "נסיעות",
+          "planned": 150000,
+          "actual": 135000,
+          "variance": -10
+        },
+        {
+          "category": "הדרכה",
+          "planned": 100000,
+          "actual": 110000,
+          "variance": 10
+        },
+        {
+          "category": "ציוד",
+          "planned": 200000,
+          "actual": 195000,
+          "variance": -2.5
+        },
+        {
+          "category": "שירותים חיצוניים",
+          "planned": 350000,
+          "actual": 400000,
+          "variance": 14.3
+        }
+      ]
+    }
   ]
 }

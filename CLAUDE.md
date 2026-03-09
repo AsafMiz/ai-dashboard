@@ -49,14 +49,17 @@ To add a new widget type:
 
 ### API Routes
 
-- `POST /api/create-dashboard` — Cascade-deletes existing data (widgets → reports → datasets → dashboard), then creates fresh. Upserts datasets.
-- `POST /api/create-report` — Deletes existing report+widgets for same `(dashboard_key, report_key)`, creates new.
+- `POST /api/dashboards` — Creates dashboard (metadata only, no datasets). Returns 409 if key exists.
+- `GET /api/dashboards/[key]` — Returns dashboard metadata + reports list with URLs.
+- `DELETE /api/dashboards/[key]` — Deletes dashboard (FK cascade handles reports, widgets, datasets).
+- `POST /api/reports` — Creates report with inline widget data. Validates dashboard exists (404), report doesn't exist (409). Auto-generates datasets.
+- `DELETE /api/reports/[dashboardKey]/[reportKey]` — Deletes report + its widgets + datasets.
 
-Both accept `logo_url` (optional). Full schemas in `docs/guide.md`.
+All accept `logo_url` (optional). Full schemas in `docs/guide.md`.
 
 ### Example Data Flow
 
-Home page "create example" button: fetches `public/data/example/dashboard.json` → POSTs to `/api/create-dashboard` → fetches each report from `public/data/example/reports/*.json` → POSTs each to `/api/create-report` → navigates to `/dashboard/example`.
+Home page "create example" button: DELETEs `/api/dashboards/example` (ignore errors) → POSTs `/api/dashboards` (metadata only) → fetches each report from `public/data/example/reports/*.json` → POSTs each to `/api/reports` (with inline data per widget) → navigates to `/dashboard/example`.
 
 ## Key Conventions
 
@@ -64,7 +67,7 @@ Home page "create example" button: fetches `public/data/example/dashboard.json` 
 - **Dark mode**: `next-themes` with `attribute="class"`, manual toggle only (not system preference). `LogoImage` component (`components/layout/LogoImage.tsx`) handles image fallback to `/communi-logo.webp`.
 - **Date formatting**: `toLocaleDateString('he-IL')`
 - **Dynamic icons**: Lucide icons loaded by name string via `LucideIcons[name]`
-- **Generic JSONB data model**: Datasets store flexible `columns` and `rows` — widgets configure which fields to use via `config.datasetKey`, `config.xKey`, etc.
+- **Inline widget data**: When creating reports via API, each widget carries its own `data` array. The API auto-generates datasets and sets `config.datasetKey`. WidgetRenderer reads from the `datasets` table at render time.
 
 ## Git Workflow
 

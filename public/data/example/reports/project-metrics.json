@@ -6,9 +6,298 @@
   "logo_url": "/communi-logo.webp",
   "type": "ניתוח",
   "widgets": [
-    { "type": "area", "title": "מהירות ספרינט", "order": 0, "config": { "datasetKey": "project-sprints", "xKey": "sprint", "yKey": "velocity", "color": "#2563eb" } },
-    { "type": "bar", "title": "משימות שהושלמו", "order": 1, "config": { "datasetKey": "project-sprints", "xKey": "sprint", "yKey": "completed", "color": "#10b981" } },
-    { "type": "bar", "title": "באגים לפי ספרינט", "order": 2, "config": { "datasetKey": "project-sprints", "xKey": "sprint", "yKey": "bugs", "color": "#ef4444" } },
-    { "type": "table", "title": "טבלת ספרינטים", "order": 3, "config": { "datasetKey": "project-sprints", "columns": ["sprint", "completed", "bugs", "velocity"], "columnLabels": { "sprint": "ספרינט", "completed": "הושלמו", "bugs": "באגים", "velocity": "מהירות" } } }
+    {
+      "type": "area",
+      "title": "מהירות ספרינט",
+      "config": {
+        "xKey": "sprint",
+        "yKey": "velocity",
+        "color": "#2563eb"
+      },
+      "data": [
+        {
+          "sprint": "Sprint 1",
+          "completed": 18,
+          "bugs": 5,
+          "velocity": 34
+        },
+        {
+          "sprint": "Sprint 2",
+          "completed": 22,
+          "bugs": 3,
+          "velocity": 41
+        },
+        {
+          "sprint": "Sprint 3",
+          "completed": 15,
+          "bugs": 8,
+          "velocity": 28
+        },
+        {
+          "sprint": "Sprint 4",
+          "completed": 25,
+          "bugs": 2,
+          "velocity": 47
+        },
+        {
+          "sprint": "Sprint 5",
+          "completed": 20,
+          "bugs": 4,
+          "velocity": 38
+        },
+        {
+          "sprint": "Sprint 6",
+          "completed": 28,
+          "bugs": 1,
+          "velocity": 52
+        },
+        {
+          "sprint": "Sprint 7",
+          "completed": 24,
+          "bugs": 3,
+          "velocity": 45
+        },
+        {
+          "sprint": "Sprint 8",
+          "completed": 30,
+          "bugs": 2,
+          "velocity": 55
+        },
+        {
+          "sprint": "Sprint 9",
+          "completed": 26,
+          "bugs": 4,
+          "velocity": 48
+        },
+        {
+          "sprint": "Sprint 10",
+          "completed": 32,
+          "bugs": 1,
+          "velocity": 58
+        }
+      ]
+    },
+    {
+      "type": "bar",
+      "title": "משימות שהושלמו",
+      "config": {
+        "xKey": "sprint",
+        "yKey": "completed",
+        "color": "#10b981"
+      },
+      "data": [
+        {
+          "sprint": "Sprint 1",
+          "completed": 18,
+          "bugs": 5,
+          "velocity": 34
+        },
+        {
+          "sprint": "Sprint 2",
+          "completed": 22,
+          "bugs": 3,
+          "velocity": 41
+        },
+        {
+          "sprint": "Sprint 3",
+          "completed": 15,
+          "bugs": 8,
+          "velocity": 28
+        },
+        {
+          "sprint": "Sprint 4",
+          "completed": 25,
+          "bugs": 2,
+          "velocity": 47
+        },
+        {
+          "sprint": "Sprint 5",
+          "completed": 20,
+          "bugs": 4,
+          "velocity": 38
+        },
+        {
+          "sprint": "Sprint 6",
+          "completed": 28,
+          "bugs": 1,
+          "velocity": 52
+        },
+        {
+          "sprint": "Sprint 7",
+          "completed": 24,
+          "bugs": 3,
+          "velocity": 45
+        },
+        {
+          "sprint": "Sprint 8",
+          "completed": 30,
+          "bugs": 2,
+          "velocity": 55
+        },
+        {
+          "sprint": "Sprint 9",
+          "completed": 26,
+          "bugs": 4,
+          "velocity": 48
+        },
+        {
+          "sprint": "Sprint 10",
+          "completed": 32,
+          "bugs": 1,
+          "velocity": 58
+        }
+      ]
+    },
+    {
+      "type": "bar",
+      "title": "באגים לפי ספרינט",
+      "config": {
+        "xKey": "sprint",
+        "yKey": "bugs",
+        "color": "#ef4444"
+      },
+      "data": [
+        {
+          "sprint": "Sprint 1",
+          "completed": 18,
+          "bugs": 5,
+          "velocity": 34
+        },
+        {
+          "sprint": "Sprint 2",
+          "completed": 22,
+          "bugs": 3,
+          "velocity": 41
+        },
+        {
+          "sprint": "Sprint 3",
+          "completed": 15,
+          "bugs": 8,
+          "velocity": 28
+        },
+        {
+          "sprint": "Sprint 4",
+          "completed": 25,
+          "bugs": 2,
+          "velocity": 47
+        },
+        {
+          "sprint": "Sprint 5",
+          "completed": 20,
+          "bugs": 4,
+          "velocity": 38
+        },
+        {
+          "sprint": "Sprint 6",
+          "completed": 28,
+          "bugs": 1,
+          "velocity": 52
+        },
+        {
+          "sprint": "Sprint 7",
+          "completed": 24,
+          "bugs": 3,
+          "velocity": 45
+        },
+        {
+          "sprint": "Sprint 8",
+          "completed": 30,
+          "bugs": 2,
+          "velocity": 55
+        },
+        {
+          "sprint": "Sprint 9",
+          "completed": 26,
+          "bugs": 4,
+          "velocity": 48
+        },
+        {
+          "sprint": "Sprint 10",
+          "completed": 32,
+          "bugs": 1,
+          "velocity": 58
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "טבלת ספרינטים",
+      "config": {
+        "columns": [
+          "sprint",
+          "completed",
+          "bugs",
+          "velocity"
+        ],
+        "columnLabels": {
+          "sprint": "ספרינט",
+          "completed": "הושלמו",
+          "bugs": "באגים",
+          "velocity": "מהירות"
+        }
+      },
+      "data": [
+        {
+          "sprint": "Sprint 1",
+          "completed": 18,
+          "bugs": 5,
+          "velocity": 34
+        },
+        {
+          "sprint": "Sprint 2",
+          "completed": 22,
+          "bugs": 3,
+          "velocity": 41
+        },
+        {
+          "sprint": "Sprint 3",
+          "completed": 15,
+          "bugs": 8,
+          "velocity": 28
+        },
+        {
+          "sprint": "Sprint 4",
+          "completed": 25,
+          "bugs": 2,
+          "velocity": 47
+        },
+        {
+          "sprint": "Sprint 5",
+          "completed": 20,
+          "bugs": 4,
+          "velocity": 38
+        },
+        {
+          "sprint": "Sprint 6",
+          "completed": 28,
+          "bugs": 1,
+          "velocity": 52
+        },
+        {
+          "sprint": "Sprint 7",
+          "completed": 24,
+          "bugs": 3,
+          "velocity": 45
+        },
+        {
+          "sprint": "Sprint 8",
+          "completed": 30,
+          "bugs": 2,
+          "velocity": 55
+        },
+        {
+          "sprint": "Sprint 9",
+          "completed": 26,
+          "bugs": 4,
+          "velocity": 48
+        },
+        {
+          "sprint": "Sprint 10",
+          "completed": 32,
+          "bugs": 1,
+          "velocity": 58
+        }
+      ]
+    }
   ]
 }
