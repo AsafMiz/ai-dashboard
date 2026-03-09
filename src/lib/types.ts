@@ -67,6 +67,7 @@ export interface WidgetConfig {
   /* title */
   subtitleKey?: string;
   dateRangeKey?: string;
+  logoKey?: string;
   /* highlight */
   nameKey?: string;
   imageKey?: string;

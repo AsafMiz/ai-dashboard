@@ -242,10 +242,11 @@
         { "key": "title", "label": "כותרת", "type": "string" },
         { "key": "subtitle", "label": "תת כותרת", "type": "string" },
         { "key": "dateRange", "label": "טווח תאריכים", "type": "string" },
-        { "key": "badge", "label": "תגית", "type": "string" }
+        { "key": "badge", "label": "תגית", "type": "string" },
+        { "key": "logoUrl", "label": "לוגו", "type": "string" }
       ],
       "rows": [
-        { "title": "דשבורד לכידות ניהולית", "subtitle": "דוח לכידות תקופתי", "dateRange": "ינואר 2026 – מרץ 2026", "badge": "TOP 25% בארגון" }
+        { "title": "דשבורד לכידות ניהולית", "subtitle": "דוח לכידות תקופתי", "dateRange": "ינואר 2026 – מרץ 2026", "badge": "TOP 25% בארגון", "logoUrl": "/communi-logo.webp" }
       ]
     },
     {

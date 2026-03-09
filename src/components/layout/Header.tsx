@@ -1,7 +1,7 @@
 import { ThemeToggle } from './ThemeToggle';
 import { LogoImage } from './LogoImage';
 
-export function Header({ title, subtitle, logoUrl }: { title?: string; subtitle?: string | null; logoUrl?: string | null }) {
+export function Header({ title, subtitle, logoUrl }: { title?: React.ReactNode; subtitle?: string | null; logoUrl?: string | null }) {
   return (
     <header className="h-14 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-10">
       <div className="flex items-center gap-3 min-w-0">

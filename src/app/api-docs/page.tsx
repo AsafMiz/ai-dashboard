@@ -80,7 +80,7 @@ const highlightData: DataRow[] = [
 ];
 
 const titleData: DataRow[] = [
-  { title: 'דשבורד לכידות ניהולית', subtitle: 'דוח לכידות תקופתי', dateRange: 'ינואר 2026 – מרץ 2026', badge: 'TOP 25% בארגון' },
+  { title: 'דשבורד לכידות ניהולית', subtitle: 'דוח לכידות תקופתי', dateRange: 'ינואר 2026 – מרץ 2026', badge: 'TOP 25% בארגון', logoUrl: '/communi-logo.webp' },
 ];
 
 const feedData: DataRow[] = [
@@ -562,9 +562,9 @@ export default function ApiDocsPage() {
           />
           <WidgetPreview
             type="title"
-            description="Hero title banner with subtitle, date range, and badge."
-            config={{ datasetKey: 'report-header', titleKey: 'title', subtitleKey: 'subtitle', dateRangeKey: 'dateRange', badgeKey: 'badge', color: '#10b981' }}
-            chart={<TitleWidget data={titleData} config={{ titleKey: 'title', subtitleKey: 'subtitle', dateRangeKey: 'dateRange', badgeKey: 'badge', color: '#10b981' }} />}
+            description="Hero title banner with logo, subtitle, date range, and badge."
+            config={{ datasetKey: 'report-header', titleKey: 'title', subtitleKey: 'subtitle', dateRangeKey: 'dateRange', badgeKey: 'badge', logoKey: 'logoUrl', color: '#10b981' }}
+            chart={<TitleWidget data={titleData} config={{ titleKey: 'title', subtitleKey: 'subtitle', dateRangeKey: 'dateRange', badgeKey: 'badge', logoKey: 'logoUrl', color: '#10b981' }} />}
           />
         </div>
 
@@ -652,7 +652,8 @@ export default function ApiDocsPage() {
                 <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">excerptKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">feed</td><td className="py-1.5 px-2">Field for description/excerpt text</td></tr>
                 <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">metricsKeys</td><td className="py-1.5 px-2">string[]</td><td className="py-1.5 px-2">feed</td><td className="py-1.5 px-2">Fields for engagement stats (e.g. comments, likes, views)</td></tr>
                 <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">subtitleKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">title</td><td className="py-1.5 px-2">Field for subtitle text</td></tr>
-                <tr><td className="py-1.5 px-2 font-mono">dateRangeKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">title</td><td className="py-1.5 px-2">Field for date range text</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">dateRangeKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">title</td><td className="py-1.5 px-2">Field for date range text</td></tr>
+                <tr><td className="py-1.5 px-2 font-mono">logoKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">title</td><td className="py-1.5 px-2">Field for logo image URL (falls back to COMMUNi logo)</td></tr>
               </tbody>
             </table>
           </div>

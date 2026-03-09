@@ -1,25 +1,56 @@
-import Link from 'next/link';
+'use client';
+
+import { useState, useEffect } from 'react';
 import { Header } from '@/components/layout/Header';
-import { FileQuestion } from 'lucide-react';
+
+const messages = [
+  { emoji: '🏗️', title: 'אנחנו בונים את הדוח הזה...', subtitle: 'עוד מעט מוכן, סבלנות!' },
+  { emoji: '🍕', title: 'הדוח עדיין באפייה...', subtitle: 'ניחוח הנתונים כבר מגיע' },
+  { emoji: '⛏️', title: 'כורים נתונים עמוקים...', subtitle: 'הזהב הסטטיסטי כמעט בידינו' },
+  { emoji: '🧪', title: 'הדוח במעבדה...', subtitle: 'המדענים שלנו עובדים על זה' },
+  { emoji: '🚀', title: 'הדוח בדרך לחלל...', subtitle: 'צפו לנחיתה בקרוב' },
+  { emoji: '🎨', title: 'מציירים גרפים יפים...', subtitle: 'אמנות לוקחת זמן' },
+  { emoji: '🧁', title: 'הדוח עדיין בתנור...', subtitle: 'הציפוי של הנתונים כמעט מוכן' },
+  { emoji: '🎸', title: 'הדוח עושה צ׳ק סאונד...', subtitle: 'ההופעה תתחיל בקרוב' },
+  { emoji: '🏋️', title: 'הדוח באימון...', subtitle: 'עוד כמה סטים ומסיים' },
+  { emoji: '🧶', title: 'סורגים את הדוח בעבודת יד...', subtitle: 'כל שורה בנתונים נעשית באהבה' },
+  { emoji: '🔮', title: 'מנבאים את העתיד...', subtitle: 'כדור הבדולח עדיין מתחמם' },
+  { emoji: '🐝', title: 'הנתונים עסוקים כמו דבורים...', subtitle: 'הדבש הסטטיסטי בדרך' },
+];
 
 export default function NotFound() {
+  const [msg, setMsg] = useState(messages[0]);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    setMsg(messages[Math.floor(Math.random() * messages.length)]);
+    requestAnimationFrame(() => setVisible(true));
+  }, []);
+
   return (
     <div className="flex-1 min-h-screen">
-      <Header title="דף לא נמצא" />
-      <div className="flex flex-col items-center justify-center py-24">
-        <FileQuestion className="w-16 h-16 text-gray-300 dark:text-gray-700 mb-4" />
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-          הדף לא נמצא
-        </h2>
-        <p className="text-gray-500 dark:text-gray-400 mb-6">
-          הדוח המבוקש אינו קיים או שהוסר
-        </p>
-        <Link
-          href="/"
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+      <Header title={<>COMMUNi <span className="text-blue-600">Dashboard</span></>} />
+      <div className="flex flex-col items-center justify-center py-24 px-4">
+        <div className="text-6xl sm:text-7xl animate-bounce mb-6">
+          {msg.emoji}
+        </div>
+        <div
+          className="flex flex-col items-center gap-2 transition-all duration-700 ease-out"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0)' : 'translateY(12px)',
+          }}
         >
-          חזרה לדף הראשי
-        </Link>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white text-center">
+            {msg.title}
+          </h2>
+          <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 text-center">
+            {msg.subtitle}
+          </p>
+          <p className="mt-4 text-xs text-gray-400 dark:text-gray-600 animate-pulse">
+            🔄 חזרו אלינו בקרוב...
+          </p>
+        </div>
       </div>
     </div>
   );
