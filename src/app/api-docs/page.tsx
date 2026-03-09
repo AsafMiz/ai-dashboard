@@ -115,26 +115,21 @@ interface Endpoint {
 const endpoints: Endpoint[] = [
   {
     method: 'POST',
-    path: '/api/create-dashboard',
-    summary: 'Create or recreate a dashboard',
+    path: '/api/dashboards',
+    summary: 'Create a dashboard',
     description:
-      'Deletes any existing dashboard with the same key (including its reports, widgets, and datasets), then creates a new dashboard and optionally seeds datasets.',
+      'Creates a new dashboard with metadata only. Returns 409 if a dashboard with the same key already exists.',
     params: [
       { name: 'key', type: 'string', required: true, description: 'Unique dashboard identifier' },
       { name: 'title', type: 'string', required: true, description: 'Display name' },
       { name: 'subtitle', type: 'string', required: false, description: 'Optional subtitle' },
       { name: 'icon', type: 'string', required: false, description: 'Lucide icon name (defaults to LayoutDashboard)' },
       { name: 'logo_url', type: 'string', required: false, description: 'Logo image URL (falls back to COMMUNi logo if missing or broken)' },
-      {
-        name: 'datasets',
-        type: 'array',
-        required: false,
-        description: 'Datasets to seed. Each: { key, label, columns: [{key, label, type}], rows: [{...}] }',
-      },
     ],
     responses: [
-      { status: 200, label: 'Success', body: '{\n  "message": "Dashboard created successfully",\n  "key": "example"\n}' },
+      { status: 201, label: 'Created', body: '{\n  "message": "Dashboard created successfully",\n  "key": "my-dashboard",\n  "url": "/dashboard/my-dashboard"\n}' },
       { status: 400, label: 'Validation Error', body: '{\n  "error": "Missing required field: key (string)"\n}' },
+      { status: 409, label: 'Conflict', body: '{\n  "error": "Dashboard with key \'my-dashboard\' already exists"\n}' },
       { status: 500, label: 'Server Error', body: '{\n  "error": "error message"\n}' },
     ],
     exampleBody: JSON.stringify(
@@ -144,34 +139,49 @@ const endpoints: Endpoint[] = [
         subtitle: 'A test dashboard',
         icon: 'BarChart3',
         logo_url: 'https://example.com/logo.png',
-        datasets: [
-          {
-            key: 'monthly-sales',
-            label: 'Monthly Sales',
-            columns: [
-              { key: 'month', label: 'Month', type: 'string' },
-              { key: 'revenue', label: 'Revenue', type: 'number' },
-              { key: 'orders', label: 'Orders', type: 'number' },
-            ],
-            rows: [
-              { month: 'Jan', revenue: 145000, orders: 320 },
-              { month: 'Feb', revenue: 152000, orders: 385 },
-            ],
-          },
-        ],
       },
       null,
       2
     ),
   },
   {
-    method: 'POST',
-    path: '/api/create-report',
-    summary: 'Create a report with widgets',
+    method: 'GET',
+    path: '/api/dashboards/{key}',
+    summary: 'Get dashboard metadata + reports',
     description:
-      'Creates a report under an existing dashboard. If a report with the same (dashboard_key, report_key) already exists, it and its widgets are deleted first.',
+      'Returns dashboard metadata and a list of reports with their URLs. Replace {key} with the dashboard key.',
     params: [
-      { name: 'dashboard_key', type: 'string', required: true, description: 'Parent dashboard key' },
+      { name: 'key', type: 'string (path)', required: true, description: 'Dashboard key (URL path parameter)' },
+    ],
+    responses: [
+      { status: 200, label: 'Success', body: '{\n  "dashboard": { "key": "example", "title": "..." },\n  "reports": [\n    {\n      "report_key": "sales-overview",\n      "title": "Sales Overview",\n      "url": "/dashboard/example/sales-overview"\n    }\n  ]\n}' },
+      { status: 404, label: 'Not Found', body: '{\n  "error": "Dashboard \'my-dashboard\' not found"\n}' },
+    ],
+    exampleBody: '',
+  },
+  {
+    method: 'DELETE',
+    path: '/api/dashboards/{key}',
+    summary: 'Delete dashboard (cascades)',
+    description:
+      'Deletes a dashboard and all its reports, widgets, and datasets (via FK cascade). Replace {key} with the dashboard key.',
+    params: [
+      { name: 'key', type: 'string (path)', required: true, description: 'Dashboard key (URL path parameter)' },
+    ],
+    responses: [
+      { status: 200, label: 'Success', body: '{\n  "message": "Dashboard \'example\' deleted successfully",\n  "key": "example"\n}' },
+      { status: 404, label: 'Not Found', body: '{\n  "error": "Dashboard \'example\' not found"\n}' },
+    ],
+    exampleBody: '',
+  },
+  {
+    method: 'POST',
+    path: '/api/reports',
+    summary: 'Create a report with inline data',
+    description:
+      'Creates a report with widgets and inline data. Each widget contains its own data array. The API auto-generates datasets and assigns order by array position. Returns 404 if dashboard doesn\'t exist, 409 if report already exists.',
+    params: [
+      { name: 'dashboard_key', type: 'string', required: true, description: 'Parent dashboard key (must exist)' },
       { name: 'report_key', type: 'string', required: true, description: 'Unique within the dashboard' },
       { name: 'title', type: 'string', required: true, description: 'Report display name' },
       { name: 'description', type: 'string', required: false, description: 'Optional description' },
@@ -180,17 +190,19 @@ const endpoints: Endpoint[] = [
       {
         name: 'widgets',
         type: 'array',
-        required: false,
-        description: 'Widget definitions. Each: { type, title, order, config }. Types: area, bar, candlestick, table, radar, scorecard, donut, stacked-bar, recommendations, highlight, feed, title',
+        required: true,
+        description: 'Widget definitions. Each: { type, title, config, data }. Order is determined by array position. Types: area, bar, candlestick, table, radar, scorecard, donut, stacked-bar, recommendations, highlight, feed, title',
       },
     ],
     responses: [
       {
-        status: 200,
-        label: 'Success',
-        body: '{\n  "message": "Report created successfully",\n  "dashboard_key": "my-dashboard",\n  "report_key": "overview"\n}',
+        status: 201,
+        label: 'Created',
+        body: '{\n  "message": "Report created successfully",\n  "dashboard_key": "my-dashboard",\n  "report_key": "overview",\n  "url": "/dashboard/my-dashboard/overview"\n}',
       },
       { status: 400, label: 'Validation Error', body: '{\n  "error": "Missing required field: dashboard_key (string)"\n}' },
+      { status: 404, label: 'Dashboard Not Found', body: '{\n  "error": "Dashboard \'my-dashboard\' not found"\n}' },
+      { status: 409, label: 'Conflict', body: '{\n  "error": "Report \'overview\' already exists in dashboard \'my-dashboard\'"\n}' },
       { status: 500, label: 'Server Error', body: '{\n  "error": "error message"\n}' },
     ],
     exampleBody: JSON.stringify(
@@ -202,13 +214,29 @@ const endpoints: Endpoint[] = [
         type: 'סקירה',
         logo_url: 'https://example.com/logo.png',
         widgets: [
-          { type: 'area', title: 'Revenue Trend', order: 0, config: { datasetKey: 'monthly-sales', xKey: 'month', yKey: 'revenue', color: '#2563eb', valueFormatter: 'compact' } },
-          { type: 'bar', title: 'Orders per Month', order: 1, config: { datasetKey: 'monthly-sales', xKey: 'month', yKey: 'orders', color: '#10b981' } },
+          { type: 'area', title: 'Revenue Trend', config: { xKey: 'month', yKey: 'revenue', color: '#2563eb', valueFormatter: 'compact' }, data: [{ month: 'Jan', revenue: 145000 }, { month: 'Feb', revenue: 152000 }] },
+          { type: 'bar', title: 'Orders per Month', config: { xKey: 'month', yKey: 'orders', color: '#10b981' }, data: [{ month: 'Jan', orders: 320 }, { month: 'Feb', orders: 385 }] },
         ],
       },
       null,
       2
     ),
+  },
+  {
+    method: 'DELETE',
+    path: '/api/reports/{dashboardKey}/{reportKey}',
+    summary: 'Delete a report',
+    description:
+      'Deletes a report, its widgets, and associated datasets. Replace {dashboardKey} and {reportKey} with actual values.',
+    params: [
+      { name: 'dashboardKey', type: 'string (path)', required: true, description: 'Dashboard key (URL path parameter)' },
+      { name: 'reportKey', type: 'string (path)', required: true, description: 'Report key (URL path parameter)' },
+    ],
+    responses: [
+      { status: 200, label: 'Success', body: '{\n  "message": "Report \'overview\' deleted successfully",\n  "dashboard_key": "my-dashboard",\n  "report_key": "overview"\n}' },
+      { status: 404, label: 'Not Found', body: '{\n  "error": "Report \'overview\' not found in dashboard \'my-dashboard\'"\n}' },
+    ],
+    exampleBody: '',
   },
 ];
 
@@ -259,16 +287,19 @@ function EndpointCard({ endpoint }: { endpoint: Endpoint }) {
   const [responseStatus, setResponseStatus] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const hasBody = endpoint.method === 'POST' || endpoint.method === 'PUT';
+
   async function handleTry() {
     setLoading(true);
     setResponse(null);
     setResponseStatus(null);
     try {
-      const res = await fetch(endpoint.path, {
-        method: endpoint.method,
-        headers: { 'Content-Type': 'application/json' },
-        body,
-      });
+      const fetchOptions: RequestInit = { method: endpoint.method };
+      if (hasBody) {
+        fetchOptions.headers = { 'Content-Type': 'application/json' };
+        fetchOptions.body = body;
+      }
+      const res = await fetch(endpoint.path, fetchOptions);
       setResponseStatus(res.status);
       const data = await res.json();
       setResponse(JSON.stringify(data, null, 2));
@@ -353,19 +384,25 @@ function EndpointCard({ endpoint }: { endpoint: Endpoint }) {
           <div>
             <div className="flex items-center justify-between mb-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Try it</h4>
-              <CopyButton text={body} />
+              {hasBody && <CopyButton text={body} />}
             </div>
-            <textarea
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              rows={Math.min(body.split('\n').length + 1, 20)}
-              className="w-full font-mono text-xs p-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"
-              dir="ltr"
-              spellCheck={false}
-            />
+            {hasBody ? (
+              <textarea
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+                rows={Math.min(body.split('\n').length + 1, 20)}
+                className="w-full font-mono text-xs p-3 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"
+                dir="ltr"
+                spellCheck={false}
+              />
+            ) : (
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-1" dir="ltr">
+                Replace path parameters with actual values (e.g. <code className="text-blue-600 dark:text-blue-400">/api/dashboards/example</code>).
+              </p>
+            )}
             <button
               onClick={handleTry}
-              disabled={loading}
+              disabled={loading || (!hasBody && endpoint.path.includes('{'))}
               className="mt-2 flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-lg text-xs font-medium transition-colors"
             >
               {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
@@ -405,7 +442,7 @@ function WidgetPreview({
 }) {
   const [showConfig, setShowConfig] = useState(false);
 
-  const widgetJson = JSON.stringify({ type, title: `Example ${type} widget`, order: 0, config }, null, 2);
+  const widgetJson = JSON.stringify({ type, title: `Example ${type} widget`, config, data: '[ ... ]' }, null, 2);
 
   return (
     <div className="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
@@ -469,7 +506,7 @@ export default function ApiDocsPage() {
             API Reference
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            COMMUNi Dashboard REST API — create dashboards, datasets, and reports programmatically.
+            COMMUNi Dashboard REST API — create, read, and delete dashboards and reports programmatically.
           </p>
           <div className="mt-3 flex items-center gap-2 text-xs text-gray-400 dark:text-gray-600" dir="ltr">
             <span className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono">Base URL</span>
@@ -478,8 +515,8 @@ export default function ApiDocsPage() {
         </div>
 
         <div className="space-y-3">
-          {endpoints.map((ep) => (
-            <EndpointCard key={ep.path} endpoint={ep} />
+          {endpoints.map((ep, i) => (
+            <EndpointCard key={`${ep.method}-${ep.path}-${i}`} endpoint={ep} />
           ))}
         </div>
 
@@ -497,108 +534,102 @@ export default function ApiDocsPage() {
           <WidgetPreview
             type="area"
             description="Smooth area chart — ideal for trends over time."
-            config={{ datasetKey: 'monthly-sales', xKey: 'month', yKey: 'revenue', color: '#2563eb', valueFormatter: 'compact' }}
+            config={{ xKey: 'month', yKey: 'revenue', color: '#2563eb', valueFormatter: 'compact' }}
             chart={<AreaChartWidget data={salesData} config={{ xKey: 'month', yKey: 'revenue', color: '#2563eb', valueFormatter: 'compact' }} />}
           />
           <WidgetPreview
             type="bar"
             description="Vertical bar chart — commonly used for comparisons and counts."
-            config={{ datasetKey: 'monthly-sales', xKey: 'month', yKey: 'orders', color: '#10b981' }}
+            config={{ xKey: 'month', yKey: 'orders', color: '#10b981' }}
             chart={<BarChartWidget data={salesData} config={{ xKey: 'month', yKey: 'orders', color: '#10b981' }} />}
           />
           <WidgetPreview
             type="candlestick"
             description="OHLC candlestick chart — for data with open, high, low, close values."
-            config={{ datasetKey: 'stock-price', xKey: 'date', openKey: 'open', highKey: 'high', lowKey: 'low', closeKey: 'close' }}
+            config={{ xKey: 'date', openKey: 'open', highKey: 'high', lowKey: 'low', closeKey: 'close' }}
             chart={<CandlestickWidget data={ohlcData} config={{ xKey: 'date', openKey: 'open', highKey: 'high', lowKey: 'low', closeKey: 'close' }} />}
           />
           <WidgetPreview
             type="table"
             description="Scrollable data table with configurable columns and labels."
-            config={{ datasetKey: 'monthly-sales', columns: ['month', 'revenue', 'orders'], columnLabels: { month: 'Month', revenue: 'Revenue', orders: 'Orders' } }}
+            config={{ columns: ['month', 'revenue', 'orders'], columnLabels: { month: 'Month', revenue: 'Revenue', orders: 'Orders' } }}
             chart={<DataTableWidget data={salesData} config={{ columns: ['month', 'revenue', 'orders'], columnLabels: { month: 'Month', revenue: 'Revenue ($)', orders: 'Orders' } }} />}
           />
           <WidgetPreview
             type="radar"
             description="Spider/radar chart — ideal for multi-dimensional comparisons."
-            config={{ datasetKey: 'cohesion-dimensions', labelKey: 'dimension', valueKey: 'score', color: '#10b981', maxValue: 100 }}
+            config={{ labelKey: 'dimension', valueKey: 'score', color: '#10b981', maxValue: 100 }}
             chart={<RadarChartWidget data={radarData} config={{ labelKey: 'dimension', valueKey: 'score', color: '#10b981', maxValue: 100 }} />}
           />
           <WidgetPreview
             type="scorecard"
             description="KPI big number with optional trend indicator."
-            config={{ datasetKey: 'cohesion-score', valueKey: 'score', maxValue: 100, trendKey: 'trend', trendLabel: 'מהרבעון הקודם', subtitle: 'מדד לכידות כללי', color: '#10b981' }}
+            config={{ valueKey: 'score', maxValue: 100, trendKey: 'trend', trendLabel: 'מהרבעון הקודם', subtitle: 'מדד לכידות כללי', color: '#10b981' }}
             chart={<ScorecardWidget data={scorecardData} config={{ valueKey: 'score', maxValue: 100, trendKey: 'trend', trendLabel: 'מהרבעון הקודם', subtitle: 'מדד לכידות כללי', color: '#10b981' }} />}
           />
           <WidgetPreview
             type="donut"
             description="Donut/ring chart — great for proportions and status."
-            config={{ datasetKey: 'activity-status', valueKey: 'value', labelKey: 'label', colors: ['#10b981', '#e5e7eb'], centerLabel: 'משתמשים פעילים', totalLabel: 'חברים' }}
+            config={{ valueKey: 'value', labelKey: 'label', colors: ['#10b981', '#e5e7eb'], centerLabel: 'משתמשים פעילים', totalLabel: 'חברים' }}
             chart={<DonutChartWidget data={donutData} config={{ valueKey: 'value', labelKey: 'label', colors: ['#10b981', '#e5e7eb'], centerLabel: 'משתמשים פעילים', totalLabel: 'חברים' }} />}
           />
           <WidgetPreview
             type="stacked-bar"
             description="Stacked bar chart — for comparing multiple series per category."
-            config={{ datasetKey: 'givers-receivers', xKey: 'month', yKeys: ['givers', 'receivers'], colors: ['#10b981', '#d1d5db'], labels: { givers: 'מוקירים', receivers: 'מקבלים' } }}
+            config={{ xKey: 'month', yKeys: ['givers', 'receivers'], colors: ['#10b981', '#d1d5db'], labels: { givers: 'מוקירים', receivers: 'מקבלים' } }}
             chart={<StackedBarWidget data={stackedBarData} config={{ xKey: 'month', yKeys: ['givers', 'receivers'], colors: ['#10b981', '#d1d5db'], labels: { givers: 'מוקירים', receivers: 'מקבלים' } }} />}
           />
           <WidgetPreview
             type="recommendations"
             description="Expandable action items with icons and bullet lists."
-            config={{ datasetKey: 'action-recommendations', titleKey: 'title', percentKey: 'percent', itemsKey: 'items', iconKey: 'icon', color: '#10b981' }}
+            config={{ titleKey: 'title', percentKey: 'percent', itemsKey: 'items', iconKey: 'icon', color: '#10b981' }}
             chart={<RecommendationsWidget data={recommendationsData} config={{ titleKey: 'title', percentKey: 'percent', itemsKey: 'items', iconKey: 'icon', color: '#10b981' }} />}
           />
           <WidgetPreview
             type="highlight"
             description="Featured item card with trend and horizontal bar breakdown."
-            config={{ datasetKey: 'top-products', nameKey: 'name', valueKey: 'percent', trendKey: 'trend', trendLabel: 'מול הרבעון הקודם', subtitle: 'הפריט הכי נמכר', color: '#10b981' }}
+            config={{ nameKey: 'name', valueKey: 'percent', trendKey: 'trend', trendLabel: 'מול הרבעון הקודם', subtitle: 'הפריט הכי נמכר', color: '#10b981' }}
             chart={<HighlightWidget data={highlightData} config={{ nameKey: 'name', valueKey: 'percent', trendKey: 'trend', trendLabel: 'מול הרבעון הקודם', subtitle: 'הפריט הכי נמכר', color: '#10b981' }} />}
           />
           <WidgetPreview
             type="feed"
             description="Content feed with badges, authors, and engagement metrics."
-            config={{ datasetKey: 'featured-posts', titleKey: 'title', badgeKey: 'badge', authorKey: 'author', excerptKey: 'excerpt', metricsKeys: ['comments', 'likes', 'views'], color: '#10b981' }}
+            config={{ titleKey: 'title', badgeKey: 'badge', authorKey: 'author', excerptKey: 'excerpt', metricsKeys: ['comments', 'likes', 'views'], color: '#10b981' }}
             chart={<FeedWidget data={feedData} config={{ titleKey: 'title', badgeKey: 'badge', authorKey: 'author', excerptKey: 'excerpt', metricsKeys: ['comments', 'likes', 'views'], color: '#10b981' }} />}
           />
           <WidgetPreview
             type="title"
             description="Hero title banner with logo, subtitle, date range, and badge."
-            config={{ datasetKey: 'report-header', titleKey: 'title', subtitleKey: 'subtitle', dateRangeKey: 'dateRange', badgeKey: 'badge', logoKey: 'logoUrl', color: '#10b981' }}
+            config={{ titleKey: 'title', subtitleKey: 'subtitle', dateRangeKey: 'dateRange', badgeKey: 'badge', logoKey: 'logoUrl', color: '#10b981' }}
             chart={<TitleWidget data={titleData} config={{ titleKey: 'title', subtitleKey: 'subtitle', dateRangeKey: 'dateRange', badgeKey: 'badge', logoKey: 'logoUrl', color: '#10b981' }} />}
           />
         </div>
 
-        {/* ── Sample Dataset ── */}
+        {/* ── Widget with Inline Data ── */}
         <div className="mt-10 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
           <div className="px-4 sm:px-5 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white" dir="ltr">Sample dataset object</h3>
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white" dir="ltr">Widget with inline data</h3>
             <CopyButton text={JSON.stringify({
-              key: 'monthly-sales',
-              label: 'Monthly Sales',
-              columns: [
-                { key: 'month', label: 'Month', type: 'string' },
-                { key: 'revenue', label: 'Revenue', type: 'number' },
-                { key: 'orders', label: 'Orders', type: 'number' },
-              ],
-              rows: [
-                { month: 'Jan', revenue: 145000, orders: 320 },
-                { month: 'Feb', revenue: 152000, orders: 385 },
+              type: 'area',
+              title: 'Revenue Trend',
+              config: { xKey: 'month', yKey: 'revenue', color: '#2563eb', valueFormatter: 'compact' },
+              data: [
+                { month: 'Jan', revenue: 145000 },
+                { month: 'Feb', revenue: 152000 },
+                { month: 'Mar', revenue: 168000 },
               ],
             }, null, 2)} />
           </div>
           <pre className="p-4 text-xs text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-950 overflow-x-auto" dir="ltr">
 {JSON.stringify(
   {
-    key: 'monthly-sales',
-    label: 'Monthly Sales',
-    columns: [
-      { key: 'month', label: 'Month', type: 'string' },
-      { key: 'revenue', label: 'Revenue', type: 'number' },
-      { key: 'orders', label: 'Orders', type: 'number' },
-    ],
-    rows: [
-      { month: 'Jan', revenue: 145000, orders: 320 },
-      { month: 'Feb', revenue: 152000, orders: 385 },
+    type: 'area',
+    title: 'Revenue Trend',
+    config: { xKey: 'month', yKey: 'revenue', color: '#2563eb', valueFormatter: 'compact' },
+    data: [
+      { month: 'Jan', revenue: 145000 },
+      { month: 'Feb', revenue: 152000 },
+      { month: 'Mar', revenue: 168000 },
     ],
   },
   null,
@@ -607,7 +638,7 @@ export default function ApiDocsPage() {
           </pre>
           <div className="px-4 sm:px-5 py-2.5 bg-gray-50 dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800/50">
             <p className="text-[11px] text-gray-500 dark:text-gray-400" dir="ltr">
-              <strong>Dataset fields:</strong> key (string, PK) · label (string) · columns (array of {'{'}key, label, type{'}'}) · rows (array of objects)
+              <strong>Widget fields:</strong> type (string) · title (string) · config (object) · data (array of row objects). Order is determined by array position. The API auto-generates datasets internally.
             </p>
           </div>
         </div>
@@ -626,7 +657,7 @@ export default function ApiDocsPage() {
                 </tr>
               </thead>
               <tbody className="text-gray-700 dark:text-gray-300">
-                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">datasetKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">all</td><td className="py-1.5 px-2">References a dataset by key</td></tr>
+                <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">datasetKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">all (auto)</td><td className="py-1.5 px-2">Auto-generated by the API — do not set manually</td></tr>
                 <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">xKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">area, bar, candlestick</td><td className="py-1.5 px-2">Field for x-axis / time axis</td></tr>
                 <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">yKey</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">area, bar</td><td className="py-1.5 px-2">Field for y-axis value</td></tr>
                 <tr className="border-b border-blue-100 dark:border-blue-900/50"><td className="py-1.5 px-2 font-mono">color</td><td className="py-1.5 px-2">string</td><td className="py-1.5 px-2">area, bar</td><td className="py-1.5 px-2">Chart color (hex)</td></tr>

@@ -6,11 +6,451 @@
   "logo_url": "/communi-logo.webp",
   "type": "סקירה",
   "widgets": [
-    { "type": "area", "title": "הכנסות — אזור צפון", "order": 0, "config": { "datasetKey": "sales-north", "xKey": "month", "yKey": "revenue", "color": "#2563eb", "valueFormatter": "compact" } },
-    { "type": "area", "title": "הכנסות — אזור דרום", "order": 1, "config": { "datasetKey": "sales-south", "xKey": "month", "yKey": "revenue", "color": "#7c3aed", "valueFormatter": "compact" } },
-    { "type": "bar", "title": "הזמנות — אזור צפון", "order": 2, "config": { "datasetKey": "sales-north", "xKey": "month", "yKey": "orders", "color": "#10b981" } },
-    { "type": "bar", "title": "הזמנות — אזור דרום", "order": 3, "config": { "datasetKey": "sales-south", "xKey": "month", "yKey": "orders", "color": "#f59e0b" } },
-    { "type": "table", "title": "נתוני מכירות — צפון", "order": 4, "config": { "datasetKey": "sales-north", "columns": ["month", "revenue", "orders", "returns"], "columnLabels": { "month": "חודש", "revenue": "הכנסות", "orders": "הזמנות", "returns": "החזרות" } } },
-    { "type": "table", "title": "נתוני מכירות — דרום", "order": 5, "config": { "datasetKey": "sales-south", "columns": ["month", "revenue", "orders", "returns"], "columnLabels": { "month": "חודש", "revenue": "הכנסות", "orders": "הזמנות", "returns": "החזרות" } } }
+    {
+      "type": "area",
+      "title": "הכנסות — אזור צפון",
+      "config": {
+        "xKey": "month",
+        "yKey": "revenue",
+        "color": "#2563eb",
+        "valueFormatter": "compact"
+      },
+      "data": [
+        {
+          "month": "ינואר",
+          "revenue": 145000,
+          "orders": 320,
+          "returns": 12
+        },
+        {
+          "month": "פברואר",
+          "revenue": 152000,
+          "orders": 385,
+          "returns": 8
+        },
+        {
+          "month": "מרץ",
+          "revenue": 168000,
+          "orders": 410,
+          "returns": 15
+        },
+        {
+          "month": "אפריל",
+          "revenue": 155000,
+          "orders": 372,
+          "returns": 10
+        },
+        {
+          "month": "מאי",
+          "revenue": 178000,
+          "orders": 445,
+          "returns": 7
+        },
+        {
+          "month": "יוני",
+          "revenue": 192000,
+          "orders": 480,
+          "returns": 11
+        },
+        {
+          "month": "יולי",
+          "revenue": 185000,
+          "orders": 462,
+          "returns": 9
+        },
+        {
+          "month": "אוגוסט",
+          "revenue": 198000,
+          "orders": 495,
+          "returns": 13
+        },
+        {
+          "month": "ספטמבר",
+          "revenue": 210000,
+          "orders": 528,
+          "returns": 6
+        },
+        {
+          "month": "אוקטובר",
+          "revenue": 225000,
+          "orders": 560,
+          "returns": 14
+        }
+      ]
+    },
+    {
+      "type": "area",
+      "title": "הכנסות — אזור דרום",
+      "config": {
+        "xKey": "month",
+        "yKey": "revenue",
+        "color": "#7c3aed",
+        "valueFormatter": "compact"
+      },
+      "data": [
+        {
+          "month": "ינואר",
+          "revenue": 98000,
+          "orders": 210,
+          "returns": 18
+        },
+        {
+          "month": "פברואר",
+          "revenue": 112000,
+          "orders": 248,
+          "returns": 14
+        },
+        {
+          "month": "מרץ",
+          "revenue": 105000,
+          "orders": 230,
+          "returns": 20
+        },
+        {
+          "month": "אפריל",
+          "revenue": 118000,
+          "orders": 265,
+          "returns": 11
+        },
+        {
+          "month": "מאי",
+          "revenue": 125000,
+          "orders": 290,
+          "returns": 16
+        },
+        {
+          "month": "יוני",
+          "revenue": 138000,
+          "orders": 315,
+          "returns": 9
+        },
+        {
+          "month": "יולי",
+          "revenue": 142000,
+          "orders": 325,
+          "returns": 12
+        },
+        {
+          "month": "אוגוסט",
+          "revenue": 155000,
+          "orders": 350,
+          "returns": 15
+        },
+        {
+          "month": "ספטמבר",
+          "revenue": 160000,
+          "orders": 370,
+          "returns": 8
+        },
+        {
+          "month": "אוקטובר",
+          "revenue": 172000,
+          "orders": 398,
+          "returns": 10
+        }
+      ]
+    },
+    {
+      "type": "bar",
+      "title": "הזמנות — אזור צפון",
+      "config": {
+        "xKey": "month",
+        "yKey": "orders",
+        "color": "#10b981"
+      },
+      "data": [
+        {
+          "month": "ינואר",
+          "revenue": 145000,
+          "orders": 320,
+          "returns": 12
+        },
+        {
+          "month": "פברואר",
+          "revenue": 152000,
+          "orders": 385,
+          "returns": 8
+        },
+        {
+          "month": "מרץ",
+          "revenue": 168000,
+          "orders": 410,
+          "returns": 15
+        },
+        {
+          "month": "אפריל",
+          "revenue": 155000,
+          "orders": 372,
+          "returns": 10
+        },
+        {
+          "month": "מאי",
+          "revenue": 178000,
+          "orders": 445,
+          "returns": 7
+        },
+        {
+          "month": "יוני",
+          "revenue": 192000,
+          "orders": 480,
+          "returns": 11
+        },
+        {
+          "month": "יולי",
+          "revenue": 185000,
+          "orders": 462,
+          "returns": 9
+        },
+        {
+          "month": "אוגוסט",
+          "revenue": 198000,
+          "orders": 495,
+          "returns": 13
+        },
+        {
+          "month": "ספטמבר",
+          "revenue": 210000,
+          "orders": 528,
+          "returns": 6
+        },
+        {
+          "month": "אוקטובר",
+          "revenue": 225000,
+          "orders": 560,
+          "returns": 14
+        }
+      ]
+    },
+    {
+      "type": "bar",
+      "title": "הזמנות — אזור דרום",
+      "config": {
+        "xKey": "month",
+        "yKey": "orders",
+        "color": "#f59e0b"
+      },
+      "data": [
+        {
+          "month": "ינואר",
+          "revenue": 98000,
+          "orders": 210,
+          "returns": 18
+        },
+        {
+          "month": "פברואר",
+          "revenue": 112000,
+          "orders": 248,
+          "returns": 14
+        },
+        {
+          "month": "מרץ",
+          "revenue": 105000,
+          "orders": 230,
+          "returns": 20
+        },
+        {
+          "month": "אפריל",
+          "revenue": 118000,
+          "orders": 265,
+          "returns": 11
+        },
+        {
+          "month": "מאי",
+          "revenue": 125000,
+          "orders": 290,
+          "returns": 16
+        },
+        {
+          "month": "יוני",
+          "revenue": 138000,
+          "orders": 315,
+          "returns": 9
+        },
+        {
+          "month": "יולי",
+          "revenue": 142000,
+          "orders": 325,
+          "returns": 12
+        },
+        {
+          "month": "אוגוסט",
+          "revenue": 155000,
+          "orders": 350,
+          "returns": 15
+        },
+        {
+          "month": "ספטמבר",
+          "revenue": 160000,
+          "orders": 370,
+          "returns": 8
+        },
+        {
+          "month": "אוקטובר",
+          "revenue": 172000,
+          "orders": 398,
+          "returns": 10
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "נתוני מכירות — צפון",
+      "config": {
+        "columns": [
+          "month",
+          "revenue",
+          "orders",
+          "returns"
+        ],
+        "columnLabels": {
+          "month": "חודש",
+          "revenue": "הכנסות",
+          "orders": "הזמנות",
+          "returns": "החזרות"
+        }
+      },
+      "data": [
+        {
+          "month": "ינואר",
+          "revenue": 145000,
+          "orders": 320,
+          "returns": 12
+        },
+        {
+          "month": "פברואר",
+          "revenue": 152000,
+          "orders": 385,
+          "returns": 8
+        },
+        {
+          "month": "מרץ",
+          "revenue": 168000,
+          "orders": 410,
+          "returns": 15
+        },
+        {
+          "month": "אפריל",
+          "revenue": 155000,
+          "orders": 372,
+          "returns": 10
+        },
+        {
+          "month": "מאי",
+          "revenue": 178000,
+          "orders": 445,
+          "returns": 7
+        },
+        {
+          "month": "יוני",
+          "revenue": 192000,
+          "orders": 480,
+          "returns": 11
+        },
+        {
+          "month": "יולי",
+          "revenue": 185000,
+          "orders": 462,
+          "returns": 9
+        },
+        {
+          "month": "אוגוסט",
+          "revenue": 198000,
+          "orders": 495,
+          "returns": 13
+        },
+        {
+          "month": "ספטמבר",
+          "revenue": 210000,
+          "orders": 528,
+          "returns": 6
+        },
+        {
+          "month": "אוקטובר",
+          "revenue": 225000,
+          "orders": 560,
+          "returns": 14
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "נתוני מכירות — דרום",
+      "config": {
+        "columns": [
+          "month",
+          "revenue",
+          "orders",
+          "returns"
+        ],
+        "columnLabels": {
+          "month": "חודש",
+          "revenue": "הכנסות",
+          "orders": "הזמנות",
+          "returns": "החזרות"
+        }
+      },
+      "data": [
+        {
+          "month": "ינואר",
+          "revenue": 98000,
+          "orders": 210,
+          "returns": 18
+        },
+        {
+          "month": "פברואר",
+          "revenue": 112000,
+          "orders": 248,
+          "returns": 14
+        },
+        {
+          "month": "מרץ",
+          "revenue": 105000,
+          "orders": 230,
+          "returns": 20
+        },
+        {
+          "month": "אפריל",
+          "revenue": 118000,
+          "orders": 265,
+          "returns": 11
+        },
+        {
+          "month": "מאי",
+          "revenue": 125000,
+          "orders": 290,
+          "returns": 16
+        },
+        {
+          "month": "יוני",
+          "revenue": 138000,
+          "orders": 315,
+          "returns": 9
+        },
+        {
+          "month": "יולי",
+          "revenue": 142000,
+          "orders": 325,
+          "returns": 12
+        },
+        {
+          "month": "אוגוסט",
+          "revenue": 155000,
+          "orders": 350,
+          "returns": 15
+        },
+        {
+          "month": "ספטמבר",
+          "revenue": 160000,
+          "orders": 370,
+          "returns": 8
+        },
+        {
+          "month": "אוקטובר",
+          "revenue": 172000,
+          "orders": 398,
+          "returns": 10
+        }
+      ]
+    }
   ]
 }

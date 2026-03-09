@@ -26,8 +26,11 @@ export default function HomePage() {
       const dashData = await dashRes.json();
       const { reports: reportKeys, ...dashboardPayload } = dashData;
 
-      // 2. Create dashboard + seed datasets
-      const createDashRes = await fetch('/api/create-dashboard', {
+      // 2. Delete existing dashboard (ignore errors — may not exist)
+      await fetch(`/api/dashboards/${dashboardPayload.key}`, { method: 'DELETE' });
+
+      // 3. Create dashboard (metadata only)
+      const createDashRes = await fetch('/api/dashboards', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dashboardPayload),
@@ -38,12 +41,12 @@ export default function HomePage() {
         return;
       }
 
-      // 3. Load and create each report
+      // 4. Load and create each report
       for (const reportKey of reportKeys) {
         const reportRes = await fetch(`/data/example/reports/${reportKey}.json`);
         const reportData = await reportRes.json();
 
-        const createReportRes = await fetch('/api/create-report', {
+        const createReportRes = await fetch('/api/reports', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(reportData),

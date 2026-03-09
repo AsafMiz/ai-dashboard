@@ -6,9 +6,252 @@
   "logo_url": "/communi-logo.webp",
   "type": "סקירה",
   "widgets": [
-    { "type": "bar", "title": "שביעות רצון לפי מחלקה", "order": 0, "config": { "datasetKey": "team-satisfaction", "xKey": "department", "yKey": "satisfaction", "color": "#2563eb", "valueFormatter": "percent" } },
-    { "type": "bar", "title": "מעורבות לפי מחלקה", "order": 1, "config": { "datasetKey": "team-satisfaction", "xKey": "department", "yKey": "engagement", "color": "#7c3aed", "valueFormatter": "percent" } },
-    { "type": "bar", "title": "מספר עובדים לפי מחלקה", "order": 2, "config": { "datasetKey": "team-satisfaction", "xKey": "department", "yKey": "headcount", "color": "#10b981" } },
-    { "type": "table", "title": "טבלת סקר מלאה", "order": 3, "config": { "datasetKey": "team-satisfaction", "columns": ["department", "satisfaction", "engagement", "headcount"], "columnLabels": { "department": "מחלקה", "satisfaction": "שביעות רצון (%)", "engagement": "מעורבות (%)", "headcount": "עובדים" } } }
+    {
+      "type": "bar",
+      "title": "שביעות רצון לפי מחלקה",
+      "config": {
+        "xKey": "department",
+        "yKey": "satisfaction",
+        "color": "#2563eb",
+        "valueFormatter": "percent"
+      },
+      "data": [
+        {
+          "department": "פיתוח",
+          "satisfaction": 82,
+          "engagement": 88,
+          "headcount": 45
+        },
+        {
+          "department": "מכירות",
+          "satisfaction": 75,
+          "engagement": 80,
+          "headcount": 32
+        },
+        {
+          "department": "שיווק",
+          "satisfaction": 90,
+          "engagement": 85,
+          "headcount": 18
+        },
+        {
+          "department": "תמיכה",
+          "satisfaction": 68,
+          "engagement": 72,
+          "headcount": 25
+        },
+        {
+          "department": "משאבי אנוש",
+          "satisfaction": 88,
+          "engagement": 91,
+          "headcount": 12
+        },
+        {
+          "department": "כספים",
+          "satisfaction": 78,
+          "engagement": 76,
+          "headcount": 15
+        },
+        {
+          "department": "תפעול",
+          "satisfaction": 71,
+          "engagement": 74,
+          "headcount": 28
+        },
+        {
+          "department": "מוצר",
+          "satisfaction": 85,
+          "engagement": 89,
+          "headcount": 20
+        }
+      ]
+    },
+    {
+      "type": "bar",
+      "title": "מעורבות לפי מחלקה",
+      "config": {
+        "xKey": "department",
+        "yKey": "engagement",
+        "color": "#7c3aed",
+        "valueFormatter": "percent"
+      },
+      "data": [
+        {
+          "department": "פיתוח",
+          "satisfaction": 82,
+          "engagement": 88,
+          "headcount": 45
+        },
+        {
+          "department": "מכירות",
+          "satisfaction": 75,
+          "engagement": 80,
+          "headcount": 32
+        },
+        {
+          "department": "שיווק",
+          "satisfaction": 90,
+          "engagement": 85,
+          "headcount": 18
+        },
+        {
+          "department": "תמיכה",
+          "satisfaction": 68,
+          "engagement": 72,
+          "headcount": 25
+        },
+        {
+          "department": "משאבי אנוש",
+          "satisfaction": 88,
+          "engagement": 91,
+          "headcount": 12
+        },
+        {
+          "department": "כספים",
+          "satisfaction": 78,
+          "engagement": 76,
+          "headcount": 15
+        },
+        {
+          "department": "תפעול",
+          "satisfaction": 71,
+          "engagement": 74,
+          "headcount": 28
+        },
+        {
+          "department": "מוצר",
+          "satisfaction": 85,
+          "engagement": 89,
+          "headcount": 20
+        }
+      ]
+    },
+    {
+      "type": "bar",
+      "title": "מספר עובדים לפי מחלקה",
+      "config": {
+        "xKey": "department",
+        "yKey": "headcount",
+        "color": "#10b981"
+      },
+      "data": [
+        {
+          "department": "פיתוח",
+          "satisfaction": 82,
+          "engagement": 88,
+          "headcount": 45
+        },
+        {
+          "department": "מכירות",
+          "satisfaction": 75,
+          "engagement": 80,
+          "headcount": 32
+        },
+        {
+          "department": "שיווק",
+          "satisfaction": 90,
+          "engagement": 85,
+          "headcount": 18
+        },
+        {
+          "department": "תמיכה",
+          "satisfaction": 68,
+          "engagement": 72,
+          "headcount": 25
+        },
+        {
+          "department": "משאבי אנוש",
+          "satisfaction": 88,
+          "engagement": 91,
+          "headcount": 12
+        },
+        {
+          "department": "כספים",
+          "satisfaction": 78,
+          "engagement": 76,
+          "headcount": 15
+        },
+        {
+          "department": "תפעול",
+          "satisfaction": 71,
+          "engagement": 74,
+          "headcount": 28
+        },
+        {
+          "department": "מוצר",
+          "satisfaction": 85,
+          "engagement": 89,
+          "headcount": 20
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "טבלת סקר מלאה",
+      "config": {
+        "columns": [
+          "department",
+          "satisfaction",
+          "engagement",
+          "headcount"
+        ],
+        "columnLabels": {
+          "department": "מחלקה",
+          "satisfaction": "שביעות רצון (%)",
+          "engagement": "מעורבות (%)",
+          "headcount": "עובדים"
+        }
+      },
+      "data": [
+        {
+          "department": "פיתוח",
+          "satisfaction": 82,
+          "engagement": 88,
+          "headcount": 45
+        },
+        {
+          "department": "מכירות",
+          "satisfaction": 75,
+          "engagement": 80,
+          "headcount": 32
+        },
+        {
+          "department": "שיווק",
+          "satisfaction": 90,
+          "engagement": 85,
+          "headcount": 18
+        },
+        {
+          "department": "תמיכה",
+          "satisfaction": 68,
+          "engagement": 72,
+          "headcount": 25
+        },
+        {
+          "department": "משאבי אנוש",
+          "satisfaction": 88,
+          "engagement": 91,
+          "headcount": 12
+        },
+        {
+          "department": "כספים",
+          "satisfaction": 78,
+          "engagement": 76,
+          "headcount": 15
+        },
+        {
+          "department": "תפעול",
+          "satisfaction": 71,
+          "engagement": 74,
+          "headcount": 28
+        },
+        {
+          "department": "מוצר",
+          "satisfaction": 85,
+          "engagement": 89,
+          "headcount": 20
+        }
+      ]
+    }
   ]
 }
