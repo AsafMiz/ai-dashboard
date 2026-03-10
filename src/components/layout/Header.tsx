@@ -5,7 +5,7 @@ export function Header({ title, subtitle, logoUrl }: { title?: React.ReactNode; 
   return (
     <header className="h-14 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-10">
       <div className="flex items-center gap-3 min-w-0">
-        <LogoImage src={logoUrl} className="w-7 h-7 object-cover rounded-lg border border-gray-200 dark:border-gray-700 shrink-0" />
+        <LogoImage src={logoUrl} className="w-7 h-7 object-cover rounded-lg border border-gray-200 dark:border-gray-800 shrink-0" />
         <h2 className="text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-200 truncate">
           {title ?? 'לוח מחוונים'}
         </h2>

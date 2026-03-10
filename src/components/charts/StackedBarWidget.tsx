@@ -4,10 +4,7 @@ import {
   BarChart,
   Bar,
   XAxis,
-  YAxis,
-  CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 import { DataRow, WidgetConfig } from '@/lib/types';
@@ -33,46 +30,51 @@ export function StackedBarWidget({ data, config }: StackedBarWidgetProps) {
   });
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-800" />
-        <XAxis
-          dataKey="label"
-          tick={{ fontSize: 11, fill: '#9ca3af' }}
-          tickLine={false}
-          axisLine={false}
-        />
-        <YAxis
-          tick={{ fontSize: 11, fill: '#9ca3af' }}
-          tickLine={false}
-          axisLine={false}
-          orientation="left"
-        />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: 'rgba(17, 24, 39, 0.9)',
-            border: 'none',
-            borderRadius: '8px',
-            color: '#f9fafb',
-            fontSize: 12,
-          }}
-        />
-        <Legend
-          formatter={(value: string) => labels[value] ?? value}
-          wrapperStyle={{ fontSize: 12 }}
-        />
+    <div>
+      {/* Custom legend — top-right with colored dots */}
+      <div className="flex justify-start gap-4 mb-2">
         {yKeys.map((key, index) => (
-          <Bar
-            key={key}
-            dataKey={key}
-            stackId="stack"
-            fill={colors[index % colors.length]}
-            name={key}
-            radius={index === yKeys.length - 1 ? [4, 4, 0, 0] : undefined}
-            animationDuration={800}
-          />
+          <div key={key} className="flex items-center gap-1.5">
+            <span
+              className="w-2.5 h-2.5 rounded-full shrink-0"
+              style={{ backgroundColor: colors[index % colors.length] }}
+            />
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+              {labels[key] ?? key}
+            </span>
+          </div>
         ))}
-      </BarChart>
-    </ResponsiveContainer>
+      </div>
+
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }} barGap={0}>
+          <XAxis
+            dataKey="label"
+            tick={{ fontSize: 11, fill: '#9ca3af' }}
+            tickLine={false}
+            axisLine={false}
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: 'rgba(17, 24, 39, 0.9)',
+              border: 'none',
+              borderRadius: '8px',
+              color: '#f9fafb',
+              fontSize: 12,
+            }}
+          />
+          {yKeys.map((key, index) => (
+            <Bar
+              key={key}
+              dataKey={key}
+              fill={colors[index % colors.length]}
+              name={labels[key] ?? key}
+              radius={[10, 10, 0, 0]}
+              animationDuration={800}
+            />
+          ))}
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
