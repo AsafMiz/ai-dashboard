@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, ChevronUp, Send, Loader2, Copy, Check, BookOpen } from 'lucide-react';
+import { ChevronDown, ChevronUp, Send, Loader2, Copy, Check, BookOpen, Terminal } from 'lucide-react';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 import { AreaChartWidget } from '@/components/charts/AreaChartWidget';
 import { BarChartWidget } from '@/components/charts/BarChartWidget';
@@ -287,7 +287,26 @@ function EndpointCard({ endpoint }: { endpoint: Endpoint }) {
   const [responseStatus, setResponseStatus] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const [curlCopied, setCurlCopied] = useState(false);
   const hasBody = endpoint.method === 'POST' || endpoint.method === 'PUT';
+
+  function generateCurl() {
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+    const url = `${origin}${endpoint.path}`;
+    if (hasBody) {
+      return `curl -X ${endpoint.method} ${url} \\\n  -H "Content-Type: application/json" \\\n  -d '${body}'`;
+    }
+    if (endpoint.method === 'GET') {
+      return `curl ${url}`;
+    }
+    return `curl -X ${endpoint.method} ${url}`;
+  }
+
+  function handleCopyCurl() {
+    navigator.clipboard.writeText(generateCurl());
+    setCurlCopied(true);
+    setTimeout(() => setCurlCopied(false), 1500);
+  }
 
   async function handleTry() {
     setLoading(true);
@@ -400,14 +419,23 @@ function EndpointCard({ endpoint }: { endpoint: Endpoint }) {
                 Replace path parameters with actual values (e.g. <code className="text-blue-600 dark:text-blue-400">/api/dashboards/example</code>).
               </p>
             )}
-            <button
-              onClick={handleTry}
-              disabled={loading || (!hasBody && endpoint.path.includes('{'))}
-              className="mt-2 flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-lg text-xs font-medium transition-colors"
-            >
-              {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
-              <span>Send Request</span>
-            </button>
+            <div className="mt-2 flex items-center gap-2">
+              <button
+                onClick={handleTry}
+                disabled={loading || (!hasBody && endpoint.path.includes('{'))}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-lg text-xs font-medium transition-colors"
+              >
+                {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+                <span>Send Request</span>
+              </button>
+              <button
+                onClick={handleCopyCurl}
+                className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-lg text-xs font-medium transition-colors"
+              >
+                {curlCopied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Terminal className="w-3.5 h-3.5" />}
+                <span>{curlCopied ? 'Copied!' : 'Copy cURL'}</span>
+              </button>
+            </div>
 
             {response !== null && (
               <div className="mt-3 rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden">
