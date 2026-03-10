@@ -31,7 +31,7 @@ export function HighlightWidget({ data, config }: HighlightWidgetProps) {
   return (
     <div className="space-y-4">
       {/* Featured item */}
-      <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+      <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-4">
         {featuredImage && (
           <div className="flex justify-center mb-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}

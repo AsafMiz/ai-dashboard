@@ -26,38 +26,45 @@ export function DonutChartWidget({ data, config }: DonutChartWidgetProps) {
   const percent = total > 0 ? Math.round((primary / total) * 100) : 0;
 
   return (
-    <div className="flex items-center justify-center h-[300px] gap-6">
-      {/* Text side */}
-      <div className="flex flex-col items-end gap-1">
-        <span className="text-4xl font-bold" style={{ color: colors[0] }}>
-          {percent}%
-        </span>
+    <div className="flex items-center justify-center gap-6 py-4">
+      {/* Text side (first in HTML = right in RTL) */}
+      <div className="flex flex-col gap-1">
         {centerLabel && (
-          <span className="text-sm text-gray-600 dark:text-gray-400">
+          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
             {centerLabel}
           </span>
         )}
+        <div className="flex items-baseline gap-0.5" dir="ltr">
+          <span className="text-3xl font-bold text-gray-900 dark:text-white">
+            {primary.toLocaleString()}
+          </span>
+          <span className="text-lg text-gray-400 dark:text-gray-500">
+            /{total.toLocaleString()}
+          </span>
+        </div>
         {totalLabel && (
           <span className="text-xs text-gray-400 dark:text-gray-500">
-            {primary} מתוך {total} {totalLabel}
+            {totalLabel}
           </span>
         )}
       </div>
 
-      {/* Donut */}
-      <div className="w-[160px] h-[160px]">
+      {/* Donut with percentage overlay (second in HTML = left in RTL) */}
+      <div className="relative w-[100px] h-[100px] shrink-0">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={chartData}
               cx="50%"
               cy="50%"
-              innerRadius="65%"
+              innerRadius="75%"
               outerRadius="95%"
               dataKey="value"
               startAngle={90}
               endAngle={-270}
               stroke="none"
+              cornerRadius={10}
+              animationDuration={800}
             >
               {chartData.map((_, index) => (
                 <Cell
@@ -68,6 +75,11 @@ export function DonutChartWidget({ data, config }: DonutChartWidgetProps) {
             </Pie>
           </PieChart>
         </ResponsiveContainer>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-xl font-bold" style={{ color: colors[0] }}>
+            {percent}%
+          </span>
+        </div>
       </div>
     </div>
   );

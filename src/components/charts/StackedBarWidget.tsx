@@ -69,6 +69,7 @@ export function StackedBarWidget({ data, config }: StackedBarWidgetProps) {
             fill={colors[index % colors.length]}
             name={key}
             radius={index === yKeys.length - 1 ? [4, 4, 0, 0] : undefined}
+            animationDuration={800}
           />
         ))}
       </BarChart>

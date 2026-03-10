@@ -52,13 +52,16 @@ export function CandlestickWidget({ data, config }: CandlestickWidgetProps) {
       },
     });
 
+    const upColor = config.color ?? '#10b981';
+    const downColor = '#ef4444';
+
     const candlestickSeries = chart.addSeries(CandlestickSeries, {
-      upColor: '#10b981',
-      downColor: '#ef4444',
-      borderDownColor: '#ef4444',
-      borderUpColor: '#10b981',
-      wickDownColor: '#ef4444',
-      wickUpColor: '#10b981',
+      upColor,
+      downColor,
+      borderDownColor: downColor,
+      borderUpColor: upColor,
+      wickDownColor: downColor,
+      wickUpColor: upColor,
     });
 
     const candleData: CandlestickData<Time>[] = data.map((d) => ({
