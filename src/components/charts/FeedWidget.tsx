@@ -48,7 +48,7 @@ export function FeedWidget({ data, config }: FeedWidgetProps) {
         return (
           <div
             key={index}
-            className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 space-y-2.5"
+            className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 space-y-2.5"
           >
             {/* Badge + Title + Author */}
             <div className="flex items-start justify-between gap-3">

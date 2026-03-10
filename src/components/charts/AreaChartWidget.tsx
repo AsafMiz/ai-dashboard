@@ -27,7 +27,7 @@ function formatValue(value: number, formatter?: string): string {
 }
 
 export function AreaChartWidget({ data, config }: AreaChartWidgetProps) {
-  const color = config.color ?? '#2563eb';
+  const color = config.color ?? '#10b981';
   const xKey = config.xKey ?? Object.keys(data[0] ?? {})[0] ?? 'label';
   const yKey = config.yKey ?? Object.keys(data[0] ?? {})[1] ?? 'value';
 

@@ -68,7 +68,7 @@ export function BarChartWidget({ data, config }: BarChartWidgetProps) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           formatter={(value: any) => [formatValue(Number(value), config.valueFormatter), yKey]}
         />
-        <Bar dataKey="value" fill={color} radius={[4, 4, 0, 0]} />
+        <Bar dataKey="value" fill={color} radius={[4, 4, 0, 0]} animationDuration={800} />
       </BarChart>
     </ResponsiveContainer>
   );
