@@ -47,7 +47,7 @@ export function DataTableWidget({ data, config }: DataTableWidgetProps) {
             {data.map((row, i) => (
               <tr
                 key={i}
-                className="border-b border-gray-100 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
+                className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
               >
                 {columns.map((col) => (
                   <td

@@ -61,13 +61,19 @@ All accept `logo_url` (optional). Full schemas in `docs/guide.md`.
 
 Home page "create example" button: DELETEs `/api/dashboards/example` (ignore errors) → POSTs `/api/dashboards` (metadata only) → fetches each report from `public/data/example/reports/*.json` → POSTs each to `/api/reports` (with inline data per widget) → navigates to `/dashboard/example`.
 
+### Utility Pages
+
+- `/dashboards-overview` — Lists all dashboards with collapsible report cards, metadata, and copy-URL buttons. Client component fetching from Supabase.
+- `/api-docs` — Interactive API documentation with copy cURL buttons per endpoint.
+
 ## Key Conventions
 
-- **Hebrew RTL**: `<html lang="he" dir="rtl">` — all user-facing text in Hebrew. Use `dir="ltr"` on URL/key input fields.
+- **Hebrew RTL**: `<html lang="he" dir="rtl">` — all user-facing text in Hebrew. Use `dir="ltr"` on URL/key input fields and numeric displays.
 - **Dark mode**: `next-themes` with `attribute="class"`, manual toggle only (not system preference). `LogoImage` component (`components/layout/LogoImage.tsx`) handles image fallback to `/communi-logo.webp`.
 - **Date formatting**: `toLocaleDateString('he-IL')`
 - **Dynamic icons**: Lucide icons loaded by name string via `LucideIcons[name]`
 - **Inline widget data**: When creating reports via API, each widget carries its own `data` array. The API auto-generates datasets and sets `config.datasetKey`. WidgetRenderer reads from the `datasets` table at render time.
+- **Widget styling**: Accent colors come from the API via `config.color` (hex string), not hardcoded. Default: `#10b981`. Full design system documented in `docs/design-guidelines.md`.
 
 ## Git Workflow
 

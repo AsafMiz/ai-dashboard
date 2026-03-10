@@ -89,7 +89,7 @@ function CustomTooltip({
   const pct = Math.round((value / maxValue) * 100);
 
   return (
-    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 shadow-lg text-right">
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 shadow-lg text-right">
       <p className="text-xs font-semibold text-gray-900 dark:text-white mb-0.5">{label}</p>
       <div className="flex items-center gap-2 text-xs">
         <span className="font-bold" style={{ color }}>{value}</span>
@@ -121,7 +121,7 @@ export function RadarChartWidget({ data, config }: RadarChartWidgetProps) {
     <div>
       <ResponsiveContainer width="100%" height={320}>
         <RadarChart cx="50%" cy="50%" outerRadius="60%" data={chartData}>
-          <PolarGrid stroke="#e5e7eb" strokeDasharray="3 3" className="dark:stroke-gray-700" />
+          <PolarGrid stroke="#e5e7eb" strokeDasharray="3 3" className="dark:stroke-gray-800" />
           <PolarAngleAxis
             dataKey="label"
             tick={(props: Record<string, unknown>) => (

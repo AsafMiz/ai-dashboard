@@ -46,7 +46,7 @@ export function RecommendationsWidget({ data, config }: RecommendationsWidgetPro
         return (
           <div
             key={index}
-            className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"
+            className="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden"
           >
             <button
               onClick={() => toggleSection(index)}

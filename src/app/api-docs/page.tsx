@@ -430,7 +430,7 @@ function EndpointCard({ endpoint }: { endpoint: Endpoint }) {
               </button>
               <button
                 onClick={handleCopyCurl}
-                className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-lg text-xs font-medium transition-colors"
+                className="flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-lg text-xs font-medium transition-colors"
               >
                 {curlCopied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Terminal className="w-3.5 h-3.5" />}
                 <span>{curlCopied ? 'Copied!' : 'Copy cURL'}</span>
@@ -439,7 +439,7 @@ function EndpointCard({ endpoint }: { endpoint: Endpoint }) {
 
             {response !== null && (
               <div className="mt-3 rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden">
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-800">
                   <span className="text-xs text-gray-500 dark:text-gray-400">Response</span>
                   {responseStatus !== null && <StatusBadge status={responseStatus} />}
                   <div className="flex-1" />
@@ -516,7 +516,7 @@ export default function ApiDocsPage() {
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-600 transition-colors">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/communi-logo.webp" alt="COMMUNi" className="w-6 h-6 object-cover rounded-md border border-gray-200 dark:border-gray-700" />
+            <img src="/communi-logo.webp" alt="COMMUNi" className="w-6 h-6 object-cover rounded-md border border-gray-200 dark:border-gray-800" />
             COMMUNi Dashboard
           </Link>
           <span className="text-gray-300 dark:text-gray-700">/</span>

@@ -74,7 +74,7 @@ export default function HomePage() {
 
       <div className="flex flex-col items-center gap-4 mb-8">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/communi-logo.webp" alt="COMMUNi" className="w-20 h-20 object-cover rounded-xl border-2 border-gray-200 dark:border-gray-700" />
+        <img src="/communi-logo.webp" alt="COMMUNi" className="w-20 h-20 object-cover rounded-xl border-2 border-gray-200 dark:border-gray-800" />
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
           COMMUNi <span className="text-blue-600">Dashboard</span>
         </h1>
@@ -94,7 +94,7 @@ export default function HomePage() {
             value={key}
             onChange={(e) => setKey(e.target.value)}
             placeholder="לדוגמה: example"
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
             dir="ltr"
           />
         </div>

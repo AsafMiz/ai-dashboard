@@ -61,7 +61,7 @@ export default function DashboardsOverviewPage() {
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-600 transition-colors">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/communi-logo.webp" alt="COMMUNi" className="w-6 h-6 object-cover rounded-md border border-gray-200 dark:border-gray-700" />
+            <img src="/communi-logo.webp" alt="COMMUNi" className="w-6 h-6 object-cover rounded-md border border-gray-200 dark:border-gray-800" />
             COMMUNi Dashboard
           </Link>
           <span className="text-gray-300 dark:text-gray-700">/</span>
@@ -112,7 +112,7 @@ export default function DashboardsOverviewPage() {
                       {dashboard.logo_url ? (
                         <LogoImage
                           src={dashboard.logo_url}
-                          className="w-10 h-10 object-cover rounded-xl border-2 border-gray-200 dark:border-gray-700 shrink-0"
+                          className="w-10 h-10 object-cover rounded-xl border-2 border-gray-200 dark:border-gray-800 shrink-0"
                         />
                       ) : (
                         <DashboardIcon name={dashboard.icon} />
