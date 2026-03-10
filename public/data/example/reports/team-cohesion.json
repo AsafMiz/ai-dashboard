@@ -28,6 +28,24 @@
       ]
     },
     {
+      "type": "scorecard",
+      "title": "מדד לכידות כללי",
+      "config": {
+        "valueKey": "score",
+        "maxValue": 100,
+        "trendKey": "trend",
+        "trendLabel": "מהרבעון הקודם",
+        "subtitle": "מדד לכידות כללי",
+        "color": "#10b981"
+      },
+      "data": [
+        {
+          "score": 76,
+          "trend": 4.2
+        }
+      ]
+    },
+    {
       "type": "radar",
       "title": "מפת ממדי לכידות",
       "config": {
@@ -56,24 +74,6 @@
         {
           "dimension": "מעורבות",
           "score": 80
-        }
-      ]
-    },
-    {
-      "type": "scorecard",
-      "title": "מדד לכידות כללי",
-      "config": {
-        "valueKey": "score",
-        "maxValue": 100,
-        "trendKey": "trend",
-        "trendLabel": "מהרבעון הקודם",
-        "subtitle": "מדד לכידות כללי",
-        "color": "#10b981"
-      },
-      "data": [
-        {
-          "score": 76,
-          "trend": 4.2
         }
       ]
     },
@@ -176,37 +176,6 @@
       ]
     },
     {
-      "type": "highlight",
-      "title": "הפריט הנמכר ביותר החודש",
-      "config": {
-        "nameKey": "name",
-        "valueKey": "percent",
-        "trendKey": "trend",
-        "trendLabel": "מול הרבעון הקודם",
-        "subtitle": "הפריט הכי נמכר",
-        "color": "#10b981"
-      },
-      "data": [
-        {
-          "name": "שואב אבק רובוטי",
-          "percent": 42,
-          "trend": 8
-        },
-        {
-          "name": "אוזניות אלחוטיות",
-          "percent": 28
-        },
-        {
-          "name": "כרטיס מתנה",
-          "percent": 18
-        },
-        {
-          "name": "שובר בילוי",
-          "percent": 12
-        }
-      ]
-    },
-    {
       "type": "feed",
       "title": "פיד פוסטים בולטים",
       "config": {
@@ -248,6 +217,37 @@
           "comments": 14,
           "likes": 52,
           "views": 215
+        }
+      ]
+    },
+    {
+      "type": "highlight",
+      "title": "הפריט הנמכר ביותר החודש",
+      "config": {
+        "nameKey": "name",
+        "valueKey": "percent",
+        "trendKey": "trend",
+        "trendLabel": "מול הרבעון הקודם",
+        "subtitle": "הפריט הכי נמכר",
+        "color": "#10b981"
+      },
+      "data": [
+        {
+          "name": "שואב אבק רובוטי",
+          "percent": 42,
+          "trend": 8
+        },
+        {
+          "name": "אוזניות אלחוטיות",
+          "percent": 28
+        },
+        {
+          "name": "כרטיס מתנה",
+          "percent": 18
+        },
+        {
+          "name": "שובר בילוי",
+          "percent": 12
         }
       ]
     }
