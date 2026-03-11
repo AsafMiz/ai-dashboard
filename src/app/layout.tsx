@@ -4,7 +4,7 @@ import { ThemeProvider } from '@/components/layout/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'COMMUNi Dashboard',
-  description: 'לוח מחוונים דינמי לניתוח שוק ההון',
+  description: 'מערכת דשבורדים דינמית לניתוח וויזואליזציה של נתונים',
   icons: {
     icon: '/communi-logo.webp',
     apple: '/communi-logo.webp',
