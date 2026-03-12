@@ -5,6 +5,38 @@ interface RouteParams {
   params: Promise<{ dashboardKey: string; reportKey: string }>;
 }
 
+export async function GET(_request: NextRequest, { params }: RouteParams) {
+  try {
+    const { dashboardKey, reportKey } = await params;
+
+    const { data: report } = await supabaseAdmin
+      .from('reports')
+      .select('source_json')
+      .eq('dashboard_key', dashboardKey)
+      .eq('report_key', reportKey)
+      .single();
+
+    if (!report) {
+      return NextResponse.json(
+        { error: `Report '${reportKey}' not found in dashboard '${dashboardKey}'` },
+        { status: 404 }
+      );
+    }
+
+    if (!report.source_json) {
+      return NextResponse.json(
+        { error: `No source JSON available for report '${reportKey}'` },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(report.source_json);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}
+
 export async function DELETE(_request: NextRequest, { params }: RouteParams) {
   try {
     const { dashboardKey, reportKey } = await params;
