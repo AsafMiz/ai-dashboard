@@ -112,7 +112,7 @@ interface Endpoint {
   exampleBody: string;
 }
 
-const endpoints: Endpoint[] = [
+const dashboardEndpoints: Endpoint[] = [
   {
     method: 'POST',
     path: '/api/dashboards',
@@ -174,6 +174,9 @@ const endpoints: Endpoint[] = [
     ],
     exampleBody: '',
   },
+];
+
+const reportEndpoints: Endpoint[] = [
   {
     method: 'POST',
     path: '/api/reports',
@@ -221,6 +224,23 @@ const endpoints: Endpoint[] = [
       null,
       2
     ),
+  },
+  {
+    method: 'GET',
+    path: '/api/reports/{dashboardKey}/{reportKey}',
+    summary: 'Get report source JSON',
+    description:
+      'Returns the exact JSON payload that was used to create the report. Replace {dashboardKey} and {reportKey} with actual values.',
+    params: [
+      { name: 'dashboardKey', type: 'string (path)', required: true, description: 'Dashboard key (URL path parameter)' },
+      { name: 'reportKey', type: 'string (path)', required: true, description: 'Report key (URL path parameter)' },
+    ],
+    responses: [
+      { status: 200, label: 'Success', body: '{\n  "dashboard_key": "my-dashboard",\n  "report_key": "overview",\n  "title": "Sales Overview",\n  "widgets": [ ... ]\n}' },
+      { status: 404, label: 'Not Found', body: '{\n  "error": "Report \'overview\' not found in dashboard \'my-dashboard\'"\n}' },
+      { status: 404, label: 'No Source JSON', body: '{\n  "error": "No source JSON available for report \'overview\'"\n}' },
+    ],
+    exampleBody: '',
   },
   {
     method: 'DELETE',
@@ -542,8 +562,16 @@ export default function ApiDocsPage() {
           </div>
         </div>
 
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3" dir="ltr">Dashboards</h2>
         <div className="space-y-3">
-          {endpoints.map((ep, i) => (
+          {dashboardEndpoints.map((ep, i) => (
+            <EndpointCard key={`${ep.method}-${ep.path}-${i}`} endpoint={ep} />
+          ))}
+        </div>
+
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 mt-8" dir="ltr">Reports</h2>
+        <div className="space-y-3">
+          {reportEndpoints.map((ep, i) => (
             <EndpointCard key={`${ep.method}-${ep.path}-${i}`} endpoint={ep} />
           ))}
         </div>
