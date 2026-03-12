@@ -52,6 +52,7 @@ export async function POST(request: NextRequest) {
         description: description ?? null,
         type: type ?? null,
         logo_url: logo_url ?? null,
+        source_json: body,
       })
       .select('id')
       .single();
